@@ -1,0 +1,18 @@
+1配置 ssh密钥
+2只需保留_config.yml，theme/，source/，scaffolds/，package.json，.gitignore 这些项目，删除其他的文件。
+3安装hexo
+
+##永久使用淘宝镜像		
+npm config set registry https://registry.npm.taobao.org
+
+npm install hexo-cli -g
+
+npm install
+
+npm install hexo-deployer-git --save //hexo d 部署到git插件
+
+hexo clean  
+
+hexo g
+
+hexo d

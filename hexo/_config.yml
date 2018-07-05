@@ -77,6 +77,6 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  repository: git@github.com:yberdnA/yberdnA.github.io.git
+  repository: git@github.com:andreby42/andreby42.github.io.git
   type: git
   branch: master
