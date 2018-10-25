@@ -11,7 +11,7 @@ categories: [Linux]
 
   * 在服务端搭建frpc环境,服务端为v家的小vps
 
-    下载地址：``` https://github.com/fatedier/frp/releases/```
+    下载：
 
     ```
     wget https://github.com/fatedier/frp/releases/download/v0.17.0/frp_0.17.0_linux_amd64.tar.gz
