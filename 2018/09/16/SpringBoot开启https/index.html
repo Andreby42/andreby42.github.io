@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Java,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="SpringBoot2.x开启Https,了解下">
+<meta name="keywords" content="Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot开启https">
+<meta property="og:url" content="http://yoursite.com/2018/09/16/SpringBoot开启https/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="SpringBoot2.x开启Https,了解下">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/09/16/SpringBoot开启https/SpringBoot%E5%BC%80%E5%90%AFhttps/HTTPS1.png">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot开启https">
+<meta name="twitter:description" content="SpringBoot2.x开启Https,了解下">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/16/SpringBoot开启https/SpringBoot%E5%BC%80%E5%90%AFhttps/HTTPS1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/16/SpringBoot开启https/">
+
+
+
+
+
+  <title>SpringBoot开启https | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/16/SpringBoot开启https/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot开启https</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-16T11:57:30+08:00">
+                2018-09-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/SpringBoot/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringBoot</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>SpringBoot2.x开启Https,了解下<a id="more"></a></p>
+<h4 id="SSL证书生成"><a href="#SSL证书生成" class="headerlink" title="SSL证书生成"></a>SSL证书生成</h4><ul>
+<li><p>使用java的自带的keytool生成ssl证书</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">keytool -genkeypair -alias skyeyes  -keyalg RSA -keysize 4096 -keypass nopassword -sigalg SHA384withRSA -dname &quot;cn=Wong,ou=skyeye,o=skyeye,l=Beijing,st=Beijing,c=CN&quot; -validity 3650  -keystore skyeye.jks -storetype JKS -storepass nopassword</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>-storetype 指定密钥仓库类型  </p>
+</li>
+<li><p>-keyalg 生证书的算法名称 </p>
+</li>
+<li><p>-keysize 证书大小 </p>
+</li>
+<li><p>-keystore 生成的证书文件的存储路径 </p>
+</li>
+<li><p>-validity 证书的有效期</p>
+</li>
+<li><p>-keypass nopassword 私钥的密码 最好与 storepass 一致。</p>
+</li>
+<li><p>-sigalg SHA384withRSA此处”SHA384withRSA“为签名算法  用sha3</p>
+</li>
+<li><p>-dname “cn=<a href="http://www.mydomain.com,ou=xxx,o=xxx,l=Beijing,st=Beijing,c=CN”" target="_blank" rel="noopener">www.mydomain.com,ou=xxx,o=xxx,l=Beijing,st=Beijing,c=CN”</a> 在此填写证书信息。”CN = 名字与姓氏 / 域名, OU = 组织单位名称, O = 组织名称, L = 城市或区域名称, ST = 州或省份名称, C = 单位的两字母国家代码” </p>
+</li>
+<li><p>-storetype JKS 此处”JKS “为证书库类型。可用的证书库类型为：JKS、PKCS12 等。jdk9 以前，默认为 JKS。自 jdk9 开始，默认为 PKCS12</p>
+</li>
+<li><p>-storepass nopassword此处”nopassword“为证书库密码 (私钥的密码)。最好与 keypass 一致 </p>
+</li>
+<li><p>PS:   <strong>上述命令，需要将 -dname 参数替换（尤其时域名要写对）、密码更改即可，其它可保持不变。</strong> </p>
+<p>使用everything搜索生成的<a href="http://www.spacexplore.com_keystore.jks" target="_blank" rel="noopener">www.spacexplore.com_keystore.jks</a> 找到这个文件，</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>项目中配置证书</p>
+<ul>
+<li><p>将上述文件拷贝到项目的resources 底下,windows放在项目根目录下。</p>
+</li>
+<li><p>配置文件中加入ssl证书配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server.ssl.key-store= classpath:skyeye.jks</span><br><span class="line">server.ssl.key-store-password=nopassword</span><br><span class="line">server.ssl.keyStoreType=JKS</span><br><span class="line">server.ssl.keyAlias:skyeyes</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>配置代码</p>
+<p> <strong>注意这里的HTTPS端口就是server.port的端口，两个要一致</strong> </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class TomcatConfig &#123;</span><br><span class="line">	private Connector createHTTPConnector() &#123;</span><br><span class="line">		Connector connector = new Connector(&quot;org.apache.coyote.http11.Http11NioProtocol&quot;);</span><br><span class="line">		// 同时启用 http（8080）、https（8082）两个端口</span><br><span class="line">		connector.setScheme(&quot;http&quot;);</span><br><span class="line">		connector.setSecure(false);</span><br><span class="line">		//设置http端口8080 </span><br><span class="line">		connector.setPort(8080);</span><br><span class="line">		//设置https端口为8082</span><br><span class="line">		connector.setRedirectPort(8082);</span><br><span class="line">		return connector;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 這是2.x的配置方法 1.x與2，x不一樣</span><br><span class="line">	 * @Bean</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	public ServletWebServerFactory servletContainer() &#123;</span><br><span class="line">		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();</span><br><span class="line">		tomcat.addAdditionalTomcatConnectors(createHTTPConnector());</span><br><span class="line">		return tomcat;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>启动报错了。。。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Caused by: java.io.IOException: DerInputStream.getLength(): lengthTag=109, too big.</span><br><span class="line">	at sun.security.util.DerInputStream.getLength(DerInputStream.java:599) ~[?:1.8.0_171]</span><br><span class="line">	at sun.security.util.DerValue.init(DerValue.java:391) ~[?:1.8.0_171]</span><br><span class="line">	at sun.security.util.DerValue.&lt;init&gt;(DerValue.java:332) ~[?:1.8.0_171]</span><br><span class="line">	at sun.security.util.DerValue.&lt;init&gt;(DerValue.java:345) ~[?:1.8.0_171]</span><br><span class="line">	at sun.security.pkcs12.PKCS12KeyStore.engineLoad(PKCS12KeyStore.java:1938) ~[?:1.8.0_171]</span><br><span class="line">	at java.security.KeyStore.load(KeyStore.java:1445) ~[?:1.8.0_171]</span><br><span class="line">	at org.apache.tomcat.util.net.SSLUtilBase.getStore(SSLUtilBase.java:139) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.tomcat.util.net.SSLHostConfigCertificate.getCertificateKeystore(SSLHostConfigCertificate.java:204) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.tomcat.util.net.jsse.JSSEUtil.getKeyManagers(JSSEUtil.java:184) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.tomcat.util.net.AbstractJsseEndpoint.createSSLContext(AbstractJsseEndpoint.java:114) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.tomcat.util.net.AbstractJsseEndpoint.initialiseSsl(AbstractJsseEndpoint.java:87) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:225) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:1150) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:591) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1018) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br><span class="line">	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:150) ~[tomcat-embed-core-8.5.31.jar:8.5.31]</span><br></pre></td></tr></table></figure>
+
+<p> 看起来像是读取文件导致的问题。</p>
+<p> <strong>解决办法:</strong></p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;plugin&gt;</span><br><span class="line">               &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;</span><br><span class="line">               &lt;artifactId&gt;maven-resources-plugin&lt;/artifactId&gt;</span><br><span class="line">               &lt;configuration&gt;</span><br><span class="line">                   &lt;encoding&gt;UTF-8&lt;/encoding&gt;</span><br><span class="line">                   &lt;!-- 过滤后缀为 pem、pfx 的证书文件 --&gt;</span><br><span class="line">                   &lt;nonFilteredFileExtensions&gt;</span><br><span class="line">                       &lt;nonFilteredFileExtension&gt;pem&lt;/nonFilteredFileExtension&gt;</span><br><span class="line">                       &lt;nonFilteredFileExtension&gt;pfx&lt;/nonFilteredFileExtension&gt;</span><br><span class="line">                       &lt;nonFilteredFileExtension&gt;p12&lt;/nonFilteredFileExtension&gt;</span><br><span class="line">                   &lt;/nonFilteredFileExtensions&gt;</span><br><span class="line">               &lt;/configuration&gt;</span><br><span class="line">           &lt;/plugin&gt;</span><br></pre></td></tr></table></figure>
+
+<p> 同时生成的密钥文件类型要与配置中的相同,(<strong>如果需要进行密钥格式转换，那么就转换 这里就不写了</strong>)，如密钥文件为.jks,那么配置这么写：(<strong>如果server.ssl.key-store= skyeye.jks这么写就得将密钥文件放置在项目的根目录下，而这么写server.ssl.key-store=classpath: skyeye.jks,放到resources就可以了</strong>)</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server.ssl.key-store=classpath:skyeye.jks</span><br><span class="line">server.ssl.keyStoreType=JKS</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进行测试访问</p>
+<p> <img src="SpringBoot%E5%BC%80%E5%90%AFhttps/HTTPS1.png" alt="SpringBoot开启https"></p>
+</li>
+<li><p>http与https共存时候，强制转换为https，做法就是开启过滤器强制转换为https</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> * 将http访问请求转为https的过滤器 http与https共存时</span><br><span class="line"> * </span><br><span class="line"> * @author andreby</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">@Configuration</span><br><span class="line">@WebFilter(urlPatterns = &quot;/*&quot;, filterName = &quot;http2HttpsFilter&quot;)</span><br><span class="line">public class Http2HttpsFilter extends OncePerRequestFilter &#123;</span><br><span class="line"></span><br><span class="line">	@Override</span><br><span class="line">	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)</span><br><span class="line">			throws ServletException, IOException &#123;</span><br><span class="line">		String requestURL = request.getRequestURL().toString();</span><br><span class="line">		String protocol = requestURL.split(&quot;://&quot;)[0];</span><br><span class="line">		if (&quot;http&quot;.equals(protocol)) &#123;</span><br><span class="line">			// 将http请求uri替换为https,将http端口请求替换为https端口 8081端口被nexus占用 换8082</span><br><span class="line">			requestURL = requestURL.replace(&quot;http&quot;, &quot;https&quot;).replace(&quot;8080&quot;, &quot;8082&quot;);</span><br><span class="line">			response.sendRedirect(requestURL);</span><br><span class="line">		&#125;</span><br><span class="line">		filterChain.doFilter(request, response);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>不需要共存且需要将http转为https,去掉Http2HttpsFilter，并修改TomcatConfig类为如下。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class TomcatConfig &#123;</span><br><span class="line">    @Bean</span><br><span class="line">	public Connector httpConnector() &#123;</span><br><span class="line">		Connector connector = new Connector(&quot;org.apache.coyote.http11.Http11NioProtocol&quot;);</span><br><span class="line">		connector.setScheme(&quot;http&quot;);</span><br><span class="line">		connector.setSecure(false);</span><br><span class="line">		// 设置http8080端口 和 重定向到https的端口8082 8081端口被nexus占用 换8082</span><br><span class="line">		// 这个8080端口为http端口 如果这里设置了http端口那么server.port是不是就不用设置了？</span><br><span class="line">		connector.setPort(8080);</span><br><span class="line">		// 这个8082端口为https端口 8081端口被nexus占用 换8082</span><br><span class="line">		connector.setRedirectPort(8082);</span><br><span class="line">		return connector;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * 這是2.x的配置方法 1.x與2，x不一樣</span><br><span class="line">	 * </span><br><span class="line">	 * @Bean</span><br><span class="line">	 * @return</span><br><span class="line">	 */</span><br><span class="line">	@Bean</span><br><span class="line">	public ServletWebServerFactory servletContainer() &#123;</span><br><span class="line">		// http与https共存时候，需要强转http为https时候用注释代码</span><br><span class="line">		/*</span><br><span class="line">		 * TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory();</span><br><span class="line">		 * tomcat.addAdditionalTomcatConnectors(createHTTPConnector()); return tomcat;</span><br><span class="line">		 */</span><br><span class="line">		TomcatServletWebServerFactory tomcat = new TomcatServletWebServerFactory() &#123;</span><br><span class="line">			@Override</span><br><span class="line">			protected void postProcessContext(Context context) &#123;</span><br><span class="line">				SecurityConstraint constraint = new SecurityConstraint();</span><br><span class="line">				constraint.setUserConstraint(&quot;CONFIDENTIAL&quot;);</span><br><span class="line">				SecurityCollection collection = new SecurityCollection();</span><br><span class="line">				collection.addPattern(&quot;/*&quot;);</span><br><span class="line">				constraint.addCollection(collection);</span><br><span class="line">				context.addConstraint(constraint);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;;</span><br><span class="line">		tomcat.addAdditionalTomcatConnectors(httpConnector());</span><br><span class="line">		return tomcat;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>一些其他的配置</p>
+<ul>
+<li><p>如果你有一个代理服务器，你需要设置<code>spring.devtools.remote.proxy.host</code>和<code>spring.devtools.remote.proxy.port</code>这两个属性。 （属于devtools这个东西）</p>
+</li>
+<li><p>springboot2.0.5官档关于运维管理端ssl的说明</p>
+<p>When configured to use a custom port, the management server can also be configured with its own SSL by using the various management.server.ssl.* properties. For example, doing so lets a management server be available over HTTP while the main application uses HTTPS, as shown in the following property settings:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">server.port=8443</span><br><span class="line">server.ssl.enabled=true</span><br><span class="line">server.ssl.key-store=classpath:store.jks</span><br><span class="line">server.ssl.key-password=secret</span><br><span class="line">management.server.port=8083</span><br><span class="line">management.server.ssl.enabled=false</span><br></pre></td></tr></table></figure>
+
+<p>Alternatively, both the main server and the management server can use SSL but with different key stores, as follows: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server.port=8443</span><br><span class="line">server.ssl.enabled=true</span><br><span class="line">server.ssl.key-store=classpath:main.jks</span><br><span class="line">server.ssl.key-password=secret</span><br><span class="line">management.server.port=8083</span><br><span class="line">management.server.ssl.enabled=true</span><br><span class="line">management.server.ssl.key-store=classpath:management.jks</span><br><span class="line">management.server.ssl.key-password=secret</span><br></pre></td></tr></table></figure>
+
+<p>也就是可以配置多个证书。 这个 management.server.port 就是管理端的端口，其实是运维管理端口。配合actuator 这个类库来用。这样的话我们就可以将前台应用端口和后端运维管理隔离开，比如trace</p>
+<p>直接可以 <a href="http://127.0.0.1:8083/trace" target="_blank" rel="noopener">http://127.0.0.1:8083/trace</a>   来获得trace信息。而管理端的https也是可以配置的。</p>
+</li>
+<li><p><strong>SpringBoot2.0.5关于ssl的说明</strong></p>
+<p>SSL can be configured declaratively by setting the various <code>server.ssl.*</code> properties, typically in <code>application.properties</code> or <code>application.yml</code>. The following example shows setting SSL properties in <code>application.properties</code>: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">server.port=8443</span><br><span class="line">server.ssl.key-store=classpath:keystore.jks</span><br><span class="line">server.ssl.key-store-password=secret</span><br><span class="line">server.ssl.key-password=another-secret</span><br></pre></td></tr></table></figure>
+
+<p>下面这个类是ssl的配置类注意看注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * Copyright 2012-2017 the original author or authors.</span><br><span class="line"> *</span><br><span class="line"> * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line"> * you may not use this file except in compliance with the License.</span><br><span class="line"> * You may obtain a copy of the License at</span><br><span class="line"> *</span><br><span class="line"> *      http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line"> *</span><br><span class="line"> * Unless required by applicable law or agreed to in writing, software</span><br><span class="line"> * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"> * See the License for the specific language governing permissions and</span><br><span class="line"> * limitations under the License.</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">package org.springframework.boot.web.server;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * Simple server-independent abstraction for SSL configuration.</span><br><span class="line"> *</span><br><span class="line"> * @author Andy Wilkinson</span><br><span class="line"> * @author Vladimir Tsanev</span><br><span class="line"> * @since 2.0.0</span><br><span class="line"> */</span><br><span class="line">public class Ssl &#123;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Whether to enable SSL support.</span><br><span class="line">	 */</span><br><span class="line">	private boolean enabled = true;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Whether client authentication is wanted (&quot;want&quot;) or needed (&quot;need&quot;). Requires a</span><br><span class="line">	 * trust store.</span><br><span class="line">	 */</span><br><span class="line">	private ClientAuth clientAuth;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Supported SSL ciphers.</span><br><span class="line">	 */</span><br><span class="line">	private String[] ciphers;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Enabled SSL protocols.</span><br><span class="line">	 */</span><br><span class="line">	private String[] enabledProtocols;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Alias that identifies the key in the key store.</span><br><span class="line">	 */</span><br><span class="line">	private String keyAlias;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Password used to access the key in the key store.</span><br><span class="line">	 */</span><br><span class="line">	private String keyPassword;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Path to the key store that holds the SSL certificate (typically a jks file).</span><br><span class="line">	 */</span><br><span class="line">	private String keyStore;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Password used to access the key store.</span><br><span class="line">	 */</span><br><span class="line">	private String keyStorePassword;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Type of the key store.</span><br><span class="line">	 */</span><br><span class="line">	private String keyStoreType;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Provider for the key store.</span><br><span class="line">	 */</span><br><span class="line">	private String keyStoreProvider;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Trust store that holds SSL certificates.</span><br><span class="line">	 */</span><br><span class="line">	private String trustStore;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Password used to access the trust store.</span><br><span class="line">	 */</span><br><span class="line">	private String trustStorePassword;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Type of the trust store.</span><br><span class="line">	 */</span><br><span class="line">	private String trustStoreType;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Provider for the trust store.</span><br><span class="line">	 */</span><br><span class="line">	private String trustStoreProvider;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * SSL protocol to use.</span><br><span class="line">	 */</span><br><span class="line">	private String protocol = &quot;TLS&quot;;</span><br><span class="line"></span><br><span class="line">	public boolean isEnabled() &#123;</span><br><span class="line">		return this.enabled;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setEnabled(boolean enabled) &#123;</span><br><span class="line">		this.enabled = enabled;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public ClientAuth getClientAuth() &#123;</span><br><span class="line">		return this.clientAuth;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setClientAuth(ClientAuth clientAuth) &#123;</span><br><span class="line">		this.clientAuth = clientAuth;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String[] getCiphers() &#123;</span><br><span class="line">		return this.ciphers;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setCiphers(String[] ciphers) &#123;</span><br><span class="line">		this.ciphers = ciphers;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getKeyAlias() &#123;</span><br><span class="line">		return this.keyAlias;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setKeyAlias(String keyAlias) &#123;</span><br><span class="line">		this.keyAlias = keyAlias;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getKeyPassword() &#123;</span><br><span class="line">		return this.keyPassword;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setKeyPassword(String keyPassword) &#123;</span><br><span class="line">		this.keyPassword = keyPassword;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getKeyStore() &#123;</span><br><span class="line">		return this.keyStore;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setKeyStore(String keyStore) &#123;</span><br><span class="line">		this.keyStore = keyStore;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getKeyStorePassword() &#123;</span><br><span class="line">		return this.keyStorePassword;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setKeyStorePassword(String keyStorePassword) &#123;</span><br><span class="line">		this.keyStorePassword = keyStorePassword;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getKeyStoreType() &#123;</span><br><span class="line">		return this.keyStoreType;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setKeyStoreType(String keyStoreType) &#123;</span><br><span class="line">		this.keyStoreType = keyStoreType;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getKeyStoreProvider() &#123;</span><br><span class="line">		return this.keyStoreProvider;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setKeyStoreProvider(String keyStoreProvider) &#123;</span><br><span class="line">		this.keyStoreProvider = keyStoreProvider;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String[] getEnabledProtocols() &#123;</span><br><span class="line">		return this.enabledProtocols;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setEnabledProtocols(String[] enabledProtocols) &#123;</span><br><span class="line">		this.enabledProtocols = enabledProtocols;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getTrustStore() &#123;</span><br><span class="line">		return this.trustStore;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setTrustStore(String trustStore) &#123;</span><br><span class="line">		this.trustStore = trustStore;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getTrustStorePassword() &#123;</span><br><span class="line">		return this.trustStorePassword;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setTrustStorePassword(String trustStorePassword) &#123;</span><br><span class="line">		this.trustStorePassword = trustStorePassword;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getTrustStoreType() &#123;</span><br><span class="line">		return this.trustStoreType;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setTrustStoreType(String trustStoreType) &#123;</span><br><span class="line">		this.trustStoreType = trustStoreType;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getTrustStoreProvider() &#123;</span><br><span class="line">		return this.trustStoreProvider;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setTrustStoreProvider(String trustStoreProvider) &#123;</span><br><span class="line">		this.trustStoreProvider = trustStoreProvider;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public String getProtocol() &#123;</span><br><span class="line">		return this.protocol;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void setProtocol(String protocol) &#123;</span><br><span class="line">		this.protocol = protocol;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line">	 * Client authentication types.</span><br><span class="line">	 */</span><br><span class="line">	public enum ClientAuth &#123;</span><br><span class="line"></span><br><span class="line">		/**</span><br><span class="line">		 * Client authentication is wanted but not mandatory.</span><br><span class="line">		 */</span><br><span class="line">		WANT,</span><br><span class="line"></span><br><span class="line">		/**</span><br><span class="line">		 * Client authentication is needed and mandatory.</span><br><span class="line">		 */</span><br><span class="line">		NEED</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>*<em>Using configuration such as the preceding example means the application no longer supports a plain HTTP connector at port 8080. Spring Boot does not support the configuration of both an HTTP connector and an HTTPS connector through <code>application.properties</code>. If you want to have both, you need to configure one of them programmatically. We recommend using <code>application.properties</code> to configure HTTPS, as the HTTP connector is the easier of the two to configure programmatically. See the <a href="https://github.com/spring-projects/spring-boot/tree/v2.0.5.RELEASE/spring-boot-samples/spring-boot-sample-tomcat-multi-connectors" target="_blank" rel="noopener"><code>spring-boot-sample-tomcat-multi-connectors</code></a> sample project for an example. *</em></p>
+<p>这段话的意思是，如果用了上面的配置，那么就不支持内置tomcat的默认8080端口了，如果你两个都想保留，那么可以用代码的方式实现，同时我们保留了使用application.properties去配置https，下面请看tomcat配置多连接器的代码示例，嗯 ，代码示例我看了 ，就是最上面，我用的那种代码配置多连接器。</p>
+</li>
+<li><p><strong>application.properties中的ssl配置详解</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server.ssl.ciphers   #是否支持SSL ciphers.</span><br><span class="line">server.ssl.client-auth   #设定client authentication是wanted 还是 needed.</span><br><span class="line">server.ssl.enabled   #是否开启ssl，默认: true</span><br><span class="line">server.ssl.key-alias   #设定key store中key的别名.</span><br><span class="line">server.ssl.key-password   #访问key store中key的密码.</span><br><span class="line">server.ssl.key-store   #设定持有SSL certificate的key store的路径，通常是一个.jks文件.</span><br><span class="line">server.ssl.key-store-password   #设定访问key store的密码.</span><br><span class="line">server.ssl.key-store-provider   #设定key store的提供者.</span><br><span class="line">server.ssl.key-store-type   #设定key store的类型.</span><br><span class="line">server.ssl.protocol   #使用的SSL协议，默认: TLS</span><br><span class="line">server.ssl.trust-store   #持有SSL certificates的Trust store.</span><br><span class="line">server.ssl.trust-store-password   #访问trust store的密码.</span><br><span class="line">server.ssl.trust-store-provider   #设定trust store的提供者.</span><br><span class="line">server.ssl.trust-store-type   #指定trust store的类型.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启http2</p>
+<p>在application.properties中添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">##开启HTTP2</span><br><span class="line">server.http2.enabled=true</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p><strong>正常开发中，会在nginx端做ssl证书配置，这是后话了</strong></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/09/RabbitMq简述/" rel="next" title="RabbitMq简述">
+                <i class="fa fa-chevron-left"></i> RabbitMq简述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/19/Kafka安装配置/" rel="prev" title="Kafka安装配置">
+                Kafka安装配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#SSL证书生成"><span class="nav-number">1.</span> <span class="nav-text">SSL证书生成</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

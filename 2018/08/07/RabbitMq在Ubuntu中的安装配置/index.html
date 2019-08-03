@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="RabbitMq,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Ubuntu下安装Rabbitmq">
+<meta name="keywords" content="RabbitMq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMq在Ubuntu中的安装配置">
+<meta property="og:url" content="http://yoursite.com/2018/08/07/RabbitMq在Ubuntu中的安装配置/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="Ubuntu下安装Rabbitmq">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.917Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMq在Ubuntu中的安装配置">
+<meta name="twitter:description" content="Ubuntu下安装Rabbitmq">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/07/RabbitMq在Ubuntu中的安装配置/">
+
+
+
+
+
+  <title>RabbitMq在Ubuntu中的安装配置 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/07/RabbitMq在Ubuntu中的安装配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RabbitMq在Ubuntu中的安装配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-07T21:35:28+08:00">
+                2018-08-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RabbitMq/" itemprop="url" rel="index">
+                    <span itemprop="name">RabbitMq</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Ubuntu下安装Rabbitmq<a id="more"></a></p>
+<p>windows安装比较麻烦，那么就在linux环境下安装个，ubuntu版本为16.04</p>
+<h4 id="安装RabbitMq"><a href="#安装RabbitMq" class="headerlink" title="安装RabbitMq"></a>安装RabbitMq</h4><ul>
+<li><p>使用apt-get进行安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install rabbitmq-server</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动和停止服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server start</span><br><span class="line">service rabbitmq-server stop</span><br><span class="line">service rabbitmq-server status</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看当前用户列表</p>
+<ul>
+<li><p>查看用户列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl list_users</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl add_user skyeye nopassword</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl delete_user skyeye</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl change_password skyeye changepassword</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置用户权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl  set_permissions  -p  VHostPath  userName	  ConfP  WriteP  ReadP</span><br><span class="line">如：rabbitmqctl set_permissions -p &quot;/&quot; skyeye &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置用户角色</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmqctl  set_user_tags  userName  RoleName</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="开启RabbitMq页面控制台"><a href="#开启RabbitMq页面控制台" class="headerlink" title="开启RabbitMq页面控制台"></a>开启RabbitMq页面控制台</h4><ul>
+<li><p>进入安装目录</p>
+<ul>
+<li><p>查找目录（我也不知道安装到哪里了）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">find / -name rabbitmq</span><br><span class="line">/usr/share/rabbitmq</span><br><span class="line">/usr/lib/ocf/resource.d/rabbitmq</span><br><span class="line">/usr/lib/rabbitmq</span><br><span class="line">/etc/rabbitmq</span><br><span class="line">/var/lib/rabbitmq</span><br><span class="line">/var/log/rabbitmq</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/lib/rabbitmq</span><br><span class="line">/usr/lib/rabbitmq</span><br><span class="line">root@VM-0-17-ubuntu:/usr/lib/rabbitmq#</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>查看已经安装的插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins list</span><br><span class="line"> Configured: E = explicitly enabled; e = implicitly enabled</span><br><span class="line"> | Status:   * = running on rabbit@VM-0-17-ubuntu</span><br><span class="line"> |/</span><br><span class="line">[  ] amqp_client                       3.5.7</span><br><span class="line">[  ] cowboy                            0.5.0-rmq3.5.7-git4b93c2d</span><br><span class="line">[  ] mochiweb                          2.7.0-rmq3.5.7-git680dba8</span><br><span class="line">[  ] rabbitmq_amqp1_0                  3.5.7</span><br><span class="line">[  ] rabbitmq_auth_backend_ldap        3.5.7</span><br><span class="line">[  ] rabbitmq_auth_mechanism_ssl       3.5.7</span><br><span class="line">[  ] rabbitmq_consistent_hash_exchange 3.5.7</span><br><span class="line">[  ] rabbitmq_federation               3.5.7</span><br><span class="line">[  ] rabbitmq_federation_management    3.5.7</span><br><span class="line">[  ] rabbitmq_management               3.5.7</span><br><span class="line">[  ] rabbitmq_management_agent         3.5.7</span><br><span class="line">[  ] rabbitmq_management_visualiser    3.5.7</span><br><span class="line">[  ] rabbitmq_mqtt                     3.5.7</span><br><span class="line">[  ] rabbitmq_shovel                   3.5.7</span><br><span class="line">[  ] rabbitmq_shovel_management        3.5.7</span><br><span class="line">[  ] rabbitmq_stomp                    3.5.7</span><br><span class="line">[  ] rabbitmq_test                     3.5.7</span><br><span class="line">[  ] rabbitmq_tracing                  3.5.7</span><br><span class="line">[  ] rabbitmq_web_dispatch             3.5.7</span><br><span class="line">[  ] rabbitmq_web_stomp                3.5.7</span><br><span class="line">[  ] rabbitmq_web_stomp_examples       3.5.7</span><br><span class="line">[  ] sockjs                            0.3.4-rmq3.5.7-git3132eb9</span><br><span class="line">[  ] webmachine                        1.10.3-rmq3.5.7-gite9359c7</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启网页控制台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rabbitmq-plugins enable rabbitmq_management</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重启 rabbitmq 服务</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq restart</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入网页控制台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://x.x.x.x:15672/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用guest用户或skyeye用户无法登陆</p>
+<p>解决办法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//执行设置权限命令</span><br><span class="line">rabbitmqctl set_permissions -p / skyeye &quot;.*&quot; &quot;.*&quot; &quot;.*&quot;</span><br><span class="line">//执行设置角色命令</span><br><span class="line">rabbitmqctl set_user_tags skyeye administrator</span><br><span class="line">//设置完进行查看用户列表</span><br><span class="line"> rabbitmqctl list_users</span><br></pre></td></tr></table></figure>
+
+<p>设置完发现skyeye用户可以登陆但是guest用户依旧无法登陆</p>
+<p>进行google发现这么段话在大神的博客中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">If rabbitmq.config doesn’t exist, it can be created manually. Set the RABBITMQ_CONFIG_FILEenvironment variable if you change the location. The Erlang runtime automatically appends the .config extension to the value of this variable</span><br></pre></td></tr></table></figure>
+
+<p>意思大概是如果rabbitmq.config不存在，那么可以自己手动创建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /etc/rabbitmq</span><br><span class="line">ll</span><br><span class="line">drwxr-xr-x  2 rabbitmq rabbitmq 4096 Aug  7 22:15 ./</span><br><span class="line">drwxr-xr-x 95 root     root     4096 Aug  7 21:33 ../</span><br><span class="line">-rw-r--r--  1 root     root       23 Aug  7 21:49 enabled_plugins</span><br><span class="line">-rw-r--r--  1 rabbitmq rabbitmq  570 Aug  7 22:15 rabbitmq-env.conf</span><br></pre></td></tr></table></figure>
+
+<p>显然这么rabbitmq-env.conf 不是我们要的</p>
+<p>文档又说：有rabbitmq.config.example 这么个文件里面都是示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">find / -name rabbitmq.config.example</span><br></pre></td></tr></table></figure>
+
+<p>没找到</p>
+<p>这里有说明了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Example rabbitmq.config File</span><br><span class="line">RabbitMQ server source repository contains an example configuration file named rabbitmq.config.example. This example file contains an example of most of the configuration items you might want to set (with some very obscure ones omitted) along with documentation for those settings. All configuration items are commented out in the example, so you can uncomment what you need. Note that the example file is meant to be used as, well, example, and should not be treated as a general recommendation.</span><br><span class="line"></span><br><span class="line">In most distributions we place this example file in the same location as the real file should be placed (see above). However, for the Debian and RPM distributions policy forbids doing so; instead you can find it in /usr/share/doc/rabbitmq-server/ or /usr/share/doc/rabbitmq-server-3.6.10/ respectively.`</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /usr/shar/doc/rabbitmq-server</span><br><span class="line">ls</span><br><span class="line">changelog.Debian.gz  copyright  rabbitmq.config.example.gz</span><br><span class="line">gzip -d rabbitmq.config.example.gz</span><br></pre></td></tr></table></figure>
+
+<p>这样示例就有了</p>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>那么我们手动创建下
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cp rabbitmq.config.example  /usr/lib/rabbitmq/</span><br><span class="line">cd /usr/lib/rabbitmq/</span><br><span class="line">mv rabbitmq.config.example rabbitmq.config</span><br><span class="line">将 [&lt;&lt;“guest”&gt;&gt;] 修改为 []</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">service rabbitmq-server stop</span><br><span class="line">service rabbitmq-server start</span><br></pre></td></tr></table></figure>
+
+还是不行 查询了下stackOverflow</code></pre><p>[]: <a href="https://stackoverflow.com/questions/23669780/rabbitmq-3-3-1-can-not-login-with-guest-guest" target="_blank" rel="noopener">https://stackoverflow.com/questions/23669780/rabbitmq-3-3-1-can-not-login-with-guest-guest</a></p>
+<p>​        就这样吧。回头研究下</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RabbitMq/" rel="tag"># RabbitMq</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/04/Java8点拨/" rel="next" title="Java8点拨">
+                <i class="fa fa-chevron-left"></i> Java8点拨
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/09/RabbitMq简述/" rel="prev" title="RabbitMq简述">
+                RabbitMq简述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装RabbitMq"><span class="nav-number">1.</span> <span class="nav-text">安装RabbitMq</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开启RabbitMq页面控制台"><span class="nav-number">2.</span> <span class="nav-text">开启RabbitMq页面控制台</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

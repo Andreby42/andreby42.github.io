@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Pulsar,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Pulsar的安装与配置">
+<meta name="keywords" content="Pulsar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pulsar安装与配置">
+<meta property="og:url" content="http://yoursite.com/2018/12/02/Pulsar安装与配置/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="Pulsar的安装与配置">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pulsar安装与配置">
+<meta name="twitter:description" content="Pulsar的安装与配置">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/02/Pulsar安装与配置/">
+
+
+
+
+
+  <title>Pulsar安装与配置 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/02/Pulsar安装与配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Pulsar安装与配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T22:32:47+08:00">
+                2018-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Pulsar/" itemprop="url" rel="index">
+                    <span itemprop="name">Pulsar</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Pulsar的安装与配置<a id="more"></a></p>
+<h3 id="环境概述"><a href="#环境概述" class="headerlink" title="环境概述"></a>环境概述</h3><ul>
+<li>Linux环境Ubuntu16.04</li>
+<li>java 1.8</li>
+<li>zookeeper 3.4.13</li>
+</ul>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ul>
+<li><p>下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://www.apache.org/dyn/mirrors/mirrors.cgi?action=download&amp;filename=pulsar/pulsar-2.2.0/apache-pulsar-2.2.0-bin.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf  apache-pulsar-2.2.0-bin.tar.gz -C pulsar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>目录介绍</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">drwxr-xr-x  8 root root   4096 Dec  2 15:01 ./</span><br><span class="line">drwxr-xr-x 15 root root   4096 Dec  2 15:33 ../</span><br><span class="line">drwxr-xr-x  3  501 staff  4096 Oct 13 06:01 bin/</span><br><span class="line">drwxr-xr-x  4  501 staff  4096 Dec  2 22:35 conf/</span><br><span class="line">drwxr-xr-x  3 root root   4096 Dec  2 15:01 examples/</span><br><span class="line">drwxr-xr-x  3 root root   4096 Dec  2 15:01 instances/</span><br><span class="line">drwxr-xr-x  3 root root  20480 Dec  2 15:01 lib/</span><br><span class="line">-rw-r--r--  1  501 staff 28876 Oct 13 06:01 LICENSE</span><br><span class="line">drwxr-xr-x  2  501 staff  4096 Oct 13 06:01 licenses/</span><br><span class="line">-rw-r--r--  1  501 staff  5857 Oct 13 06:01 NOTICE</span><br><span class="line">-rw-r--r--  1  501 staff  1269 Oct 13 06:01 README</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>bin：Pulsar 的命令行工具，例如 pulsar 和 pulsar-admin </li>
+<li>conf: Pulsar 的配置文件，包括 broker 配置、zookeeper 配置等等 </li>
+<li>examples: Pulsar function 的示例，有java的jar 和yaml配置文件</li>
+<li>instances：为Pulsar function 所创建的一些组件</li>
+<li>lib ： Pulsar依赖的jar</li>
+<li>LICENSE：许可证文件</li>
+<li>licenses：一些依赖的许可证文件的目录</li>
+</ul>
+<p>一旦你开始运行 Pulsar，下面的这些目录将会被创建：</p>
+<ul>
+<li>data ：ZooKeeper 和 BookKeeper 使用的数据存储目录 </li>
+<li>instances ：为 Pulsar Function 创建的 Artifact </li>
+<li>logs :安装时创建的 log  </li>
+</ul>
+</li>
+<li><p>单机模式启动</p>
+<p>运行<code>pulsar help</code> 查看帮助命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Usage: pulsar &lt;command&gt;</span><br><span class="line">where command is one of:</span><br><span class="line"></span><br><span class="line">    broker              Run a broker server</span><br><span class="line">    bookie              Run a bookie server</span><br><span class="line">    zookeeper           Run a zookeeper server</span><br><span class="line">    configuration-store Run a configuration-store server</span><br><span class="line">    discovery           Run a discovery server</span><br><span class="line">    proxy               Run a pulsar proxy</span><br><span class="line">    websocket           Run a web socket proxy server</span><br><span class="line">    functions-worker    Run a functions worker server</span><br><span class="line">    sql-worker          Run a sql worker server</span><br><span class="line">    sql                 Run sql CLI</span><br><span class="line">    standalone          Run a broker server with local bookies and local zookeeper</span><br><span class="line"></span><br><span class="line">    initialize-cluster-metadata     One-time metadata initialization</span><br><span class="line">    compact-topic       Run compaction against a topic</span><br><span class="line">    zookeeper-shell     Open a ZK shell client</span><br><span class="line"></span><br><span class="line">    help                This help message</span><br><span class="line"></span><br><span class="line">or command is the full name of a class with a defined main() method.</span><br><span class="line"></span><br><span class="line">Environment variables:</span><br><span class="line">   PULSAR_LOG_CONF               Log4j configuration file (default /data/soft/pulsar/conf/log4j2.yaml)</span><br><span class="line">   PULSAR_BROKER_CONF            Configuration file for broker (default: /data/soft/pulsar/conf/broker.conf)</span><br><span class="line">   PULSAR_BOOKKEEPER_CONF        Configuration file for bookie (default: /data/soft/pulsar/conf/bookkeeper.conf)</span><br><span class="line">   PULSAR_ZK_CONF                Configuration file for zookeeper (default: /data/soft/pulsar/conf/zookeeper.conf)</span><br><span class="line">   PULSAR_CONFIGURATION_STORE_CONF         Configuration file for global configuration store (default: /data/soft/pulsar/conf/global_zookeeper.conf)</span><br><span class="line">   PULSAR_DISCOVERY_CONF         Configuration file for discovery service (default: /data/soft/pulsar/conf/discovery.conf)</span><br><span class="line">   PULSAR_WEBSOCKET_CONF         Configuration file for websocket proxy (default: /data/soft/pulsar/conf/websocket.conf)</span><br><span class="line">   PULSAR_PROXY_CONF             Configuration file for Pulsar proxy (default: /data/soft/pulsar/conf/proxy.conf)</span><br><span class="line">   PULSAR_WORKER_CONF            Configuration file for functions worker (default: /data/soft/pulsar/conf/functions_worker.yml)</span><br><span class="line">   PULSAR_STANDALONE_CONF        Configuration file for standalone (default: /data/soft/pulsar/conf/standalone.conf)</span><br><span class="line">   PULSAR_PRESTO_CONF            Configuration directory for Pulsar Presto (default: /data/soft/pulsar/conf/presto)</span><br><span class="line">   PULSAR_EXTRA_OPTS             Extra options to be passed to the jvm</span><br><span class="line">   PULSAR_EXTRA_CLASSPATH        Add extra paths to the pulsar classpath</span><br><span class="line">   PULSAR_PID_DIR                Folder where the pulsar server PID file should be stored</span><br><span class="line">   PULSAR_STOP_TIMEOUT           Wait time before forcefully kill the pulsar server instance, if the stop is not successful</span><br><span class="line"></span><br><span class="line">These variable can also be set in conf/pulsar_env.sh</span><br></pre></td></tr></table></figure>
+
+<p>使用standalone  <code>Run a broker server with local bookies and local zookeeper</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/pulsar standalone</span><br></pre></td></tr></table></figure>
+
+<p>报错了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Java HotSpot(TM) 64-Bit Server VM warning: INFO: os::commit_memory(0x0000000080000000, 2147483648, 0) failed; error=&apos;Cannot allocate memory&apos; (errno=12)</span><br><span class="line">#</span><br><span class="line"># There is insufficient memory for the Java Runtime Environment to continue.</span><br><span class="line"># Native memory allocation (mmap) failed to map 2147483648 bytes for committing reserved memory.</span><br><span class="line"># An error report file with more information is saved as:</span><br><span class="line"># /data/soft/pulsar/hs_err_pid10684.log</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">There is insufficient memory for the Java Runtime Environment to continue.</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>你说气人不气人，我的小鸡内存不足了。</p>
+</li>
+<li><p>下载内置连接器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://archive.apache.org/dist/pulsar/pulsar-2.2.0/apache-pulsar-io-connectors-2.2.0-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>下载完成后在 pulsar 目录中，解压缩 io-connectors 软件包并复制连接器，如<code>connectors</code> pulsar 目录中所示： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">tar xvfz /path/to/apache-pulsar-io-connectors-2.2.0-bin.tar.gz</span><br><span class="line">// you will find a directory named `apache-pulsar-io-connectors-2.2.0` in the pulsar directory</span><br><span class="line">// then copy the connectors</span><br><span class="line"></span><br><span class="line">$ cd apache-pulsar-io-connectors-2.2.0/connectors connectors</span><br><span class="line"></span><br><span class="line">$ ls connectors</span><br><span class="line">pulsar-io-aerospike-2.2.0.nar</span><br><span class="line">pulsar-io-cassandra-2.2.0.nar</span><br><span class="line">pulsar-io-kafka-2.2.0.nar</span><br><span class="line">pulsar-io-kinesis-2.2.0.nar</span><br><span class="line">pulsar-io-rabbitmq-2.2.0.nar</span><br><span class="line">pulsar-io-twitter-2.2.0.nar</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li><p>BrokerKeeper ,是一个复制的日志存储系统，Pulsar 使用它来持久存储所有消息。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bookiePort</td>
+<td>bookie 服务器侦听的端口。</td>
+<td>3181</td>
+</tr>
+<tr>
+<td>allowLoopback</td>
+<td>Whether the bookie is allowed to use a loopback interface as its primary interface (i.e. the interface used to establish its identity). By default, loopback interfaces are not allowed as the primary interface. Using a loopback interface as the primary interface usually indicates a configuration error. For example, it’s fairly common in some VPS setups to not configure a hostname or to have the hostname resolve to <code>127.0.0.1</code>. If this is the case, then all bookies in the cluster will establish their identities as <code>127.0.0.1:3181</code> and only one will be able to join the cluster. For VPSs configured like this, you should explicitly set the listening interface.</td>
+<td>false</td>
+</tr>
+<tr>
+<td>listeningInterface</td>
+<td>bookie 侦听的网络接口。如果没有设置，bookie 将监听所有接口。</td>
+<td>eth0</td>
+</tr>
+<tr>
+<td>journalDirectory</td>
+<td>The directory where Bookkeeper outputs its write-ahead log (WAL)</td>
+<td>data/bookkeeper/journal</td>
+</tr>
+<tr>
+<td>ledgerDirectories</td>
+<td>The directory where Bookkeeper outputs ledger snapshots. This could define multiple directories to store snapshots separated by comma, for example <code>ledgerDirectories=/tmp/bk1-data,/tmp/bk2-data</code>. Ideally, ledger dirs and the journal dir are each in a different device, which reduces the contention between random I/O and sequential write. It is possible to run with a single disk, but performance will be significantly lower.</td>
+<td>data/bookkeeper/ledgers</td>
+</tr>
+<tr>
+<td>ledgerManagerType</td>
+<td>The type of ledger manager used to manage how ledgers are stored, managed, and garbage collected. See <a href="http://bookkeeper.apache.org/docs/latest/getting-started/concepts" target="_blank" rel="noopener">BookKeeper Internals</a> for more info</td>
+<td>hierarchical</td>
+</tr>
+<tr>
+<td>zkLedgersRootPath</td>
+<td>The root ZooKeeper path used to store ledger metadata. This parameter is used by the ZooKeeper-based ledger manager as a root znode to store all ledgers.</td>
+<td>/ledgers</td>
+</tr>
+<tr>
+<td>ledgerStorageClass</td>
+<td>Ledger storage implementation class</td>
+<td>org.apache.bookkeeper.bookie.storage.ldb.DbLedgerStorage</td>
+</tr>
+<tr>
+<td>entryLogFilePreallocationEnabled</td>
+<td>Enable or disable entry logger preallocation</td>
+<td></td>
+</tr>
+<tr>
+<td>logSizeLimit</td>
+<td>Max file size of the entry logger, in bytes. A new entry log file will be created when the old one reaches the file size limitation.</td>
+<td>2147483648</td>
+</tr>
+<tr>
+<td>minorCompactionThreshold</td>
+<td>Threshold of minor compaction. Entry log files whose remaining size percentage reaches below this threshold will be compacted in a minor compaction. If set to less than zero, the minor compaction is disabled.</td>
+<td>0.2</td>
+</tr>
+<tr>
+<td>minorCompactionInterval</td>
+<td>Time interval to run minor compaction, in seconds. If set to less than zero, the minor compaction is disabled.</td>
+<td>3600</td>
+</tr>
+<tr>
+<td>majorCompactionThreshold</td>
+<td>The threshold of major compaction. Entry log files whose remaining size percentage reaches below this threshold will be compacted in a major compaction. Those entry log files whose remaining size percentage is still higher than the threshold will never be compacted. If set to less than zero, the minor compaction is disabled.</td>
+<td>0.5</td>
+</tr>
+<tr>
+<td>majorCompactionInterval</td>
+<td>The time interval to run major compaction, in seconds. If set to less than zero, the major compaction is disabled.</td>
+<td>86400</td>
+</tr>
+<tr>
+<td>compactionMaxOutstandingRequests</td>
+<td>Sets the maximum number of entries that can be compacted without flushing. When compacting, the entries are written to the entrylog and the new offsets are cached in memory. Once the entrylog is flushed the index is updated with the new offsets. This parameter controls the number of entries added to the entrylog before a flush is forced. A higher value for this parameter means more memory will be used for offsets. Each offset consists of 3 longs. This parameter should not be modified unless you’re fully aware of the consequences.</td>
+<td>100000</td>
+</tr>
+<tr>
+<td>compactionRate</td>
+<td>The rate at which compaction will read entries, in adds per second.</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>isThrottleByBytes</td>
+<td>Throttle compaction by bytes or by entries.</td>
+<td>false</td>
+</tr>
+<tr>
+<td>compactionRateByEntries</td>
+<td>The rate at which compaction will read entries, in adds per second.</td>
+<td>1000</td>
+</tr>
+<tr>
+<td>compactionRateByBytes</td>
+<td>Set the rate at which compaction will readd entries. The unit is bytes added per second.</td>
+<td>1000000</td>
+</tr>
+<tr>
+<td>journalMaxSizeMB</td>
+<td>Max file size of journal file, in megabytes. A new journal file will be created when the old one reaches the file size limitation.</td>
+<td>2048</td>
+</tr>
+<tr>
+<td>journalMaxBackups</td>
+<td>The max number of old journal filse to keep. Keeping a number of old journal files would help data recovery in special cases.</td>
+<td>5</td>
+</tr>
+<tr>
+<td>journalPreAllocSizeMB</td>
+<td>How space to pre-allocate at a time in the journal.</td>
+<td>16</td>
+</tr>
+<tr>
+<td>journalWriteBufferSizeKB</td>
+<td>用于日志的写缓冲区。</td>
+<td>64</td>
+</tr>
+<tr>
+<td>journalRemoveFromPageCache</td>
+<td>Whether pages should be removed from the page cache after force write.</td>
+<td>true</td>
+</tr>
+<tr>
+<td>journalAdaptiveGroupWrites</td>
+<td>Whether to group journal force writes, which optimizes group commit for higher throughput.</td>
+<td>true</td>
+</tr>
+<tr>
+<td>journalMaxGroupWaitMSec</td>
+<td>The maximum latency to impose on a journal write to achieve grouping.</td>
+<td>1</td>
+</tr>
+<tr>
+<td>journalAlignmentSize</td>
+<td>All the journal writes and commits should be aligned to given size</td>
+<td>4096</td>
+</tr>
+<tr>
+<td>journalBufferedWritesThreshold</td>
+<td>Maximum writes to buffer to achieve grouping</td>
+<td>524288</td>
+</tr>
+<tr>
+<td>journalFlushWhenQueueEmpty</td>
+<td>If we should flush the journal when journal queue is empty</td>
+<td>false</td>
+</tr>
+<tr>
+<td>numJournalCallbackThreads</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<ul>
+<li><p>pulsar_env.sh</p>
+<p>默认的启动pulsar broker的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># default settings for starting pulsar broker</span><br><span class="line"></span><br><span class="line"># Log4j configuration file</span><br><span class="line"># PULSAR_LOG_CONF=</span><br><span class="line"></span><br><span class="line"># Logs location</span><br><span class="line"># PULSAR_LOG_DIR=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in broker server</span><br><span class="line"># PULSAR_BROKER_CONF=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in bookie server</span><br><span class="line"># PULSAR_BOOKKEEPER_CONF=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in zookeeper server</span><br><span class="line"># PULSAR_ZK_CONF=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in global zookeeper server</span><br><span class="line"># PULSAR_GLOBAL_ZK_CONF=</span><br><span class="line"></span><br><span class="line"># Extra options to be passed to the jvm</span><br><span class="line">PULSAR_MEM=&quot; -Xms1g -Xmx1g -XX:MaxDirectMemorySize=1g&quot;</span><br><span class="line"></span><br><span class="line"># Garbage collection options GC参数的配置</span><br><span class="line">PULSAR_GC=&quot; -XX:+UseG1GC -XX:MaxGCPauseMillis=10 -XX:+ParallelRefProcEnabled -XX:+UnlockExperimentalVMOptions -XX:+AggressiveOpts -XX:+DoEscapeAnalysis -XX:ParallelGCThreads=32 -XX:ConcGCThreads=32 -XX:G1NewSizePercent=50 -XX:+DisableExplicitGC -XX:-ResizePLAB&quot;</span><br><span class="line"></span><br><span class="line"># Extra options to be passed to the jvm</span><br><span class="line">PULSAR_EXTRA_OPTS=&quot;$&#123;PULSAR_EXTRA_OPTS&#125; $&#123;PULSAR_MEM&#125; $&#123;PULSAR_GC&#125; -Dio.netty.leakDetectionLevel=disabled -Dio.netty.recycler.maxCapacity.default=1000 -Dio.netty.recycler.linkCapacity=1024&quot;</span><br><span class="line"></span><br><span class="line"># Add extra paths to the bookkeeper classpath</span><br><span class="line"># PULSAR_EXTRA_CLASSPATH=</span><br><span class="line"></span><br><span class="line">#Folder where the Bookie server PID file should be stored</span><br><span class="line">#PULSAR_PID_DIR=</span><br><span class="line"></span><br><span class="line">#Wait time before forcefully kill the pulser server instance, if the stop is not successful</span><br><span class="line">#PULSAR_STOP_TIMEOUT=</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>pulsar_tools_env.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line">#</span><br><span class="line"># Licensed to the Apache Software Foundation (ASF) under one</span><br><span class="line"># or more contributor license agreements.  See the NOTICE file</span><br><span class="line"># distributed with this work for additional information</span><br><span class="line"># regarding copyright ownership.  The ASF licenses this file</span><br><span class="line"># to you under the Apache License, Version 2.0 (the</span><br><span class="line"># &quot;License&quot;); you may not use this file except in compliance</span><br><span class="line"># with the License.  You may obtain a copy of the License at</span><br><span class="line">#</span><br><span class="line">#   http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing,</span><br><span class="line"># software distributed under the License is distributed on an</span><br><span class="line"># &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY</span><br><span class="line"># KIND, either express or implied.  See the License for the</span><br><span class="line"># specific language governing permissions and limitations</span><br><span class="line"># under the License.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line"># Set JAVA_HOME here to override the environment setting</span><br><span class="line"># JAVA_HOME=</span><br><span class="line"></span><br><span class="line"># default settings for starting pulsar broker</span><br><span class="line"></span><br><span class="line"># Log4j configuration file</span><br><span class="line"># PULSAR_LOG_CONF=</span><br><span class="line"></span><br><span class="line"># Logs location</span><br><span class="line"># PULSAR_LOG_DIR=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in broker server</span><br><span class="line"># PULSAR_BROKER_CONF=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in bookie server</span><br><span class="line"># PULSAR_BOOKKEEPER_CONF=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in zookeeper server</span><br><span class="line"># PULSAR_ZK_CONF=</span><br><span class="line"></span><br><span class="line"># Configuration file of settings used in global zookeeper server</span><br><span class="line"># PULSAR_GLOBAL_ZK_CONF=</span><br><span class="line"></span><br><span class="line"># Extra options to be passed to the jvm</span><br><span class="line">PULSAR_MEM=$&#123;PULSAR_MEM:-&quot;-Xmx256m -XX:MaxDirectMemorySize=256m&quot;&#125;</span><br><span class="line"></span><br><span class="line"># Garbage collection options</span><br><span class="line">PULSAR_GC=&quot; -client &quot;</span><br><span class="line"></span><br><span class="line"># Extra options to be passed to the jvm</span><br><span class="line">PULSAR_EXTRA_OPTS=&quot;$&#123;PULSAR_EXTRA_OPTS&#125; $&#123;PULSAR_MEM&#125; $&#123;PULSAR_GC&#125; -Dio.netty.leakDetectionLevel=disabled&quot;</span><br><span class="line"></span><br><span class="line"># Add extra paths to the bookkeeper classpath</span><br><span class="line"># PULSAR_EXTRA_CLASSPATH=</span><br><span class="line"></span><br><span class="line">#Folder where the Bookie server PID file should be stored</span><br><span class="line">#PULSAR_PID_DIR=</span><br><span class="line"></span><br><span class="line">#Wait time before forcefully kill the pulser server instance, if the stop is not successful</span><br><span class="line">#PULSAR_STOP_TIMEOUT=</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>broker.conf 定义broker的一些配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br></pre></td><td class="code"><pre><span class="line">#</span><br><span class="line"># Licensed to the Apache Software Foundation (ASF) under one</span><br><span class="line"># or more contributor license agreements.  See the NOTICE file</span><br><span class="line"># distributed with this work for additional information</span><br><span class="line"># regarding copyright ownership.  The ASF licenses this file</span><br><span class="line"># to you under the Apache License, Version 2.0 (the</span><br><span class="line"># &quot;License&quot;); you may not use this file except in compliance</span><br><span class="line"># with the License.  You may obtain a copy of the License at</span><br><span class="line">#</span><br><span class="line">#   http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing,</span><br><span class="line"># software distributed under the License is distributed on an</span><br><span class="line"># &quot;AS IS&quot; BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY</span><br><span class="line"># KIND, either express or implied.  See the License for the</span><br><span class="line"># specific language governing permissions and limitations</span><br><span class="line"># under the License.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">### --- General broker settings --- ###</span><br><span class="line"></span><br><span class="line"># Zookeeper quorum connection string</span><br><span class="line">zookeeperServers=172.17.83.72:2181</span><br><span class="line"></span><br><span class="line"># Global Zookeeper quorum connection string</span><br><span class="line">globalZookeeperServers=172.17.83.72:2181</span><br><span class="line"></span><br><span class="line"># Broker data port</span><br><span class="line">brokerServicePort=6650</span><br><span class="line"></span><br><span class="line"># Broker data port for TLS</span><br><span class="line">brokerServicePortTls=6651</span><br><span class="line"></span><br><span class="line"># Port to use to server HTTP request</span><br><span class="line">webServicePort=8080</span><br><span class="line"></span><br><span class="line"># Port to use to server HTTPS request</span><br><span class="line">webServicePortTls=8443</span><br><span class="line"></span><br><span class="line"># Hostname or IP address the service binds on, default is 0.0.0.0.</span><br><span class="line">bindAddress=0.0.0.0</span><br><span class="line"></span><br><span class="line"># Hostname or IP address the service advertises to the outside world. If not set, the value of InetAddress.getLocalHost().getHostName() is used.</span><br><span class="line">advertisedAddress=172.17.83.72</span><br><span class="line"></span><br><span class="line"># Name of the cluster to which this broker belongs to</span><br><span class="line">clusterName=pulsar-cluster-1</span><br><span class="line"></span><br><span class="line"># Enable cluster&apos;s failure-domain which can distribute brokers into logical region</span><br><span class="line">failureDomainsEnabled=false</span><br><span class="line"></span><br><span class="line"># Zookeeper session timeout in milliseconds</span><br><span class="line">zooKeeperSessionTimeoutMillis=30000</span><br><span class="line"></span><br><span class="line"># Time to wait for broker graceful shutdown. After this time elapses, the process will be killed</span><br><span class="line">##定义优雅关机超时时间</span><br><span class="line">brokerShutdownTimeoutMs=3000</span><br><span class="line"></span><br><span class="line"># Enable backlog quota check. Enforces action on topic when the quota is reached</span><br><span class="line">backlogQuotaCheckEnabled=true</span><br><span class="line"></span><br><span class="line"># How often to check for topics that have reached the quota</span><br><span class="line">backlogQuotaCheckIntervalInSeconds=60</span><br><span class="line"></span><br><span class="line"># Default per-topic backlog quota limit</span><br><span class="line">backlogQuotaDefaultLimitGB=10</span><br><span class="line"></span><br><span class="line"># Enable the deletion of inactive topics</span><br><span class="line">brokerDeleteInactiveTopicsEnabled=true</span><br><span class="line"></span><br><span class="line"># How often to check for inactive topics</span><br><span class="line">brokerDeleteInactiveTopicsFrequencySeconds=60</span><br><span class="line"></span><br><span class="line"># How frequently to proactively check and purge expired messages</span><br><span class="line">messageExpiryCheckIntervalInMinutes=5</span><br><span class="line"></span><br><span class="line"># How long to delay rewinding cursor and dispatching messages when active consumer is changed</span><br><span class="line">activeConsumerFailoverDelayTimeMillis=1000</span><br><span class="line"></span><br><span class="line"># Set the default behavior for message deduplication in the broker</span><br><span class="line"># This can be overridden per-namespace. If enabled, broker will reject</span><br><span class="line"># messages that were already stored in the topic</span><br><span class="line">brokerDeduplicationEnabled=false</span><br><span class="line"></span><br><span class="line"># Maximum number of producer information that it&apos;s going to be</span><br><span class="line"># persisted for deduplication purposes</span><br><span class="line">brokerDeduplicationMaxNumberOfProducers=10000</span><br><span class="line"></span><br><span class="line"># Number of entries after which a dedup info snapshot is taken.</span><br><span class="line"># A bigger interval will lead to less snapshots being taken though it would</span><br><span class="line"># increase the topic recovery time, when the entries published after the</span><br><span class="line"># snapshot need to be replayed</span><br><span class="line">brokerDeduplicationEntriesInterval=1000</span><br><span class="line"></span><br><span class="line"># Time of inactivity after which the broker will discard the deduplication information</span><br><span class="line"># relative to a disconnected producer. Default is 6 hours.</span><br><span class="line">brokerDeduplicationProducerInactivityTimeoutMinutes=360</span><br><span class="line"></span><br><span class="line"># When a namespace is created without specifying the number of bundle, this</span><br><span class="line"># value will be used as the default</span><br><span class="line">defaultNumberOfNamespaceBundles=3</span><br><span class="line"></span><br><span class="line"># Enable check for minimum allowed client library version</span><br><span class="line">clientLibraryVersionCheckEnabled=false</span><br><span class="line"></span><br><span class="line"># Path for the file used to determine the rotation status for the broker when responding</span><br><span class="line"># to service discovery health checks</span><br><span class="line">statusFilePath=</span><br><span class="line"></span><br><span class="line"># If true, (and ModularLoadManagerImpl is being used), the load manager will attempt to</span><br><span class="line"># use only brokers running the latest software version (to minimize impact to bundles)</span><br><span class="line">preferLaterVersions=false</span><br><span class="line"></span><br><span class="line"># Max number of unacknowledged messages allowed to receive messages by a consumer on a shared subscription. Broker will stop sending</span><br><span class="line"># messages to consumer once, this limit reaches until consumer starts acknowledging messages back.</span><br><span class="line"># Using a value of 0, is disabling unackeMessage limit check and consumer can receive messages without any restriction</span><br><span class="line">maxUnackedMessagesPerConsumer=50000</span><br><span class="line"></span><br><span class="line"># Max number of unacknowledged messages allowed per shared subscription. Broker will stop dispatching messages to</span><br><span class="line"># all consumers of the subscription once this limit reaches until consumer starts acknowledging messages back and</span><br><span class="line"># unack count reaches to limit/2. Using a value of 0, is disabling unackedMessage-limit</span><br><span class="line"># check and dispatcher can dispatch messages without any restriction</span><br><span class="line">maxUnackedMessagesPerSubscription=200000</span><br><span class="line"></span><br><span class="line"># Max number of unacknowledged messages allowed per broker. Once this limit reaches, broker will stop dispatching</span><br><span class="line"># messages to all shared subscription which has higher number of unack messages until subscriptions start</span><br><span class="line"># acknowledging messages back and unack count reaches to limit/2. Using a value of 0, is disabling</span><br><span class="line"># unackedMessage-limit check and broker doesn&apos;t block dispatchers</span><br><span class="line">maxUnackedMessagesPerBroker=0</span><br><span class="line"></span><br><span class="line"># Once broker reaches maxUnackedMessagesPerBroker limit, it blocks subscriptions which has higher unacked messages</span><br><span class="line"># than this percentage limit and subscription will not receive any new messages until that subscription acks back</span><br><span class="line"># limit/2 messages</span><br><span class="line">maxUnackedMessagesPerSubscriptionOnBrokerBlocked=0.16</span><br><span class="line"></span><br><span class="line"># Default messages per second dispatch throttling-limit for every topic. Using a value of 0, is disabling default</span><br><span class="line"># message dispatch-throttling</span><br><span class="line">dispatchThrottlingRatePerTopicInMsg=0</span><br><span class="line"></span><br><span class="line"># Default bytes per second dispatch throttling-limit for every topic. Using a value of 0, is disabling</span><br><span class="line"># default message-byte dispatch-throttling</span><br><span class="line">dispatchThrottlingRatePerTopicInByte=0</span><br><span class="line"></span><br><span class="line"># Default dispatch-throttling is disabled for consumers which already caught-up with published messages and</span><br><span class="line"># don&apos;t have backlog. This enables dispatch-throttling for non-backlog consumers as well.</span><br><span class="line">dispatchThrottlingOnNonBacklogConsumerEnabled=false</span><br><span class="line"></span><br><span class="line"># Max number of concurrent lookup request broker allows to throttle heavy incoming lookup traffic</span><br><span class="line">maxConcurrentLookupRequest=10000</span><br><span class="line"></span><br><span class="line"># Max number of concurrent topic loading request broker allows to control number of zk-operations</span><br><span class="line">maxConcurrentTopicLoadRequest=5000</span><br><span class="line"></span><br><span class="line"># Max concurrent non-persistent message can be processed per connection</span><br><span class="line">maxConcurrentNonPersistentMessagePerConnection=1000</span><br><span class="line"></span><br><span class="line"># Number of worker threads to serve non-persistent topic</span><br><span class="line">numWorkerThreadsForNonPersistentTopic=8</span><br><span class="line"></span><br><span class="line"># Enable broker to load persistent topics</span><br><span class="line">enablePersistentTopics=true</span><br><span class="line"></span><br><span class="line"># Enable broker to load non-persistent topics</span><br><span class="line">enableNonPersistentTopics=true</span><br><span class="line"></span><br><span class="line"># Enable to run bookie along with broker</span><br><span class="line">enableRunBookieTogether=false</span><br><span class="line"></span><br><span class="line"># Enable to run bookie autorecovery along with broker</span><br><span class="line">enableRunBookieAutoRecoveryTogether=false</span><br><span class="line"></span><br><span class="line">### --- Authentication --- ###</span><br><span class="line"># Role names that are treated as &quot;proxy roles&quot;. If the broker sees a request with</span><br><span class="line">#role as proxyRoles - it will demand to see a valid original principal.</span><br><span class="line">proxyRoles=</span><br><span class="line"></span><br><span class="line"># If this flag is set then the broker authenticates the original Auth data</span><br><span class="line"># else it just accepts the originalPrincipal and authorizes it (if required).  </span><br><span class="line">authenticateOriginalAuthData=false</span><br><span class="line"></span><br><span class="line"># Enable TLS</span><br><span class="line">tlsEnabled=true</span><br><span class="line"></span><br><span class="line"># Path for the TLS certificate file</span><br><span class="line">tlsCertificateFilePath=/search/data/pulsar/cert/broker/broker.cert.pem</span><br><span class="line"></span><br><span class="line"># Path for the TLS private key file</span><br><span class="line">tlsKeyFilePath=/search/data/pulsar/cert/broker/broker.key-pk8.pem</span><br><span class="line"></span><br><span class="line"># Path for the trusted TLS certificate file</span><br><span class="line">tlsTrustCertsFilePath=/search/data/pulsar/cert/ca/certs/ca.cert.pem</span><br><span class="line"></span><br><span class="line"># Accept untrusted TLS certificate from client</span><br><span class="line">tlsAllowInsecureConnection=false</span><br><span class="line"></span><br><span class="line">### --- Authentication --- ###</span><br><span class="line"></span><br><span class="line"># Enable authentication</span><br><span class="line">authenticationEnabled=true</span><br><span class="line"></span><br><span class="line"># Autentication provider name list, which is comma separated list of class names</span><br><span class="line">authenticationProviders=org.apache.pulsar.broker.authentication.AuthenticationProviderTls</span><br><span class="line"></span><br><span class="line"># Enforce authorization</span><br><span class="line">authorizationEnabled=true</span><br><span class="line"></span><br><span class="line"># Authorization provider fully qualified class-name</span><br><span class="line">authorizationProvider=org.apache.pulsar.broker.authorization.PulsarAuthorizationProvider</span><br><span class="line"></span><br><span class="line"># Allow wildcard matching in authorization</span><br><span class="line"># (wildcard matching only applicable if wildcard-char:</span><br><span class="line"># * presents at first or last position eg: *.pulsar.service, pulsar.service.*)</span><br><span class="line">authorizationAllowWildcardsMatching=false</span><br><span class="line"></span><br><span class="line"># Role names that are treated as &quot;super-user&quot;, meaning they will be able to do all admin</span><br><span class="line"># operations and publish/consume from all topics</span><br><span class="line">superUserRoles=admin</span><br><span class="line"></span><br><span class="line"># Authentication settings of the broker itself. Used when the broker connects to other brokers,</span><br><span class="line"># either in same or other clusters</span><br><span class="line">brokerClientAuthenticationPlugin=</span><br><span class="line">brokerClientAuthenticationParameters=</span><br><span class="line"></span><br><span class="line"># Supported Athenz provider domain names(comma separated) for authentication</span><br><span class="line">athenzDomainNames=</span><br><span class="line"></span><br><span class="line"># When this parameter is not empty, unauthenticated users perform as anonymousUserRole</span><br><span class="line">anonymousUserRole=</span><br><span class="line"></span><br><span class="line">### --- BookKeeper Client --- ###</span><br><span class="line"></span><br><span class="line"># Authentication plugin to use when connecting to bookies</span><br><span class="line">bookkeeperClientAuthenticationPlugin=</span><br><span class="line"></span><br><span class="line"># BookKeeper auth plugin implementatation specifics parameters name and values</span><br><span class="line">bookkeeperClientAuthenticationParametersName=</span><br><span class="line">bookkeeperClientAuthenticationParameters=</span><br><span class="line"></span><br><span class="line"># Timeout for BK add / read operations</span><br><span class="line">bookkeeperClientTimeoutInSeconds=30</span><br><span class="line"></span><br><span class="line"># Speculative reads are initiated if a read request doesn&apos;t complete within a certain time</span><br><span class="line"># Using a value of 0, is disabling the speculative reads</span><br><span class="line">bookkeeperClientSpeculativeReadTimeoutInMillis=0</span><br><span class="line"></span><br><span class="line"># Enable bookies health check. Bookies that have more than the configured number of failure within</span><br><span class="line"># the interval will be quarantined for some time. During this period, new ledgers won&apos;t be created</span><br><span class="line"># on these bookies</span><br><span class="line">bookkeeperClientHealthCheckEnabled=true</span><br><span class="line">bookkeeperClientHealthCheckIntervalSeconds=60</span><br><span class="line">bookkeeperClientHealthCheckErrorThresholdPerInterval=5</span><br><span class="line">bookkeeperClientHealthCheckQuarantineTimeInSeconds=1800</span><br><span class="line"></span><br><span class="line"># Enable rack-aware bookie selection policy. BK will chose bookies from different racks when</span><br><span class="line"># forming a new bookie ensemble</span><br><span class="line">bookkeeperClientRackawarePolicyEnabled=true</span><br><span class="line"></span><br><span class="line"># Enable bookie isolation by specifying a list of bookie groups to choose from. Any bookie</span><br><span class="line"># outside the specified groups will not be used by the broker</span><br><span class="line">bookkeeperClientIsolationGroups=</span><br><span class="line"></span><br><span class="line">### --- Managed Ledger --- ###</span><br><span class="line"></span><br><span class="line"># Number of bookies to use when creating a ledger</span><br><span class="line">managedLedgerDefaultEnsembleSize=1</span><br><span class="line"></span><br><span class="line"># Number of copies to store for each message</span><br><span class="line">managedLedgerDefaultWriteQuorum=1</span><br><span class="line"></span><br><span class="line"># Number of guaranteed copies (acks to wait before write is complete)</span><br><span class="line">managedLedgerDefaultAckQuorum=1</span><br><span class="line"></span><br><span class="line"># Amount of memory to use for caching data payload in managed ledger. This memory</span><br><span class="line"># is allocated from JVM direct memory and it&apos;s shared across all the topics</span><br><span class="line"># running  in the same broker</span><br><span class="line">managedLedgerCacheSizeMB=1024</span><br><span class="line"></span><br><span class="line"># Threshold to which bring down the cache level when eviction is triggered</span><br><span class="line">managedLedgerCacheEvictionWatermark=0.9</span><br><span class="line"></span><br><span class="line"># Rate limit the amount of writes per second generated by consumer acking the messages</span><br><span class="line">managedLedgerDefaultMarkDeleteRateLimit=1.0</span><br><span class="line"></span><br><span class="line"># Max number of entries to append to a ledger before triggering a rollover</span><br><span class="line"># A ledger rollover is triggered on these conditions</span><br><span class="line">#  * Either the max rollover time has been reached</span><br><span class="line">#  * or max entries have been written to the ledged and at least min-time</span><br><span class="line">#    has passed</span><br><span class="line">managedLedgerMaxEntriesPerLedger=50000</span><br><span class="line"></span><br><span class="line"># Minimum time between ledger rollover for a topic</span><br><span class="line">managedLedgerMinLedgerRolloverTimeMinutes=10</span><br><span class="line"></span><br><span class="line"># Maximum time before forcing a ledger rollover for a topic</span><br><span class="line">managedLedgerMaxLedgerRolloverTimeMinutes=240</span><br><span class="line"></span><br><span class="line"># Max number of entries to append to a cursor ledger</span><br><span class="line">managedLedgerCursorMaxEntriesPerLedger=50000</span><br><span class="line"></span><br><span class="line"># Max time before triggering a rollover on a cursor ledger</span><br><span class="line">managedLedgerCursorRolloverTimeInSeconds=14400</span><br><span class="line"></span><br><span class="line"># Max number of &quot;acknowledgment holes&quot; that are going to be persistently stored.</span><br><span class="line"># When acknowledging out of order, a consumer will leave holes that are supposed</span><br><span class="line"># to be quickly filled by acking all the messages. The information of which</span><br><span class="line"># messages are acknowledged is persisted by compressing in &quot;ranges&quot; of messages</span><br><span class="line"># that were acknowledged. After the max number of ranges is reached, the information</span><br><span class="line"># will only be tracked in memory and messages will be redelivered in case of</span><br><span class="line"># crashes.</span><br><span class="line">managedLedgerMaxUnackedRangesToPersist=10000</span><br><span class="line"></span><br><span class="line"># Max number of &quot;acknowledgment holes&quot; that can be stored in Zookeeper. If number of unack message range is higher</span><br><span class="line"># than this limit then broker will persist unacked ranges into bookkeeper to avoid additional data overhead into</span><br><span class="line"># zookeeper.</span><br><span class="line">managedLedgerMaxUnackedRangesToPersistInZooKeeper=1000</span><br><span class="line"></span><br><span class="line"># Skip reading non-recoverable/unreadable data-ledger under managed-ledger&apos;s list. It helps when data-ledgers gets</span><br><span class="line"># corrupted at bookkeeper and managed-cursor is stuck at that ledger.</span><br><span class="line">autoSkipNonRecoverableData=false</span><br><span class="line"></span><br><span class="line">### --- Load balancer --- ###</span><br><span class="line"></span><br><span class="line"># Enable load balancer</span><br><span class="line">loadBalancerEnabled=true</span><br><span class="line"></span><br><span class="line"># Percentage of change to trigger load report update</span><br><span class="line">loadBalancerReportUpdateThresholdPercentage=10</span><br><span class="line"></span><br><span class="line"># maximum interval to update load report</span><br><span class="line">loadBalancerReportUpdateMaxIntervalMinutes=15</span><br><span class="line"></span><br><span class="line"># Frequency of report to collect</span><br><span class="line">loadBalancerHostUsageCheckIntervalMinutes=1</span><br><span class="line"></span><br><span class="line"># Load shedding interval. Broker periodically checks whether some traffic should be offload from</span><br><span class="line"># some over-loaded broker to other under-loaded brokers</span><br><span class="line">loadBalancerSheddingIntervalMinutes=5</span><br><span class="line"></span><br><span class="line"># Prevent the same topics to be shed and moved to other broker more that once within this timeframe</span><br><span class="line">loadBalancerSheddingGracePeriodMinutes=30</span><br><span class="line"></span><br><span class="line"># Usage threshold to allocate max number of topics to broker</span><br><span class="line">loadBalancerBrokerMaxTopics=50000</span><br><span class="line"></span><br><span class="line"># Interval to flush dynamic resource quota to ZooKeeper</span><br><span class="line">loadBalancerResourceQuotaUpdateIntervalMinutes=15</span><br><span class="line"></span><br><span class="line"># enable/disable namespace bundle auto split</span><br><span class="line">loadBalancerAutoBundleSplitEnabled=true</span><br><span class="line"></span><br><span class="line"># enable/disable automatic unloading of split bundles</span><br><span class="line">loadBalancerAutoUnloadSplitBundlesEnabled=true</span><br><span class="line"></span><br><span class="line"># maximum topics in a bundle, otherwise bundle split will be triggered</span><br><span class="line">loadBalancerNamespaceBundleMaxTopics=1000</span><br><span class="line"></span><br><span class="line"># maximum sessions (producers + consumers) in a bundle, otherwise bundle split will be triggered</span><br><span class="line">loadBalancerNamespaceBundleMaxSessions=1000</span><br><span class="line"></span><br><span class="line"># maximum msgRate (in + out) in a bundle, otherwise bundle split will be triggered</span><br><span class="line">loadBalancerNamespaceBundleMaxMsgRate=30000</span><br><span class="line"></span><br><span class="line"># maximum bandwidth (in + out) in a bundle, otherwise bundle split will be triggered</span><br><span class="line">loadBalancerNamespaceBundleMaxBandwidthMbytes=100</span><br><span class="line"></span><br><span class="line"># maximum number of bundles in a namespace</span><br><span class="line">loadBalancerNamespaceMaximumBundles=128</span><br><span class="line"></span><br><span class="line"># Override the auto-detection of the network interfaces max speed. </span><br><span class="line"># This option is useful in some environments (eg: EC2 VMs) where the max speed</span><br><span class="line"># reported by Linux is not reflecting the real bandwidth available to the broker.</span><br><span class="line"># Since the network usage is employed by the load manager to decide when a broker</span><br><span class="line"># is overloaded, it is important to make sure the info is correct or override it </span><br><span class="line"># with the right value here. The configured value can be a double (eg: 0.8) and that</span><br><span class="line"># can be used to trigger load-shedding even before hitting on NIC limits.</span><br><span class="line">loadBalancerOverrideBrokerNicSpeedGbps=</span><br><span class="line"></span><br><span class="line"># Name of load manager to use</span><br><span class="line">loadManagerClassName=org.apache.pulsar.broker.loadbalance.impl.ModularLoadManagerImpl</span><br><span class="line"></span><br><span class="line">### --- Replication --- ###</span><br><span class="line"></span><br><span class="line"># Enable replication metrics</span><br><span class="line">replicationMetricsEnabled=true</span><br><span class="line"></span><br><span class="line"># Max number of connections to open for each broker in a remote cluster</span><br><span class="line"># More connections host-to-host lead to better throughput over high-latency</span><br><span class="line"># links.</span><br><span class="line">replicationConnectionsPerBroker=16</span><br><span class="line"></span><br><span class="line"># Replicator producer queue size</span><br><span class="line">replicationProducerQueueSize=1000</span><br><span class="line"></span><br><span class="line"># Replicator prefix used for replicator producer name and cursor name</span><br><span class="line">replicatorPrefix=pulsar.repl</span><br><span class="line"></span><br><span class="line"># Enable TLS when talking with other clusters to replicate messages</span><br><span class="line">replicationTlsEnabled=false</span><br><span class="line"></span><br><span class="line"># Default message retention time</span><br><span class="line">defaultRetentionTimeInMinutes=0</span><br><span class="line"></span><br><span class="line"># Default retention size</span><br><span class="line">defaultRetentionSizeInMB=0</span><br><span class="line"></span><br><span class="line"># How often to check whether the connections are still alive</span><br><span class="line">keepAliveIntervalSeconds=30</span><br><span class="line"></span><br><span class="line"># How often broker checks for inactive topics to be deleted (topics with no subscriptions and no one connected)</span><br><span class="line">brokerServicePurgeInactiveFrequencyInSeconds=60</span><br><span class="line"></span><br><span class="line">### --- WebSocket --- ###</span><br><span class="line"></span><br><span class="line"># Enable the WebSocket API service in broker</span><br><span class="line">webSocketServiceEnabled=false</span><br><span class="line"></span><br><span class="line"># Number of IO threads in Pulsar Client used in WebSocket proxy</span><br><span class="line">webSocketNumIoThreads=8</span><br><span class="line"></span><br><span class="line"># Number of connections per Broker in Pulsar Client used in WebSocket proxy</span><br><span class="line">webSocketConnectionsPerBroker=8</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### --- Metrics --- ###</span><br><span class="line"></span><br><span class="line"># Enable topic level metrics</span><br><span class="line">exposeTopicLevelMetricsInPrometheus=true</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>client.conf 定义客户端的一些配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># Configuration for pulsar-client and pulsar-admin CLI tools</span><br><span class="line"></span><br><span class="line"># URL for Pulsar REST API (for admin operations)</span><br><span class="line"># For TLS:</span><br><span class="line"># webServiceUrl=https://localhost:8443/</span><br><span class="line">webServiceUrl=http://localhost:8080/</span><br><span class="line"></span><br><span class="line"># URL for Pulsar Binary Protocol (for produce and consume operations)</span><br><span class="line"># For TLS:</span><br><span class="line"># brokerServiceUrl=pulsar+ssl://localhost:6651/</span><br><span class="line">brokerServiceUrl=pulsar://localhost:6650/</span><br><span class="line"></span><br><span class="line"># Authentication plugin to authenticate with servers</span><br><span class="line"># e.g. for TLS</span><br><span class="line"># authPlugin=org.apache.pulsar.client.impl.auth.AuthenticationTls</span><br><span class="line">authPlugin=</span><br><span class="line"></span><br><span class="line"># Parameters passed to authentication plugin.</span><br><span class="line"># A comma separated list of key:value pairs.</span><br><span class="line"># Keys depend on the configured authPlugin.</span><br><span class="line"># e.g. for TLS</span><br><span class="line"># authParams=tlsCertFile:/path/to/client-cert.pem,tlsKeyFile:/path/to/client-key.pem</span><br><span class="line">authParams=</span><br><span class="line"></span><br><span class="line"># Allow TLS connections to servers whose certificate cannot be</span><br><span class="line"># be verified to have been signed by a trusted certificate</span><br><span class="line"># authority.</span><br><span class="line">tlsAllowInsecureConnection=false</span><br><span class="line"></span><br><span class="line"># Whether server hostname must match the common name of the certificate</span><br><span class="line"># the server is using.</span><br><span class="line">tlsEnableHostnameVerification=false</span><br><span class="line"></span><br><span class="line"># Path for the trusted TLS certificate file.</span><br><span class="line"># This cert is used to verify that any cert presented by a server</span><br><span class="line"># is signed by a certificate authority. If this verification</span><br><span class="line"># fails, then the cert is untrusted and the connection is dropped.</span><br><span class="line">tlsTrustCertsFilePath=</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Pulsar/" rel="tag"># Pulsar</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/02/Pulsar简介/" rel="next" title="Pulsar简介">
+                <i class="fa fa-chevron-left"></i> Pulsar简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/13/推论/" rel="prev" title="推论">
+                推论 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境概述"><span class="nav-number">1.</span> <span class="nav-text">环境概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

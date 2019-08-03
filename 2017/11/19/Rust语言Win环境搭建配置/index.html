@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Rust,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Windows环境下Rust语言的环境搭建与IDE配置">
+<meta name="keywords" content="Rust">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust语言Win环境搭建配置">
+<meta property="og:url" content="http://yoursite.com/2017/11/19/Rust语言Win环境搭建配置/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="Windows环境下Rust语言的环境搭建与IDE配置">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.920Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Rust语言Win环境搭建配置">
+<meta name="twitter:description" content="Windows环境下Rust语言的环境搭建与IDE配置">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/19/Rust语言Win环境搭建配置/">
+
+
+
+
+
+  <title>Rust语言Win环境搭建配置 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/19/Rust语言Win环境搭建配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Rust语言Win环境搭建配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-19T01:06:28+08:00">
+                2017-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Rust/" itemprop="url" rel="index">
+                    <span itemprop="name">Rust</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Windows环境下Rust语言的环境搭建与IDE配置<a id="more"></a></p>
+<blockquote>
+<p>Rust 语言是Rust 是 Mozilla 开发的注重安全、性能和并发性的编程语言。“Rust”，由 web 语言的领军人物 <a href="https://baike.baidu.com/item/Brendan%20Eich" target="_blank" rel="noopener">Brendan Eich</a>（js 之父），Dave Herman 以及 <a href="https://baike.baidu.com/item/Mozilla" target="_blank" rel="noopener">Mozilla</a> 公司的 Graydon Hoare 合力开发。吸收了其他的语言的一些特性,并有自己独到之处</p>
+</blockquote>
+<ul>
+<li><p>进行下载安装</p>
+<p>首先进入rust 的官网进行下载安装</p>
+<p>[]: <a href="https://www.rust-lang.org/zh-CN/" target="_blank" rel="noopener">https://www.rust-lang.org/zh-CN/</a>    “Rust官网”</p>
+<p>现在都用rustup来进行rust语言版本的管理因为rust语言版本更新很快</p>
+<p>双击rustup-init.exe后进入安装界面 选择<strong>2 Customize installation</strong></p>
+<ul>
+<li>是否用<strong>default host tripe</strong> 我选是</li>
+<li>使用哪个版本(stable,nightly),我选nightly</li>
+<li>是否加入环境变量(这个后期可以修改),我选是</li>
+</ul>
+</li>
+<li><p>配置环境变量及中科大源</p>
+<p>安装完成后在C盘下–&gt;用户–&gt;你的登陆用户名文件夹下会多出.rust文件夹 及.cargo文件夹</p>
+<p>如果你不想将rust的安装目录放置在系统盘 那么可以进行文件夹迁移,同时进行修改环境变量</p>
+<ul>
+<li><p>环境变量配置:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CARGO_HOME:D:\Cargo\.cargo</span><br><span class="line">RUSTUP_HOME:D:\Rustup\.rustup</span><br></pre></td></tr></table></figure>
+
+<p>简单介绍下cargo ,cargo是rust语言的包管理器 有点类似java中maven等一系列项目构建工具,使用cargo可以很方便的管理rust工程.</p>
+<p>Path环境变量:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATH:%CARGO_HOME%/bin;</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+<li><p>添加中科大镜像源</p>
+<p>因为GFW的问题 rust的官方源会链接不上 那么我们加入中科大的镜像源</p>
+<p>在.cargo文件夹下创建一个config文件,不带任何后缀</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[registry]</span><br><span class="line">index = &quot;https://mirrors.ustc.edu.cn/crates.io-index/&quot;</span><br><span class="line">[source.crates-io]</span><br><span class="line">registry = &quot;https://github.com/rust-lang/crates.io-index&quot;</span><br><span class="line">replace-with = &apos;ustc&apos;</span><br><span class="line">[source.ustc]</span><br><span class="line">registry = &quot;https://mirrors.ustc.edu.cn/crates.io-index/&quot;</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+<li><p>加入RUSTUP_DIST_SERVER环境变量及RUSTUP_UPDATE_ROOT环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RUSTUP_DIST_SERVER:http://mirrors.ustc.edu.cn/rust-static</span><br><span class="line">RUSTUP_UPDATE_ROOT:http://mirrors.ustc.edu.cn/rust-static/rustup</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>至此rust语言安装完毕</strong></p>
+<ul>
+<li><p>检查 rustup安装 </p>
+<p>打开cmd输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\andy&gt;rustup -V</span><br><span class="line">rustup 1.7.0 (813f7b7a8 2017-10-30)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<ul>
+<li><p>检查cargo安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\andy&gt;cargo -V</span><br><span class="line">cargo 0.24.0-nightly (abd137ad1 2017-11-12)</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ul>
+<p>如果 提示没有默认的 toolchain 那么 install:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustup install nightly-x86_64-pc-windows-gnu</span><br></pre></td></tr></table></figure>
+
+<p>将stable-gnu版本设为默认toolchain</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustup default nightly-x86_64-pc-windows-gnu</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>安装相关插件</p>
+<ul>
+<li><p>安装rustfmt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\andy&gt;rustup show</span><br><span class="line">Default host: x86_64-pc-windows-gnu</span><br><span class="line"></span><br><span class="line">nightly-x86_64-pc-windows-gnu (default)</span><br><span class="line">rustc 1.23.0-nightly (6160040d8 2017-11-18)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将gnu版本设为默认</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\andy&gt;rustup default nightly-x86_64-pc-windows-gnu</span><br><span class="line">info: using existing install for &apos;nightly-x86_64-pc-windows-gnu&apos;</span><br><span class="line">info: default toolchain set to &apos;nightly-x86_64-pc-windows-gnu&apos;</span><br><span class="line"></span><br><span class="line">  nightly-x86_64-pc-windows-gnu unchanged - rustc 1.23.0-nightly (6160040d8 2017</span><br><span class="line">-11-18)</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+<li><p>安装fmt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo +nightly-x86_64-pc-windows-gnu install rustfmt</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+<li><p>安装racer</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rustup component add rust-src --toolchain nightly-x86_64-pc-windows-gnu</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置 rust_src_path 环境变量(注意路径)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUST_SRC_PATH:D:\Rustup\.rustup\toolchains\nightly-x86_64-pc-windows-gnu\lib\rustlib\src\rust\src</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+<li><p>执行 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cargo +nightly install racer</span><br></pre></td></tr></table></figure>
+
+<p><strong>在安装插件时候如果之前你安装过该插件 那么就在命令后加入 –forece 这样就会覆盖安装</strong></p>
+</li>
+<li><p>安装RLS 如果nightly 已经安装了 那么只执行第二条就行了 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rustup component add rls --toolchain nightly-x86_64-pc-windows-gnu</span><br><span class="line">rustup component add rust-analysis --toolchain nightly-x86_64-pc-windows-gnu</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>至此 插件安装完毕</strong></p>
+<ul>
+<li><p>配置IDE</p>
+<p>eclipse intellij idea vscode sumblime vs 都支持rust 这里只介绍idea 与vscode</p>
+<p><strong>Idea配置</strong></p>
+<ul>
+<li><p>下载IntelliJ 旗舰版 只有 CLion 支持调试</p>
+<p>进入Configureation—&gt;Settings—-&gt;Plugins 搜索Rust,会提示无插件可用,那么Search in repositories 可以看到Rust语言插件 进行安装 然后重启 idea</p>
+<p>重启完毕后,可以new rust工程了</p>
+</li>
+</ul>
+<p><strong>Vscode配置</strong></p>
+<ul>
+<li><p>首先安装用于调试的GDB,我这里安装的是gnu版本的rust </p>
+<p>下载<em>VisualGDB</em></p>
+<p>​</p>
+</li>
+<li><p>配置vscode首选项,可以按你自己的来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">// 将设置放入此文件中以覆盖默认设置</span><br><span class="line">&#123;</span><br><span class="line">    &quot;terminal.integrated.shell.windows&quot;: &quot;C:\\Windows\\Sysnative\\WindowsPowerShell\\v1.0\\powershell.exe&quot;,</span><br><span class="line">    &quot;editor.fontSize&quot;: 14,</span><br><span class="line">    &quot;editor.fontFamily&quot;: &quot;Consolas, &apos;Courier New&apos;, monospace&quot;,</span><br><span class="line">    &quot;editor.tabSize&quot;: 4,</span><br><span class="line">    &quot;editor.cursorStyle&quot;: &quot;line&quot;,</span><br><span class="line">    &quot;editor.multiCursorModifier&quot;: &quot;alt&quot;,</span><br><span class="line">    &quot;editor.insertSpaces&quot;: true,</span><br><span class="line">    &quot;editor.wordWrap&quot;: &quot;off&quot;,</span><br><span class="line">    &quot;rust.racerPath&quot;: &quot;D:\\Cargo\\.cargo\\bin\\racer.exe&quot;, // Specifies path to Racer binary if it&apos;s not in PATH</span><br><span class="line">    &quot;rust.rustLangSrcPath&quot;: &quot;D:\\Rustup\\.rustup\\toolchains\\nightly-x86_64-pc-windows-gnu\\lib\\rustlib\\src\\rust\\src&quot;, // Specifies path to /src directory of local copy of Rust sources</span><br><span class="line">    &quot;rust.rustfmtPath&quot;: null, // Specifies path to Rustfmt binary if it&apos;s not in PATH</span><br><span class="line">    &quot;rust.cargoPath&quot;: &quot;D:\\Cargo\\.cargo/bin/cargo.exe&quot;, // Specifies path to Cargo binary if it&apos;s not in PATH</span><br><span class="line">    &quot;rust.formatOnSave&quot;: true, // Turn on/off autoformatting file on save (EXPERIMENTAL)</span><br><span class="line">    &quot;rust.checkOnSave&quot;: true,    </span><br><span class="line">    &quot;[rust]&quot;: &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;workbench.startupEditor&quot;: &quot;welcomePage&quot;,</span><br><span class="line">    &quot;rust.mode&quot;: &quot;rls&quot;,</span><br><span class="line">    &quot;rust.rustup&quot;: &#123;</span><br><span class="line">        &quot;toolchain&quot;: &quot;nightly-x86_64-pc-windows-gnu&quot;,</span><br><span class="line">        &quot;nightlyToolchain&quot;: &quot;nightly-x86_64-pc-windows-gnu&quot;</span><br><span class="line">    </span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;rust.rls&quot;: &#123;</span><br><span class="line">        &quot;useRustfmt&quot;:true,</span><br><span class="line">        &quot;env&quot;: &#123;</span><br><span class="line">        &quot;RUST_LOG&quot;: &quot;rls=debug&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>这样就结束了,IDE配置这块以后再补充,时间太长了</strong></p>
+<p>参考:</p>
+<p>中文社区QQ群:303838735 </p>
+<p>[]: <a href="https://zhuanlan.zhihu.com/p/27782375" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/27782375</a>    “Rust 环境配置事项一览”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Rust/" rel="tag"># Rust</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/19/Ubuntu搭建nextcloud/" rel="next" title="Ubuntu搭建nextcloud">
+                <i class="fa fa-chevron-left"></i> Ubuntu搭建nextcloud
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/19/Spring事件驱动之同步事件驱动监听/" rel="prev" title="Spring事件驱动之同步事件驱动监听">
+                Spring事件驱动之同步事件驱动监听 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="中间件,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Canal搭建配置及代码客户端了解下">
+<meta name="keywords" content="中间件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="canal配置搭建">
+<meta property="og:url" content="http://yoursite.com/2018/07/06/canal配置搭建/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="Canal搭建配置及代码客户端了解下">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="canal配置搭建">
+<meta name="twitter:description" content="Canal搭建配置及代码客户端了解下">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/07/06/canal配置搭建/">
+
+
+
+
+
+  <title>canal配置搭建 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/06/canal配置搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">canal配置搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-06T00:08:43+08:00">
+                2018-07-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/中间件/" itemprop="url" rel="index">
+                    <span itemprop="name">中间件</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Canal搭建配置及代码客户端了解下<a id="more"></a>开始想写的时候，canal的版本还是1.0.2x,现在已经1.1.0了，所以要做什么事情要尽快。</p>
+<h3 id="环境概述："><a href="#环境概述：" class="headerlink" title="环境概述："></a>环境概述：</h3><ul>
+<li>linux系统版本：Ubuntu16.04 </li>
+<li>java版本：1.8.0_171</li>
+<li>zk版本: 3.4.12</li>
+<li>mysql版本：5.7.22 (<strong>这个就不安装了</strong>)</li>
+<li>canal版本：1.1.0</li>
+<li>kafka版本：2.11</li>
+<li>maven版本：3.5.4</li>
+<li>git 版本: 2.7.4</li>
+</ul>
+<h3 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h3><ul>
+<li><p>使用apt-get安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get update -y</span><br><span class="line">apt-get install -y git</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="安装maven"><a href="#安装maven" class="headerlink" title="安装maven"></a>安装maven</h3><ul>
+<li><p>下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz</span><br><span class="line">tar -zxvf apache-maven-3.5.4-bin.tar.gz -C maven</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">JAVA_HOME=/data/soft/jdk1.8.0_171</span><br><span class="line">JAVA_BIN=/data/soft/jdk1.8.0_171/bin</span><br><span class="line">PATH=$JAVA_HOME/bin:$PATH:$JSTORM_HOME/bin:$ZOOKEEPER_HOME/bin</span><br><span class="line">ZOOKEEPER_HOME=/data/soft/zookeeper-3.4.12</span><br><span class="line">CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$ZOOKEEPER_HOME/lib</span><br><span class="line">JSTORM_HOME=/data/soft/jstorm-2.2.1</span><br><span class="line">##MAVEN start</span><br><span class="line">MAVEN_HOME=/data/soft/maven</span><br><span class="line">export MAVEN_HOME</span><br><span class="line">export PATH=$&#123;PATH&#125;:$&#123;MAVEN_HOME&#125;/bin</span><br><span class="line">##MAVEN end</span><br><span class="line">export ZOOKEEPER_HOME</span><br><span class="line">export JAVA_HOME</span><br><span class="line">export PATH</span><br><span class="line">export CLASSPATH</span><br><span class="line">export JSTORM_HOME</span><br></pre></td></tr></table></figure>
+
+<p>上面是我的环境变量配置文件,修改完后进行source</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mvn -version</span><br><span class="line"></span><br><span class="line">Apache Maven 3.5.4 (1edded0938998edf8bf061f1ceb3cfdeccf443fe; 2018-06-18T02:33:14+08:00)</span><br><span class="line">Maven home: /data/soft/maven</span><br><span class="line">Java version: 1.8.0_171, vendor: Oracle Corporation, runtime: /data/soft/jdk1.8.0_171/jre</span><br><span class="line">Default locale: en_US, platform encoding: UTF-8</span><br><span class="line">OS name: &quot;linux&quot;, version: &quot;4.4.0-127-generic&quot;, arch: &quot;amd64&quot;, family: &quot;unix&quot;</span><br></pre></td></tr></table></figure>
+
+<p>安装成功</p>
+</li>
+</ul>
+<h3 id="安装zookeeper"><a href="#安装zookeeper" class="headerlink" title="安装zookeeper"></a>安装zookeeper</h3><ul>
+<li><p>下载,安装zookeeper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">wget http://archive.apache.org/dist/zookeeper/zookeeper-3.4.12/zookeeper-3.4.12.tar.gz</span><br><span class="line">tar -zxvf zookeeper-3.4.12 -C zookeeper</span><br><span class="line">cd /data/soft/zookeeper/conf</span><br><span class="line">cp  zoo_sample.cfg   zoo_sample.cfg.bak</span><br><span class="line">mv  zoo_sample.cfg zoo.cfg</span><br><span class="line">vim zoo.cfg</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># The number of milliseconds of each tick</span><br><span class="line">tickTime=2000</span><br><span class="line"># The number of ticks that the initial </span><br><span class="line"># synchronization phase can take</span><br><span class="line">initLimit=10</span><br><span class="line"># The number of ticks that can pass between </span><br><span class="line"># sending a request and getting an acknowledgement</span><br><span class="line">syncLimit=5</span><br><span class="line"># the directory where the snapshot is stored.</span><br><span class="line"># do not use /tmp for storage, /tmp here is just </span><br><span class="line"># example sakes.</span><br><span class="line">##修改这里，如果没有就添加这行</span><br><span class="line">dataDir=/data/soft/zookeeper/data</span><br><span class="line"># the port at which the clients will connect</span><br><span class="line">clientPort=2181</span><br><span class="line"># the maximum number of client connections.</span><br><span class="line"># increase this if you need to handle more clients</span><br><span class="line">#maxClientCnxns=60</span><br><span class="line">#</span><br><span class="line"># Be sure to read the maintenance section of the </span><br><span class="line"># administrator guide before turning on autopurge.</span><br><span class="line">#</span><br><span class="line"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</span><br><span class="line">#</span><br><span class="line"># The number of snapshots to retain in dataDir</span><br><span class="line">#autopurge.snapRetainCount=3</span><br><span class="line"># Purge task interval in hours</span><br><span class="line"># Set to &quot;0&quot; to disable auto purge feature</span><br><span class="line">#autopurge.purgeInterval=1</span><br><span class="line">##添加日志目录</span><br><span class="line">dataLogDir=/data/soft/zookeeper-3.4.5/logs</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动 zookeeper</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/soft/zookeeper</span><br><span class="line">./bin/zkServer.sh start ./conf/zoo.cfg</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装 zkui</p>
+<ul>
+<li><p>下载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/DeemOpen/zkui.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/soft/zkui</span><br><span class="line">vim config.cfg</span><br></pre></td></tr></table></figure>
+
+<p>将下面的进行修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">serverPort=9090     #指定端口</span><br><span class="line">zkServer=192.168.1.110:2181</span><br><span class="line">sessionTimeout=300000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进行maven编译生成war包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd /data/soft/zkui</span><br><span class="line">mvn clean install</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup java -jar target/zkui-2.0-SNAPSHOT-jar-with-dependencies.jar &amp;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问</p>
+<p>默认密码为 admin/manager appconfig/appconfig ,在cfg文件中可以配置，appconfig为只读权限中户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://127.0.0.1:9090/</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Mysql配置"><a href="#Mysql配置" class="headerlink" title="Mysql配置"></a>Mysql配置</h3><ul>
+<li><p>配置开启binlog</p>
+<p>本机使用apt-get安装的mysql</p>
+<p>列出所有的 my.cnf 文件 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">locate my.cnf</span><br><span class="line"></span><br><span class="line">/etc/alternatives/my.cnf</span><br><span class="line">/etc/mysql/my.cnf</span><br><span class="line">/etc/mysql/my.cnf.fallback</span><br><span class="line">/var/lib/docker/aufs/diff/46b0e64a8cd2c560c66b86b89918ef4ca60c761b87ba166b52b32d1f94191d09/etc/alternatives/my.cnf</span><br><span class="line">/var/lib/docker/aufs/diff/46b0e64a8cd2c560c66b86b89918ef4ca60c761b87ba166b52b32d1f94191d09/etc/mysql/my.cnf</span><br><span class="line">/var/lib/docker/aufs/diff/46b0e64a8cd2c560c66b86b89918ef4ca60c761b87ba166b52b32d1f94191d09/etc/mysql/my.cnf.fallback</span><br><span class="line">/var/lib/docker/aufs/diff/46b0e64a8cd2c560c66b86b89918ef4ca60c761b87ba166b52b32d1f94191d09/var/lib/dpkg/alternatives/my.cnf</span><br><span class="line">/var/lib/docker/aufs/diff/d07cc37ba4daa1bba8e1cefb641912781ad304503ce4c3818d3cbf4c17b0587e/etc/mysql/my.cnf</span><br><span class="line">/var/lib/dpkg/alternatives/my.cnf</span><br></pre></td></tr></table></figure>
+
+<p>查看是否使用了指定目录的 my.cnf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps aux|grep mysql|grep &apos;my.cnf&apos;</span><br></pre></td></tr></table></figure>
+
+<p>显然没有,那么查看mysql使用的配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql --help|grep &apos;my.cnf&apos;</span><br><span class="line"></span><br><span class="line">/etc/my.cnf /etc/mysql/my.cnf ~/.my.cnf</span><br></pre></td></tr></table></figure>
+
+<p>挨个查看文件。使用的是 <code>/etc/mysql/my.cnf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">vim  /etc/mysql/my.cnf</span><br><span class="line"></span><br><span class="line"># The MySQL database server configuration file.</span><br><span class="line">#</span><br><span class="line"># You can copy this to one of:</span><br><span class="line"># - &quot;/etc/mysql/my.cnf&quot; to set global options,</span><br><span class="line"># - &quot;~/.my.cnf&quot; to set user-specific options.</span><br><span class="line"># </span><br><span class="line"># One can use all long options that the program supports.</span><br><span class="line"># Run program with --help to get a list of available options and with</span><br><span class="line"># --print-defaults to see which it would actually understand and use.</span><br><span class="line">#</span><br><span class="line"># For explanations see</span><br><span class="line"># http://dev.mysql.com/doc/mysql/en/server-system-variables.html</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line"># * IMPORTANT: Additional settings that can override those from this file!</span><br><span class="line">#   The files must end with &apos;.cnf&apos;, otherwise they&apos;ll be ignored.</span><br><span class="line">#</span><br><span class="line"></span><br><span class="line">!includedir /etc/mysql/conf.d/</span><br><span class="line">!includedir /etc/mysql/mysql.conf.d/</span><br></pre></td></tr></table></figure>
+
+<p>查看 <code>/etc/mysql/conf.d/</code> 和<code>/etc/mysql/mysql.conf.d/</code> 目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@VM-0-17-ubuntu:/data/soft/zkui# cd /etc/mysql/mysql.conf.d/</span><br><span class="line">root@VM-0-17-ubuntu:/etc/mysql/mysql.conf.d# ls</span><br><span class="line">mysqld.cnf  mysqld_safe_syslog.cnf</span><br><span class="line">root@VM-0-17-ubuntu:/etc/mysql/mysql.conf.d# vim mysqld.cnf</span><br></pre></td></tr></table></figure>
+
+<p>在这里，那么在[mysqld]下面加入配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">##canal config</span><br><span class="line">log-bin=mysql-bin #添加这一行就ok</span><br><span class="line">binlog-format=ROW #选择row模式</span><br><span class="line">server_id=1 #配置mysql replaction需要定义，不能和canal的slaveId重复,这个在1.1.0里面已经不用设置</span><br></pre></td></tr></table></figure>
+
+<p>重启</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service mysql restart</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建canal使用的mysql账号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER canal IDENTIFIED BY &apos;canal&apos;;  </span><br><span class="line">GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO &apos;canal&apos;@&apos;%&apos;;</span><br><span class="line">-- GRANT ALL PRIVILEGES ON *.* TO &apos;canal&apos;@&apos;%&apos; ;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Canal安装配置"><a href="#Canal安装配置" class="headerlink" title="Canal安装配置"></a>Canal安装配置</h3><ul>
+<li><p>下载</p>
+<p>我们下载<code>canal.deployer-1.1.0.tar.gz</code>,先不配置kafka.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/alibaba/canal/releases</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf canal.deployer-1.1.0.tar.gz -C canal-1.1.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改配置</p>
+<ul>
+<li><p>修改canal.properties，这个是全局的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd  canal-1.1.0/conf</span><br><span class="line"></span><br><span class="line">vim canal.properties</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line">################################################</span><br><span class="line">#########               common argument         ############# </span><br><span class="line">#################################################</span><br><span class="line">canal.id= 1</span><br><span class="line">##这里可以指定ip，但是本人在腾讯云上不配置的时候，读取到的是腾讯云的内网ip</span><br><span class="line">canal.ip=</span><br><span class="line">##canal的端口</span><br><span class="line">canal.port=11111</span><br><span class="line">canal.metrics.pull.port=11112</span><br><span class="line">##zookeeper的IP要配置，多个用逗号隔开</span><br><span class="line">canal.zkServers=127.0.0.1:2181</span><br><span class="line"># flush data to zk</span><br><span class="line">canal.zookeeper.flush.period = 1000</span><br><span class="line">canal.withoutNetty = false</span><br><span class="line"># flush meta cursor/parse position to file</span><br><span class="line">canal.file.data.dir = $&#123;canal.conf.dir&#125;</span><br><span class="line">canal.file.flush.period = 1000</span><br><span class="line">## memory store RingBuffer size, should be Math.pow(2,n)</span><br><span class="line">canal.instance.memory.buffer.size = 16384</span><br><span class="line">## memory store RingBuffer used memory unit size , default 1kb</span><br><span class="line">canal.instance.memory.buffer.memunit = 1024 </span><br><span class="line">## meory store gets mode used MEMSIZE or ITEMSIZE</span><br><span class="line">canal.instance.memory.batch.mode = MEMSIZE</span><br><span class="line"></span><br><span class="line">## detecing config</span><br><span class="line">canal.instance.detecting.enable = false</span><br><span class="line">#canal.instance.detecting.sql = insert into retl.xdual values(1,now()) on duplicate 	# 	key update x=now()</span><br><span class="line">canal.instance.detecting.sql = select 1</span><br><span class="line">canal.instance.detecting.interval.time = 3</span><br><span class="line">canal.instance.detecting.retry.threshold = 3</span><br><span class="line">canal.instance.detecting.heartbeatHaEnable = false</span><br><span class="line"></span><br><span class="line"># support maximum transaction size, more than the size of the transaction will be 		# cut into multiple transactions delivery</span><br><span class="line">canal.instance.transaction.size =  1024</span><br><span class="line"># mysql fallback connected to new master should fallback times</span><br><span class="line">canal.instance.fallbackIntervalInSeconds = 60</span><br><span class="line"></span><br><span class="line"># network config</span><br><span class="line">canal.instance.network.receiveBufferSize = 16384</span><br><span class="line">canal.instance.network.sendBufferSize = 16384</span><br><span class="line">canal.instance.network.soTimeout = 30</span><br><span class="line"># binlog filter config</span><br><span class="line">canal.instance.filter.druid.ddl = true</span><br><span class="line">canal.instance.filter.query.dcl = false</span><br><span class="line">canal.instance.filter.query.dml = false</span><br><span class="line">canal.instance.filter.query.ddl = false</span><br><span class="line">canal.instance.filter.table.error = false</span><br><span class="line">canal.instance.filter.rows = false</span><br><span class="line">canal.instance.filter.transaction.entry = false</span><br><span class="line"></span><br><span class="line"># binlog format/image check</span><br><span class="line">canal.instance.binlog.format = ROW,STATEMENT,MIXED </span><br><span class="line">canal.instance.binlog.image = FULL,MINIMAL,NOBLOB</span><br><span class="line"></span><br><span class="line"># binlog ddl isolation</span><br><span class="line">canal.instance.get.ddl.isolation = false</span><br><span class="line"></span><br><span class="line"># parallel parser config </span><br><span class="line">##单核cpu的机器上下面这个参数设置为true会报错，官方is解释说这是个bug，如果单核机器跑就设置false</span><br><span class="line">canal.instance.parser.parallel = true</span><br><span class="line">## concurrent thread number, default 60% available processors, suggest not to exceed Runtime.getRuntime().availableProcessors()</span><br><span class="line">#canal.instance.parser.parallelThreadSize = 16</span><br><span class="line">## disruptor ringbuffer size, must be power of 2</span><br><span class="line">canal.instance.parser.parallelBufferSize = 256</span><br><span class="line"></span><br><span class="line"># table meta tsdb info 这个是1.1.0新加的目前不知道这是干嘛的，好像是存metadata的</span><br><span class="line">canal.instance.tsdb.enable=true</span><br><span class="line">canal.instance.tsdb.dir=$&#123;canal.file.data.dir:../conf&#125;/$&#123;canal.instance.destination:&#125;</span><br><span class="line">canal.instance.tsdb.url=jdbc:h2:$&#123;canal.instance.tsdb.dir&#125;/h2;CACHE_SIZE=1000;MODE=MYSQL;</span><br><span class="line">canal.instance.tsdb.dbUsername=canal</span><br><span class="line">canal.instance.tsdb.dbPassword=8Kvk,&quot;qlm-%&lt;#h</span><br><span class="line"></span><br><span class="line"># rds oss binlog account</span><br><span class="line">canal.instance.rds.accesskey =</span><br><span class="line">canal.instance.rds.secretkey =</span><br><span class="line"></span><br><span class="line">#################################################</span><br><span class="line">#########               destinations            ############# </span><br><span class="line">#################################################</span><br><span class="line">## 多个example在此处进行配置,</span><br><span class="line">canal.destinations= example</span><br><span class="line"># conf root dir</span><br><span class="line">canal.conf.dir = ../conf</span><br><span class="line"># auto scan instance dir add/remove and start/stop instance</span><br><span class="line">canal.auto.scan = true</span><br><span class="line">canal.auto.scan.interval = 5</span><br><span class="line"></span><br><span class="line">canal.instance.tsdb.spring.xml=classpath:spring/tsdb/h2-tsdb.xml</span><br><span class="line">#canal.instance.tsdb.spring.xml=classpath:spring/tsdb/mysql-tsdb.xml</span><br><span class="line"></span><br><span class="line">canal.instance.global.mode = spring </span><br><span class="line">canal.instance.global.lazy = false</span><br><span class="line">#canal.instance.global.manager.address = 127.0.0.1:1099</span><br><span class="line">#canal.instance.global.spring.xml = classpath:spring/memory-instance.xml</span><br><span class="line">#canal.instance.global.spring.xml = classpath:spring/file-instance.xml</span><br><span class="line">##我们使用zk实现ha 那么用下面这个spring的模式</span><br><span class="line">canal.instance.global.spring.xml = classpath:spring/default-instance.xml</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改 instance.properties</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /data/soft/canal-1.1.0/conf/example/instance.properties</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#################################################</span><br><span class="line">## mysql serverId , v1.0.26+ will autoGen </span><br><span class="line"># canal.instance.mysql.slaveId=0</span><br><span class="line"></span><br><span class="line"># enable gtid use true/false 这个是新加的特性</span><br><span class="line">canal.instance.gtidon=false</span><br><span class="line"></span><br><span class="line"># position info 配置要伪装的mysql的地址</span><br><span class="line">canal.instance.master.address=127.0.0.1:3306</span><br><span class="line">##canal.instance.master.journal.name +  canal.instance.master.position :  精确指定一个 ##binlog 位点，进行启动</span><br><span class="line">canal.instance.master.journal.name=</span><br><span class="line">canal.instance.master.position=</span><br><span class="line">##canal.instance.master.timestamp :  指定一个时间戳，canal 会自动遍历 mysql binlog，找到对##应时间戳的 binlog 位点后，进行启动</span><br><span class="line">canal.instance.master.timestamp=</span><br><span class="line">canal.instance.master.gtid=</span><br><span class="line"></span><br><span class="line"># rds oss binlog</span><br><span class="line">canal.instance.rds.accesskey=</span><br><span class="line">canal.instance.rds.secretkey=</span><br><span class="line">canal.instance.rds.instanceId=</span><br><span class="line"></span><br><span class="line"># table meta tsdb info</span><br><span class="line">canal.instance.tsdb.enable=true</span><br><span class="line">##匹配</span><br><span class="line">#canal.instance.tsdb.url=jdbc:mysql://127.0.0.1:3306/skyeye</span><br><span class="line">#canal.instance.tsdb.dbUsername=canal</span><br><span class="line">#canal.instance.tsdb.dbPassword=8Kvk,&quot;qlm-%&lt;#h</span><br><span class="line"></span><br><span class="line">#canal.instance.standby.address =</span><br><span class="line">#canal.instance.standby.journal.name =</span><br><span class="line">#canal.instance.standby.position = </span><br><span class="line">#canal.instance.standby.timestamp =</span><br><span class="line">#canal.instance.standby.gtid=</span><br><span class="line"></span><br><span class="line"># username/password</span><br><span class="line">##配置为自己的数据库的账号和密码。</span><br><span class="line">canal.instance.dbUsername=canal</span><br><span class="line">canal.instance.dbPassword=8Kvk,&quot;qlm-%&lt;#h</span><br><span class="line">##代表数据库的编码方式对应到 java 中的编码类型，比如 UTF-8，GBK , ISO-8859-1</span><br><span class="line">canal.instance.connectionCharset=UTF-8</span><br><span class="line"></span><br><span class="line"># table regex 1.1.0去掉了默认db的设置只能用正则去过滤。</span><br><span class="line">canal.instance.filter.regex=skyeye\\..*</span><br><span class="line"># table black regex</span><br><span class="line">canal.instance.filter.black.regex=</span><br><span class="line">#################################################</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>启动和停止</p>
+<ul>
+<li><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /data/soft/canal-1.1.0/bin</span><br><span class="line"></span><br><span class="line">./startup.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>日志查看 ,canal目录为服务的日志，example里为节点实例日志</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd /data/soft/canal-1.1.0/logs</span><br><span class="line">ll</span><br><span class="line">drwxrwxrwx 4 root root 4096 Sep 17 15:59 ./</span><br><span class="line">drwxr-xr-x 6 root root 4096 Sep 17 15:32 ../</span><br><span class="line">drwxr-xr-x 3 root root 4096 Sep 18 11:02 canal/</span><br><span class="line">drwxr-xr-x 3 root root 4096 Sep 18 09:45 example/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>停止</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./stop.sh</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="TODO-joy-今天就到这里吧。下次补充Kafka"><a href="#TODO-joy-今天就到这里吧。下次补充Kafka" class="headerlink" title="TODO:joy:今天就到这里吧。下次补充Kafka"></a>TODO:joy:今天就到这里吧。下次补充Kafka</h4><p>[]: <a href="https://github.com/alibaba/canal/wiki" target="_blank" rel="noopener">https://github.com/alibaba/canal/wiki</a>    “canal官档”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/中间件/" rel="tag"># 中间件</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/26/FRP搭建使用/" rel="next" title="FRP搭建使用">
+                <i class="fa fa-chevron-left"></i> FRP搭建使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/16/rust-mod与pub与引用模块/" rel="prev" title="rust-mod与pub与引用模块">
+                rust-mod与pub与引用模块 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境概述："><span class="nav-number">1.</span> <span class="nav-text">环境概述：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装git"><span class="nav-number">2.</span> <span class="nav-text">安装git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装maven"><span class="nav-number">3.</span> <span class="nav-text">安装maven</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装zookeeper"><span class="nav-number">4.</span> <span class="nav-text">安装zookeeper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mysql配置"><span class="nav-number">5.</span> <span class="nav-text">Mysql配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Canal安装配置"><span class="nav-number">6.</span> <span class="nav-text">Canal安装配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TODO-joy-今天就到这里吧。下次补充Kafka"><span class="nav-number">6.1.</span> <span class="nav-text">TODO:joy:今天就到这里吧。下次补充Kafka</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Linux,Tomcat,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="简单谈下Tomcat的配置优化">
+<meta name="keywords" content="Linux,Tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat优化简谈">
+<meta property="og:url" content="http://yoursite.com/2017/11/22/Tomcat优化简谈/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="简单谈下Tomcat的配置优化">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/11/22/Tomcat优化简谈/.Tomcat%E4%BC%98%E5%8C%96%E7%AE%80%E8%B0%88/%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.png">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tomcat优化简谈">
+<meta name="twitter:description" content="简单谈下Tomcat的配置优化">
+<meta name="twitter:image" content="http://yoursite.com/2017/11/22/Tomcat优化简谈/.Tomcat%E4%BC%98%E5%8C%96%E7%AE%80%E8%B0%88/%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/11/22/Tomcat优化简谈/">
+
+
+
+
+
+  <title>Tomcat优化简谈 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/22/Tomcat优化简谈/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tomcat优化简谈</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-22T22:29:39+08:00">
+                2017-11-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/Tomcat/" itemprop="url" rel="index">
+                    <span itemprop="name">Tomcat</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>简单谈下Tomcat的配置优化<a id="more"></a></p>
+<blockquote>
+<p>网上流传的tomcat优化配置,记录下</p>
+</blockquote>
+<ul>
+<li><p>配置tomcat管理员账户</p>
+<p>这里的tomcat 就以虚拟机上的tomcat 为例,版本为8.0.45</p>
+<p>在conf/tomcat-users.xml下添加用户</p>
+<p>tomcat 目录如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">drwxr-xr-x. 2 root root  4096 8月   9 04:10 bin</span><br><span class="line">drwxr-xr-x. 2 root root  4096 6月  27 04:09 conf</span><br><span class="line">drwxr-xr-x. 2 root root  4096 8月   9 04:10 lib</span><br><span class="line">-rw-r--r--. 1 root root 57011 6月  27 04:09 LICENSE</span><br><span class="line">drwxr-xr-x. 2 root root     6 6月  27 04:06 logs</span><br><span class="line">-rw-r--r--. 1 root root  1444 6月  27 04:09 NOTICE</span><br><span class="line">-rw-r--r--. 1 root root  6741 6月  27 04:09 RELEASE-NOTES</span><br><span class="line">-rw-r--r--. 1 root root 16195 6月  27 04:09 RUNNING.txt</span><br><span class="line">drwxr-xr-x. 2 root root    29 8月   9 04:10 temp</span><br><span class="line">drwxr-xr-x. 7 root root    76 6月  27 04:08 webapps</span><br><span class="line">drwxr-xr-x. 2 root root     6 6月  27 04:06 work</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/soft/tomcat-common/conf</span><br><span class="line">[root@localhost conf]# ll</span><br><span class="line">总用量 216</span><br><span class="line">-rw-------. 1 root root  13688 6月  27 04:09 catalina.policy</span><br><span class="line">-rw-------. 1 root root   7299 6月  27 04:09 catalina.properties</span><br><span class="line">-rw-------. 1 root root   1577 6月  27 04:09 context.xml</span><br><span class="line">-rw-------. 1 root root   3387 6月  27 04:09 logging.properties</span><br><span class="line">-rw-------. 1 root root   6458 6月  27 04:09 server.xml</span><br><span class="line">-rw-------. 1 root root   2164 6月  27 04:09 tomcat-users.xml</span><br><span class="line">-rw-------. 1 root root   2634 6月  27 04:09 tomcat-users.xsd</span><br><span class="line">-rw-------. 1 root root 168496 6月  27 04:09 web.xml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;</span><br><span class="line">  &lt;!--</span><br><span class="line">    Licensed to the Apache Software Foundation (ASF) under one or more</span><br><span class="line">    contributor license agreements.  See the NOTICE file distributed with</span><br><span class="line">    this work for additional information regarding copyright ownership.</span><br><span class="line">    The ASF licenses this file to You under the Apache License, Version 2.0</span><br><span class="line">    (the &quot;License&quot;); you may not use this file except in compliance with</span><br><span class="line">   the License.  You may obtain a copy of the License at</span><br><span class="line"> </span><br><span class="line">       http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line"> </span><br><span class="line">   Unless required by applicable law or agreed to in writing, software</span><br><span class="line">   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line">   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line">   See the License for the specific language governing permissions and</span><br><span class="line">   limitations under the License.</span><br><span class="line"> --&gt;</span><br><span class="line"> &lt;tomcat-users xmlns=&quot;http://tomcat.apache.org/xml&quot;</span><br><span class="line">               xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">               xsi:schemaLocation=&quot;http://tomcat.apache.org/xml tomcat-users.xsd&quot;</span><br><span class="line">               version=&quot;1.0&quot;&gt;</span><br><span class="line"> &lt;!--</span><br><span class="line">   NOTE:  By default, no user is included in the &quot;manager-gui&quot; role required</span><br><span class="line">   to operate the &quot;/manager/html&quot; web application.  If you wish to use this app,</span><br><span class="line">   you must define such a user - the username and password are arbitrary. It is</span><br><span class="line">   strongly recommended that you do NOT use one of the users in the commented out</span><br><span class="line">   section below since they are intended for use with the examples web</span><br><span class="line">   application.</span><br><span class="line"> --&gt;</span><br><span class="line"> &lt;!--</span><br><span class="line">   NOTE:  The sample user and role entries below are intended for use with the</span><br><span class="line">   examples web application. They are wrapped in a comment and thus are ignored</span><br><span class="line">   when reading this file. If you wish to configure these users for use with the</span><br><span class="line">   examples web application, do not forget to remove the &lt;!.. ..&gt; that surrounds</span><br><span class="line">   them. You will also need to set the passwords to something appropriate.</span><br><span class="line"> --&gt;</span><br><span class="line"> &lt;!--</span><br><span class="line">   &lt;role rolename=&quot;tomcat&quot;/&gt;</span><br><span class="line">   &lt;role rolename=&quot;role1&quot;/&gt;</span><br><span class="line">   &lt;user username=&quot;tomcat&quot; password=&quot;&lt;must-be-changed&gt;&quot; roles=&quot;tomcat&quot;/&gt;</span><br><span class="line">   &lt;user username=&quot;both&quot; password=&quot;&lt;must-be-changed&gt;&quot; roles=&quot;tomcat,role1&quot;/&gt;</span><br><span class="line">   &lt;user username=&quot;role1&quot; password=&quot;&lt;must-be-changed&gt;&quot; roles=&quot;role1&quot;/&gt;</span><br><span class="line"> --&gt;</span><br><span class="line"> &lt;/tomcat-users&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;role rolename=&quot;manager&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;manager-gui&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;admin&quot;/&gt;</span><br><span class="line">&lt;role rolename=&quot;admin-gui&quot;/&gt;</span><br><span class="line">&lt;user username=&quot;admin&quot; password=&quot;tomcat&quot; roles=&quot;admin-gui,admin,manager-gui,manager&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>现在启动tomcat ,登录查看信息</p>
+<p>进入界面后点击右侧<strong>ManagerApp</strong>  <strong>HostManager ** **ServerStatus</strong></p>
+</li>
+</ul>
+<ul>
+<li><p>tomcat 的三种运行模式</p>
+<ul>
+<li><p>bio</p>
+<p>默认的模式,性能非常低下,没有经过任何优化处理和支持</p>
+</li>
+<li><p>nio</p>
+<p>nio(new I/O),是Java SE 1.4 及 后续版本提供的一种新的I/O操作方式(即java.nio包及其子包).</p>
+<p>java nio是一个基于缓冲区 并能提供非阻塞I/O操作的JavaApi,因此nio也被看成是non-blockingI/O的</p>
+<p>缩写.它拥有比传统I/O操作(bio)更好的并发运行性能</p>
+</li>
+<li><p>apr</p>
+<p>安装起来最困难,但是从操作系统级别来解决异步的IO问题,大幅度的提高性能</p>
+</li>
+</ul>
+</li>
+<li><p>启动NIO模式</p>
+<ul>
+<li><p>修改server.xml里的Connector节点,修改protocol为org.apache.coyote.http11.Http11NioProtocol </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@localhost tomcat-common]# cd conf</span><br><span class="line">[root@localhost conf]# vim server.xml</span><br></pre></td></tr></table></figure>
+
+<p>修改前</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;</span><br><span class="line">              connectionTimeout=&quot;20000&quot;</span><br><span class="line">               redirectPort=&quot;8443&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>修改后</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8080&quot; protocol=&quot;org.apache.coyote.http11.Http11NioProtocol&quot;</span><br><span class="line">                 connectionTimeout=&quot;20000&quot;</span><br><span class="line">                 redirectPort=&quot;8443&quot; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>执行器(线程池)</p>
+<ul>
+<li><p>开启线程池</p>
+<p>配置,解开这段注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Executor name=&quot;tomcatThreadPool&quot; namePrefix=&quot;catalina-exec-&quot;</span><br><span class="line">        maxThreads=&quot;150&quot; minSpareThreads=&quot;4&quot;/&gt;</span><br></pre></td></tr></table></figure>
+
+<p>修改Connector节点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;Connector port=&quot;8080&quot; executor=&quot;tomcatThreadPool&quot; protocol=&quot;org.apache.coyote.http11.Http11NioProtocol&quot;</span><br><span class="line">                connectionTimeout=&quot;20000&quot;</span><br><span class="line">                redirectPort=&quot;8443&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>重新启动</p>
+</li>
+<li><p>参数说明</p>
+<p><img src="/2017/11/22/Tomcat优化简谈/.Tomcat%E4%BC%98%E5%8C%96%E7%AE%80%E8%B0%88/%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.png" alt></p>
+</li>
+<li><p>最佳实践</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;Executor name=&quot;tomcatThreadPool&quot; namePrefix=&quot;catalina-exec-&quot;</span><br><span class="line">        maxThreads=&quot;800&quot; minSpareThreads=&quot;100&quot; maxQueueSize=&quot;100&quot; prestartminSpareThreads=&quot;true&quot;/&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>连接器(Connector)</p>
+<p>Connector 是Tomcat接收请求的入口,每个Connector有自己专属的监听端口</p>
+<p>Connector 有两种:HTTP Connector 和AJP Connector</p>
+<ul>
+<li>连接器的通用属性(注意高亮部分)</li>
+</ul>
+</li>
+</ul>
+<pre><code>| 属性                  | 描述                                       |
+| --------------------- | :-----------------------------------------|
+| allowTrace            | A boolean value whichcan be used to enable                                or disable the TRACE HTTP method. If not specified, this attribute is set to false.如果需要服务器能够处理用户的HAED/TRACE请求，这个值应该设置为true，默认值是false |
+| asyncTimeOut          | The default timeout forasynchronous requests in milliseconds. If not specified, this attribute is setto 10000 (10 seconds) 默认超不时候以毫秒为单位的异步恳求。若是没有指定，该属性被设置为10000（10秒） |
+| enableLookUps         |                                                              |
+| maxHeaderCount        | The maximum number of headers in a request that are allowed by the container. Arequest that contains more headers than the specified limit will be rejected. Avalue of less than 0 means no limit. If not specified, a default of 100 is used.容器允许的请求头字段的最大数目。请求中包含比指定的限制更多的头字段将被拒绝。值小于0表示没有限制。如果没有指定，默认设置为100 |
+| maxparameterCount     | The maximum number of parameter and value pairs (GET plus POST) which will beautomatically parsed by the container. Parameter and value pairs beyond thislimit will be ignored. A value of less than 0 means no limit. If not specified,a default of 10000 is used. Note that FailedRequestFilter filtercan be used to reject requests that hit thelimit.将被容器自动解析的最大数量的参数和值对（GET加上POST）。参数值对超出此限制将被忽略。值小于0表示没有限制。如果没有指定，默认为10000。请注意， FailedRequestFilter 过滤器可以用来拒绝达到了极限值的请求 |
+| maxPostSize           | 将被容器以FORMURL参数形式处理的最大长度（以字节为单位）的POST。通过设置此属性的值小于或等于0可以禁用该限制。如果没有指定，该属性被设置为2097152（2兆字节） |
+| maxSavePostSize       | 将被容器在FORM或CLIENT-CERT认证中保存/缓冲的POST的最大尺寸（以字节为单位）。对于这两种类型的身份验证，在用户身份验证之 前，POST将被保存/缓冲。对于POST CLIENT-CERT认证，处理该请求的SSL握手和缓冲清空期间，POST将被缓存。对于Form认证，POST将被保存，同时用户将被重定向到登陆 表单。POST将被一直保留直到用户成功认证或者认证请求关联的会话超时。将此属性设置为-1可以禁用此限制。将此属性设置为0，POST数据在身份验证 过程中将不被保存。如果没有指定，该属性设置为4096(4千字节) |
+| parseBodyMethods      | 以逗号分隔的HTTP方法列表，通过方法列表，等同于POST方法，request 正文将被解析成请求参数。这在RESTful应用程序要支持以POST式的语义解析PUT请求中是非常有用的。需要注意的是设置其他值（不是POST）会导致Tomcat的行为违反servlet规范的目的。在这里为了符合HTTP规范明确禁止HTTP方法TRACE。默认值是POST |
+| port                  | TheTCP port number on which this Connector will create a server socket and awaitincoming connections. Your operating system will allow only one serverapplication to listen to a particular port number on a particular IP address.If the special value of 0 (zero) is used, then Tomcat will select a free portat random to use for this connector. This is typically only useful in embeddedand testing applications.TCP端口号，连接器利用该端口号将创建一个服务器套接字，并等待传入的连接。你的操作系统将只允许一个服务器应用程序在一个特定的IP地址侦听特定的端口号。如果使用特殊值0（零），则Tomcat将为连接器随机选择一个空闲的端口。这是通常只用在嵌入式和测试应用程序 |
+| protocol              | TheTCP port number on which this Connector will create a server socket and awaitincoming connections. Your operating system will allow only one serverapplication to listen to a particular port number on a particular IP address.If the special value of 0 (zero) is used, then Tomcat will select a free portat random to use for this connector. This is typically only useful in embeddedand testing applications.TCP端口号，连接器利用该端口号将创建一个服务器套接字，并等待传入的连接。你的操作系统将只允许一个服务器应用程序在一个特定的IP地址侦听特定的端口号。如果使用特殊值0（零），则Tomcat将为连接器随机选择一个空闲的端口。这是通常只用在嵌入式和测试应用程序 |
+| proxyName             | 如果这个连接正在使用的代理服务器配置，配置该属性指定的服务器的名称，可以调用request.getServerName（）返回。有关更多信息，请参见代理支持. |
+| proxyPort             | 如果这个连接正在使用的代理服务器配置，配置该属性指定服务器端口，可以调用request.getServerPort（）返回。有关更多信息，请参见代理支持 |
+| redirectPort          | 如果该连接器支持非SSL请求，并且接收到的请求为满足安全约束需要SSL传输， Catalina 将自动将请求重定向到指定的端口号 |
+| scheme                | 如果你想调用request.isSecure（）收到此连接器的请求返回true，请该该属性设置为true。您希望SSL连接器或非SSL连接器接收数据通过一个SSL加速器，像加密卡，SSL设备，甚至一个web服务器。默认值是false |
+| URIEncoding           | 这将指定使用的字符编码，来解码URI字符。如果没有指定，ISO-88591将被使用 |
+| useBodyEncodignForURI | 这指定是否应该用于URI查询参数，而不是使用URIEncoding contentType中指定的编码。此设置兼容性Tomcat 4.1.x版（该版在contentType中指定编码，或者使用request.setCharacterEncoding的方法显式设置（参数为 URL传来的值）。默认值false。 |
+| xpoweredBy            | 将此属性设置为true会导致Tomcat支持使用Servlet规范的通知，（在规范中推荐使用头字段）。默认值是假的 |
+| useIPVHosts           | 将该属性设置为true会导致Tomcat使用收到请求的IP地址，来确定将请求发送到哪个主机。默认值是false |
+
+**ToBeContinue**</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Tomcat/" rel="tag"># Tomcat</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/19/写写高并发框架Disruptor/" rel="next" title="写写高并发框架Disruptor">
+                <i class="fa fa-chevron-left"></i> 写写高并发框架Disruptor
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/03/老卤秘方/" rel="prev" title="老卤秘方">
+                老卤秘方 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

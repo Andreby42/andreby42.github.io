@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Pulsar,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="下一世代的MQ-Pulsar简述">
+<meta name="keywords" content="Pulsar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pulsar简介">
+<meta property="og:url" content="http://yoursite.com/2018/12/02/Pulsar简介/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="下一世代的MQ-Pulsar简述">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpulsar-subscription-modes.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpulsar-shared-subscriptions.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpulsar-failover-subscriptions.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpartitioning.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5C20181008112559290.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cmessage-deduplication.png">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pulsar简介">
+<meta name="twitter:description" content="下一世代的MQ-Pulsar简述">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpulsar-subscription-modes.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/02/Pulsar简介/">
+
+
+
+
+
+  <title>Pulsar简介 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/02/Pulsar简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Pulsar简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T15:23:57+08:00">
+                2018-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Pulsar/" itemprop="url" rel="index">
+                    <span itemprop="name">Pulsar</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下一世代的MQ-Pulsar简述<a id="more"></a></p>
+<h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Pulsar 最初由 yahoo 开发，是一个多租户、高可用，服务间的消息系统。现在由 Apache Software Foundation 管理。</p>
+<p> Pulsar 的主要特性如下；</p>
+<pre><code>Pular 通过跨集群的消息无缝 geo-replication，让 Pular 实例原生支持多集群</code></pre><ul>
+<li>很低的发布和端到端延迟</li>
+<li>无缝的可扩展性，乃至上百万个 topic</li>
+<li>简洁的 client API，支持 Java、Python、C++</li>
+<li>多种 topic 的订阅模式（独占、共享、灾备）</li>
+<li>使用 Apache BookKeeper，确保传递的消息被持久存储</li>
+<li>serverless 轻量级计算框架 Pulsar Function，提供流原生数据处理。</li>
+<li>serverless connector 框架 Pulsar IO。它构建于 Pulsar Function 之上，使得从 Apache Pular 移入和移出数据更为简单</li>
+<li>分层存储把过期的数据从热活存储区转移到冷 / 长期存储区（比如 S3 和 GCS）</li>
+</ul>
+<h3 id="消息概念"><a href="#消息概念" class="headerlink" title="消息概念"></a>消息概念</h3><p>Pulsar基于 pub-sub（即发布-订阅模式），在此模式中，生产者将消息发布到主题，然后消费者可以订阅这些主题，处理传入的消息，并在处理完成时发送确认。</p>
+<p>创建订阅后，即使消费者断开链接，Pulsar也会保留所有消息，仅当消费者确认已经成功处理后，才会丢弃保留的消息。</p>
+<h4 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h4><p>消息是Pulsar的基础单元，他们是producer向topic发布的内容，consumer从topic消费的内容，（并且会在消息处理时进行确认）</p>
+<table>
+<thead>
+<tr>
+<th>组成</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>value/data payload</td>
+<td>消息携带的数据，所有 pulsar 的消息携带原始 bytes，但是消息数据也需要遵循数据 shcema</td>
+</tr>
+<tr>
+<td>Key</td>
+<td>可以选择使用Key标记消息，这对于<a href="http://pulsar.apache.org/docs/en/concepts-topic-compaction" target="_blank" rel="noopener">topic压缩</a>等操作非常有用</td>
+</tr>
+<tr>
+<td>properties</td>
+<td>可选 用户自定义的key/value的属性map</td>
+</tr>
+<tr>
+<td>Producer Name</td>
+<td>发布消息的Producer的名称（如果用户没有定义Producer的名称，那么会被自动赋予默认名称）</td>
+</tr>
+<tr>
+<td>Sequence ID</td>
+<td>在topic中，每个Pulsar消息属于一个有序的序列，消息的sequence Id是该消息在整个序列中次序或者说叫坐标</td>
+</tr>
+<tr>
+<td>Publish time</td>
+<td>消息发布的时间戳(由Producer自动生成)</td>
+</tr>
+<tr>
+<td>Event time</td>
+<td>这个时间戳是可选的，为了记录当消息发生某个事件时候的事件，例如处理消息时，如果没有明确设置该项，则消息的事件事件为0</td>
+</tr>
+</tbody></table>
+<h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><p>Producer是关联到Topic，并把消息发布到Pulsar broker进行处理的程序</p>
+<h5 id="发送模式"><a href="#发送模式" class="headerlink" title="发送模式"></a>发送模式</h5><p>Pulsar的producer可以同步或者异步的发送消息</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同步发送</td>
+<td>发布者在发布消息后等待代理的broker的确认，如果没有收到确认，那么发布者会认为发送操作失败</td>
+</tr>
+<tr>
+<td>异步发送</td>
+<td>Producer将会把消息访入blocking队列并立即返回，然后客户端类库将在后台把消息发送给代理，如果队列满了（队列最大大小可以配置），那么根据发布者传入的参数与配置，可能在调用Api时被阻止或者立即失败</td>
+</tr>
+</tbody></table>
+<h5 id="压缩"><a href="#压缩" class="headerlink" title="压缩"></a>压缩</h5><p>为了节省带宽，在传输过程中，producer发布的消息可以被压缩，目前pulsar支持两种压缩类型</p>
+<ul>
+<li><a href="https://github.com/lz4/lz4" target="_blank" rel="noopener">LZ4</a></li>
+<li><a href="https://zlib.net/" target="_blank" rel="noopener">ZLIB</a></li>
+</ul>
+<h5 id="批处理"><a href="#批处理" class="headerlink" title="批处理"></a>批处理</h5><p>如果启用了批处理，那么发布者将在单个请求中累积并发送一批消息，批处理的大小取决于配置的最大消息数与最大发布延迟。（Kafka中也有）</p>
+<h4 id="消费者"><a href="#消费者" class="headerlink" title="消费者"></a>消费者</h4><p>消费者是通过订阅关联的topic，然后接收消息并处理的程序</p>
+<h5 id="接收模式"><a href="#接收模式" class="headerlink" title="接收模式"></a>接收模式</h5><p>可以同步或者异步的从pulsar的broker中接收消息</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>同步接收</td>
+<td>同步接收将会阻塞，直到消息可用</td>
+</tr>
+<tr>
+<td>异步接收</td>
+<td>异步接收后会立即返回future值 — <a href="http://www.baeldung.com/java-completablefuture" target="_blank" rel="noopener"><code>CompletableFuture</code></a> ，一旦新消息可用，立即完成。</td>
+</tr>
+</tbody></table>
+<h5 id="确认"><a href="#确认" class="headerlink" title="确认"></a>确认</h5><p>消费者成功处理了消息，需要发送确认给broker，以便让broker丢弃这条消息（否则broker将一直存储该消息）</p>
+<p>可以逐条或累积的确认消息，当累积一起确认时候，消费者只需要确认收到的最后一条消息，所有之前（包括该消息），都不会再发送给消费者</p>
+<p>累积确认不能与<a href="http://pulsar.apache.org/docs/en/concepts-messaging/#subscription-modes" target="_blank" rel="noopener">共享订阅模式</a>一起使用，因为共享模式涉及多个消费者可以访问相同的订阅。</p>
+<h5 id="监听"><a href="#监听" class="headerlink" title="监听"></a>监听</h5><p>客户端类库提供了对consumer的监听实现，例如Java客户端类库中提供了MessageListener  ，在该接口中，一旦接收到新的消息，received方法将被调用</p>
+<h4 id="Topic"><a href="#Topic" class="headerlink" title="Topic"></a>Topic</h4><p>和其他的消息队列一样，Pulsar的topic也是生产者到消费者之间传播消息的通道，Topic的命名是具有明确定义结构的url</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;persistent|non-persistent&#125;://tenant/namespace/topic</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>Topic名称组成</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>persistent</code>/ <code>non-persistent</code></td>
+<td>定义topic的类型，pulsar支持非持久和持久的topic， （默认是持久类型，如果你没有指明类型，topic 将会是持久类型）。持久 topic 的所有消息都会保存在硬盘上 （这意味着多块硬盘，除非是单机模式的 broker），反之，非持久 topic 的数据不会存储到硬盘上</td>
+</tr>
+<tr>
+<td>tenant</td>
+<td>实例中 topic 的租户。tenant 是 Pulsar 多租户的基本要素。可以被跨集群的传播。</td>
+</tr>
+<tr>
+<td>namespace</td>
+<td>topic 的管理单元，相关 topic 组的管理机制。大多数的 topic 配置在 namespace 层面生效。 每个 tenant 可以有多个 namespace</td>
+</tr>
+<tr>
+<td>topic</td>
+<td>topic名称的最后组成部分，没有什么特殊的含义</td>
+</tr>
+</tbody></table>
+<p>*<em>不需要显式的创建 topic *</em></p>
+<p><strong>你并不需要显式的创建 topic。如果客户端尝试从一个还不存在的 topic 写或者接受消息，pulsar 将会按在 topic 名称提供的 namnespace 下自动创建 topic。</strong></p>
+<h4 id="命名空间（NameSpace）"><a href="#命名空间（NameSpace）" class="headerlink" title="命名空间（NameSpace）"></a>命名空间（NameSpace）</h4><p>命名空间是租户中的逻辑命名法。租户可以通过<a href="http://pulsar.apache.org/docs/en/admin-api-namespaces#create" target="_blank" rel="noopener">管理 API</a> 创建多个名称空间。例如，具有不同应用程序的租户可以为每个应用程序创建单独的命名空间。命名空间允许应用程序创建和管理主题层次结构。主题<code>my-tenant/app1</code>是应用程序命名空间<code>app1</code>的<code>my-tenant</code>。您可以在命名空间下创建任意数量的Topic。</p>
+<h4 id="订阅模式"><a href="#订阅模式" class="headerlink" title="订阅模式"></a>订阅模式</h4><p>订阅是一种命名配置规则，用于确定如何把消息传递给消费者</p>
+<p>Pulsar支持三种可用的订阅模式：exclusive（独占），shared（共享），failover （故障转移）</p>
+<p><img src="/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpulsar-subscription-modes.png" alt></p>
+<h5 id="Exclusive"><a href="#Exclusive" class="headerlink" title="Exclusive"></a>Exclusive</h5><p>在exclusive模式下，只允许一个consumer绑定到订阅上，如果多于一个消费者订阅该主题的话，消费者将会收到错误，上图中只有ConsumerA能接收到消息</p>
+<p><strong>Exclusive为默认的订阅模式</strong></p>
+<h5 id="Shared"><a href="#Shared" class="headerlink" title="Shared"></a>Shared</h5><p>在Share或round robin模式下，多个消费者可以订阅同一个topic，消息通过round robin轮询机制分发给不同的消费者，并且每个消息仅且只会分发给一个消费者，当消费者断开链接时候，发送给他的并且违背确认的所有消息将会被重新安排分发给其他剩余存活的小消费者</p>
+<p><strong>共享模式的局限性</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">使用共享模式时需要注意：</span><br><span class="line">* 共享模式下不能保证消息排序</span><br><span class="line">* 在共享模式下不能使用累积确认</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpulsar-shared-subscriptions.png" alt></p>
+<h5 id="故障转移"><a href="#故障转移" class="headerlink" title="故障转移"></a>故障转移</h5><p>Failover 模式中，多个 consumer 可以绑定到同一个 subscription。consumer 将会按字典顺序排序，第一个 consumer 被初始化为唯一接受消息的消费者。这个 consumer 被称为 master consumer。</p>
+<p>当 master consumer 断开时，所有的消息（未被确认和后续进入的）将会被分发给队列中的下一个 consumer。</p>
+<p>第一个图中，Consumer-C-1 是 master consumer，当 Consumer-C-1 断开连接时，由于 Consumer-C-2 在队列中下一个位置，那么它将会开始接收消息。</p>
+<p><img src="/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpulsar-failover-subscriptions.png" alt></p>
+<h4 id="多主题订阅"><a href="#多主题订阅" class="headerlink" title="多主题订阅"></a>多主题订阅</h4><p>当消费者订阅 Pulsar 主题时，默认情况下它订阅一个特定主题 。</p>
+<p>从 Pulsar 版本 1.23.0 开始，Pulsar 消费者可以同时订阅多个主题。您可以通过两种方式定义主题列表： </p>
+<ul>
+<li>通过基础的正则表达式（regex），例如 persistent://public/default/finance-.*</li>
+<li>通过明确定义的 topic 列表\</li>
+</ul>
+<p><strong>通过正则订阅多主题时，所有的主题必须在同一个命名空间（namespace)</strong></p>
+<p>订阅多个主题时，Pulsar 客户端将自动调用 Pulsar API 以发现与正则表达式模式 / 列表匹配的主题，然后订阅所有这些主题。如果当前不存在任何主题，则一旦创建主题，消费者将自动订阅它们。</p>
+<p><strong>不能保证顺序性</strong></p>
+<p><strong>当消费者订阅多个主题时，Pulsar 在单个主题上提供的所有顺序保证都不成立。如果您在使用 Pulsar 时涉及任何严格的顺序要求，我们强烈建议您不要使用此功能</strong></p>
+<p>以下是 Java 的一些多主题订阅示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import java.util.regex.Pattern;</span><br><span class="line"></span><br><span class="line">import org.apache.pulsar.client.api.Consumer;</span><br><span class="line">import org.apache.pulsar.client.api.PulsarClient;</span><br><span class="line"></span><br><span class="line">PulsarClient pulsarClient = // Instantiate Pulsar client object</span><br><span class="line"></span><br><span class="line">// Subscribe to all topics in a namespace</span><br><span class="line">Pattern allTopicsInNamespace = Pattern.compile(&quot;persistent://public/default/.*&quot;);</span><br><span class="line">Consumer allTopicsConsumer = pulsarClient.subscribe(allTopicsInNamespace, &quot;subscription-1&quot;);</span><br><span class="line"></span><br><span class="line">// Subscribe to a subsets of topics in a namespace, based on regex</span><br><span class="line">Pattern someTopicsInNamespace = Pattern.compile(&quot;persistent://public/default/foo.*&quot;);</span><br><span class="line">Consumer someTopicsConsumer = pulsarClient.subscribe(someTopicsInNamespace, &quot;subscription-1&quot;);</span><br></pre></td></tr></table></figure>
+
+<h5 id="分区Topic"><a href="#分区Topic" class="headerlink" title="分区Topic"></a>分区Topic</h5><p>通常一个 topic 仅被一个 broker 服务，这限制了 topic 最大吞吐量。分区 topic 是特殊的 topic 类型，他可以被多个 broker 处理，这让 topic 有更高的吞吐量。</p>
+<p> 其实在背后，分区的 topic 通过 N 个内部 topic 实现，N 是分区的数量。当向分区的 topic 发送消息，每条消息被路由到其中一个 broker。Pulsar 自动处理跨 broker 的分区分布。</p>
+<p><img src="/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cpartitioning.png" alt></p>
+<p>在这里，主题 <strong>Topic1</strong> 有五个分区（<strong>P0</strong> 到 <strong>P4</strong>），分为三个代理。因为分区比broker多，所以两个broker处理两个分区，而第三个只处理一个（同样，Pulsar 自动处理这个分区的分配）。</p>
+<p>该主题的消息将广播给两个消费者。该<a href="http://pulsar.apache.org/docs/en/concepts-messaging/#routing-modes" target="_blank" rel="noopener">路由模式</a>决定了两者的broker来处理每个分区，而<a href="http://pulsar.apache.org/docs/en/concepts-messaging/#subscription-modes" target="_blank" rel="noopener">订阅模式</a>确定哪些消息去哪个消费者。</p>
+<p>在大多数情况下，可以单独决定路由和订阅模式。通常，吞吐量问题应指导分区 / 路由决策，而订阅决策应由应用程序语义指导。</p>
+<p>在订阅模式如何工作方面，分区主题和普通主题之间没有区别，因为分区仅确定生产者发布消息和消费者处理和确认消息之间发生的情况。</p>
+<p>需要通过 <a href="http://pulsar.apache.org/docs/en/admin-api-overview" target="_blank" rel="noopener">admin API</a> 显式创建分区主题。创建主题时可以指定分区数。</p>
+<h4 id="路由模式"><a href="#路由模式" class="headerlink" title="路由模式"></a>路由模式</h4><p>当发布消息到分区 topic，你必须要指定路由模式。路由模式决定了每条消息被发布到的分区（其实是内部主题）。</p>
+<p> 默认情况下有三种路由模式：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>描述</th>
+<th>顺序保证</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Key hash</td>
+<td>如果 message 指定了 key，producer 将会把 key hash，然后把他分配给指定分区</td>
+<td>同一个 key 下有序</td>
+</tr>
+<tr>
+<td>single default partition</td>
+<td>如果没有 key，每个生产者的消息将会被路由分发给专用的分区。初始时候随机选择</td>
+<td>同一个生产者下有序</td>
+</tr>
+<tr>
+<td>round robin 分发</td>
+<td>如果没有 key，所有的消息通过 round-robin 方式被路由到不同的分区，以达到最大的生产能力</td>
+<td>无序</td>
+</tr>
+</tbody></table>
+<h4 id="非持久Topic"><a href="#非持久Topic" class="headerlink" title="非持久Topic"></a>非持久Topic</h4><p>默认的，Pulsar 保存所有没有确认的消息到多个 BookKeeper 的 bookies 中（存储节点）。持久 topic 的消息数据可以在 broker 重启或者订阅者出问题的情况下存活下来。 </p>
+<p>Pulsar 也提供了非持久 topic。非持久 topic 的消息不会被保存在硬盘上，只存活于内存中。当使用非持久 topic 分发时，杀掉 Pulsar 的 broker 或者关闭订阅者，意味着客户端可能会遭遇消息丢失。 </p>
+<p> 非持久 topic 有如下格式的名称（注意名字中的 non-persistent）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">non-persistent://tenant/namespace/topic</span><br></pre></td></tr></table></figure>
+
+<p>非持久 topic 中，broker 会立即发布消息给所有连接的订阅者，而不会在 BookKeeper 中存储。如果有一个订阅者断开连接，broker 将无法重发这些瞬时消息。订阅者将永远也不能收到这些消息了。去掉持久化存储的步骤，在某些情况下，使得非持久 topic 的消息比持久 topic 稍微变快。但是同时，Pulsar 的一些核心优势也丧失掉了 </p>
+<p><strong>非持久 topic，消息数据仅存活在内存。如果 broker 挂掉或者其他情况不能从内存取出，你的消息数据就可能会丢失。只有真的觉得你的使用场景符合，并且你可以忍受时，才可去使用非持久 topic。</strong></p>
+<p>默认非持久 topic 在 broker 上是开启的，你可以通过 broker 的配置关闭。你可以通过使用 pulsar-admin-topics 接口管理非持久 topic。</p>
+<h5 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h5><p>非持久性消息传递通常比持久消息传递更快，因为broker不会持久保存消息，并且只要将消息传递给所有连接的订阅者，就立即将确认ACK消息发送回生产者。因此，非持久 topic 让 producer 有更低的发布延迟。 </p>
+<h5 id="客户端api"><a href="#客户端api" class="headerlink" title="客户端api"></a>客户端api</h5><p>producer 和 consumer 以连接持久 topic 同样的方式连接到非持久 topic。重要的区别是 topic 的名称必须以 non-persistent 开头。三种订阅模式 –exclusive，shared，failover 对于非持久 topic 都是支持的。 </p>
+<p>非持久 topic 的 java consumer </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PulsarClient client = PulsarClient.create(&quot;pulsar://localhost:6650&quot;);</span><br><span class="line">String npTopic = &quot;non-persistent://public/default/my-topic&quot;;</span><br><span class="line">String subscriptionName = &quot;my-subscription-name&quot;;</span><br><span class="line"></span><br><span class="line">Consumer consumer = client.subscribe(npTopic, subscriptionName);</span><br></pre></td></tr></table></figure>
+
+<p>以下是同一个非持久主题的 Java Producer示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Producer producer = client.createProducer(npTopic);</span><br></pre></td></tr></table></figure>
+
+<h4 id="消息存留和过期"><a href="#消息存留和过期" class="headerlink" title="消息存留和过期"></a>消息存留和过期</h4><p>Pulsar Broker的默认设置如下：</p>
+<ul>
+<li>立即删除所有已经被 cunsumer 确认过的的消息</li>
+<li>以消息 backlog 的形式，持久保存所有的未被确认消息</li>
+</ul>
+<p>但是，Pulsar 有两个功能，可以覆盖此默认行为：</p>
+<ul>
+<li><p>通过对消息的保存，让你可以保存concumer确认过的消息</p>
+</li>
+<li><p>消息过期机制，可以让你为尚未确认的消息设置消息存活时间（TTL）</p>
+<p><strong>消息保留与消息的TTL在Namespace级别中进行管理请参阅<a href="http://pulsar.apache.org/docs/en/cookbooks-retention-expiry" target="_blank" rel="noopener">消息保留和到期</a></strong></p>
+<p>下图说明了这两种概念：</p>
+<p> <img src="/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5C20181008112559290.png" alt></p>
+<p>​    通过消息保留（如顶部所示），应用于命名空间中所有主题的保留策略表明，即使已经确认了某些消息，也会将这些消息持久地存储在 Pulsar 中。已删除保留策略未涵盖的已确认消息。如果没有保留策略，将删除<em>所有</em>已确认的消息。</p>
+<p>​    随着消息到期，如下所示，一些消息被删除，即使它们尚未被确认，因为它们已根据应用于命名空间的 TTL 过期（例如，因为已应用了 5 分钟的 TTL 并且消息尚未确认，但已有 10 分钟）。</p>
+</li>
+</ul>
+<h4 id="消息去重"><a href="#消息去重" class="headerlink" title="消息去重"></a>消息去重</h4><p>当消息被 Pulsar 持久化多于一次的时候，会发生数据重复。消息去重是 Pulsar 可选的特性，阻止不必要的消息重复，每条消息仅处理一次。</p>
+<p>下图展示了开启和关闭消息去重的场景</p>
+<p><img src="/2018/12/02/Pulsar简介/Pulsar%E7%AE%80%E4%BB%8B%5Cmessage-deduplication.png" alt></p>
+<p>在顶部显示的方案中禁用了消息重复数据删除。这里，生产者发布关于主题的消息 1; 消息到达 Pulsar的Broker并持久化到 BookKeeper。然后，生产者再次发送消息 1（在这种情况下由于一些重试逻辑），并且消息由broker接收并再次存储在 BookKeeper 中，这意味着发生了重复。</p>
+<p>在底部的第二个场景中，生产者发布消息 1，该消息由broker接收并持久化，如第一个场景中那样。但是，当生产者再次尝试发布消息时，broker知道它已经接收消息 1，因此不会保留消息。</p>
+<h5 id="生产者的幂等性"><a href="#生产者的幂等性" class="headerlink" title="生产者的幂等性"></a>生产者的幂等性</h5><p><strong>消息去重的另外一种方法是确保每条消息仅被生产一次。这种方法通常被叫做生产者幂等</strong>。这种方式的缺点是，把消息去重的工作推给了应用去做。在 Pulsar 中，这是被 broker 处理的，这意味着你不需要修改你的客户端代码，你只需要做一些管理上的变化（参考 <a href="http://pulsar.apache.org/docs/en/cookbooks-deduplication" target="_blank" rel="noopener">Managing message deduplication</a>） </p>
+<h5 id="去重与实际一次语义"><a href="#去重与实际一次语义" class="headerlink" title="去重与实际一次语义"></a>去重与实际一次语义</h5><p>消息去重，使 Pulsar 成为与流处理引擎（SPE）或者其他寻求 “实际一次” 处理语义的系统连接的完美消息系统。消息系统若不提供自动消息去重，则需要 SPE 或者其他系统保证去重。这意味着严格的消息顺序来自于让程序承担额外的去重工作。使用 Pulsar，严格的顺序保证不会带来任何应用层面的消耗。</p>
+<p><strong>更深入的信息可以参考 <a href="https://streaml.io/blog/pulsar-effectively-once/" target="_blank" rel="noopener">this post</a> 及 <a href="https://streaml.io/blog" target="_blank" rel="noopener">Streamlio blog</a></strong></p>
+<p>[]: <a href="http://pulsar.apache.org/docs/en/concepts-messaging/" target="_blank" rel="noopener">http://pulsar.apache.org/docs/en/concepts-messaging/</a>    “pulsar官方wiki”<br>[]: <a href="https://blog.csdn.net/liyiming2017/article/details/82966031" target="_blank" rel="noopener">https://blog.csdn.net/liyiming2017/article/details/82966031</a>    “稀有气体CSDN博客”</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Pulsar/" rel="tag"># Pulsar</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/07/Mybatis源码分析-二/" rel="next" title="Mybatis源码分析(二)">
+                <i class="fa fa-chevron-left"></i> Mybatis源码分析(二)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/02/Pulsar安装与配置/" rel="prev" title="Pulsar安装与配置">
+                Pulsar安装与配置 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消息概念"><span class="nav-number">2.</span> <span class="nav-text">消息概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#消息"><span class="nav-number">2.1.</span> <span class="nav-text">消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#生产者"><span class="nav-number">2.2.</span> <span class="nav-text">生产者</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#发送模式"><span class="nav-number">2.2.1.</span> <span class="nav-text">发送模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#压缩"><span class="nav-number">2.2.2.</span> <span class="nav-text">压缩</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#批处理"><span class="nav-number">2.2.3.</span> <span class="nav-text">批处理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消费者"><span class="nav-number">2.3.</span> <span class="nav-text">消费者</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#接收模式"><span class="nav-number">2.3.1.</span> <span class="nav-text">接收模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#确认"><span class="nav-number">2.3.2.</span> <span class="nav-text">确认</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#监听"><span class="nav-number">2.3.3.</span> <span class="nav-text">监听</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Topic"><span class="nav-number">2.4.</span> <span class="nav-text">Topic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#命名空间（NameSpace）"><span class="nav-number">2.5.</span> <span class="nav-text">命名空间（NameSpace）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#订阅模式"><span class="nav-number">2.6.</span> <span class="nav-text">订阅模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Exclusive"><span class="nav-number">2.6.1.</span> <span class="nav-text">Exclusive</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Shared"><span class="nav-number">2.6.2.</span> <span class="nav-text">Shared</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#故障转移"><span class="nav-number">2.6.3.</span> <span class="nav-text">故障转移</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多主题订阅"><span class="nav-number">2.7.</span> <span class="nav-text">多主题订阅</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#分区Topic"><span class="nav-number">2.7.1.</span> <span class="nav-text">分区Topic</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#路由模式"><span class="nav-number">2.8.</span> <span class="nav-text">路由模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非持久Topic"><span class="nav-number">2.9.</span> <span class="nav-text">非持久Topic</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#性能"><span class="nav-number">2.9.1.</span> <span class="nav-text">性能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#客户端api"><span class="nav-number">2.9.2.</span> <span class="nav-text">客户端api</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息存留和过期"><span class="nav-number">2.10.</span> <span class="nav-text">消息存留和过期</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息去重"><span class="nav-number">2.11.</span> <span class="nav-text">消息去重</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#生产者的幂等性"><span class="nav-number">2.11.1.</span> <span class="nav-text">生产者的幂等性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#去重与实际一次语义"><span class="nav-number">2.11.2.</span> <span class="nav-text">去重与实际一次语义</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

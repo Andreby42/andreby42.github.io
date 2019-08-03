@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="锁,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Java中的锁记录下">
+<meta name="keywords" content="锁">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java锁">
+<meta property="og:url" content="http://yoursite.com/2018/10/13/Java锁/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="Java中的锁记录下">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.897Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java锁">
+<meta name="twitter:description" content="Java中的锁记录下">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/10/13/Java锁/">
+
+
+
+
+
+  <title>Java锁 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/13/Java锁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java锁</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-13T11:21:53+08:00">
+                2018-10-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Java中的锁记录下<a id="more"></a></p>
+<h3 id="JAVA中的锁"><a href="#JAVA中的锁" class="headerlink" title="JAVA中的锁"></a>JAVA中的锁</h3><ul>
+<li><p>公平锁/非公平锁</p>
+<p><strong>非公平锁的性能要比公平锁高，因为不需要维护队列</strong></p>
+<ul>
+<li><p><strong>公平锁:多个线程按照申请锁的顺序来获取锁，也就是说申请锁的顺序和获取锁的顺序是一致的，加锁前会检查是否有排队等待锁的线程，如果有那么，先来先得</strong></p>
+<ul>
+<li><p>RetrantLock 默认是非公平锁，可以指定构造参数来构建公平锁。</p>
+<p>公平锁</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">package com.convergence.support.lock;</span><br><span class="line">    </span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line">import java.util.concurrent.locks.ReentrantLock;</span><br><span class="line">    </span><br><span class="line">/**</span><br><span class="line">* 公平锁与非公平锁 之RetrantLock</span><br><span class="line">* </span><br><span class="line">* @author andreby</span><br><span class="line">*</span><br><span class="line">*/</span><br><span class="line">public class RetrantLockDemo &#123;</span><br><span class="line">    </span><br><span class="line">private ReentrantLock reentrantLock;</span><br><span class="line">    </span><br><span class="line">public RetrantLockDemo(boolean isFair) &#123;</span><br><span class="line">super();</span><br><span class="line">this.reentrantLock = new ReentrantLock(isFair);</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">public void testLock() &#123;</span><br><span class="line">try &#123;</span><br><span class="line">reentrantLock.lock();</span><br><span class="line">System.out.println(&quot;线程=&quot; + Thread.currentThread().getName() + &quot;已锁定&quot;);</span><br><span class="line">&#125; catch (Exception e) &#123;</span><br><span class="line">e.printStackTrace();</span><br><span class="line">System.out.println(&quot;Something is wrong with it &quot;);</span><br><span class="line">&#125; finally &#123;</span><br><span class="line">reentrantLock.unlock();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">/**</span><br><span class="line">* 进行main方法测试公平锁</span><br><span class="line">* @param args</span><br><span class="line">*/</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">// 指定使用公平锁</span><br><span class="line">RetrantLockDemo lockDemo = new RetrantLockDemo(true);</span><br><span class="line">Thread thread = new Thread(new Runnable() &#123;</span><br><span class="line">@Override</span><br><span class="line">public void run() &#123;</span><br><span class="line">System.out.println(&quot;进来了&quot; + Thread.currentThread().getName());</span><br><span class="line">lockDemo.testLock();</span><br><span class="line">&#125;</span><br><span class="line">&#125;);</span><br><span class="line">ExecutorService executorService = Executors.newCachedThreadPool();</span><br><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">executorService.execute(thread);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">进来申请锁了pool-1-thread-2</span><br><span class="line">进来申请锁了pool-1-thread-4</span><br><span class="line">进来申请锁了pool-1-thread-3</span><br><span class="line">进来申请锁了pool-1-thread-1</span><br><span class="line">线程=pool-1-thread-2已锁定</span><br><span class="line">进来申请锁了pool-1-thread-7</span><br><span class="line">进来申请锁了pool-1-thread-8</span><br><span class="line">进来申请锁了pool-1-thread-6</span><br><span class="line">进来申请锁了pool-1-thread-5</span><br><span class="line">线程=pool-1-thread-4已锁定</span><br><span class="line">线程=pool-1-thread-3已锁定</span><br><span class="line">线程=pool-1-thread-1已锁定</span><br><span class="line">进来申请锁了pool-1-thread-9</span><br><span class="line">进来申请锁了pool-1-thread-10</span><br><span class="line">线程=pool-1-thread-7已锁定</span><br><span class="line">线程=pool-1-thread-8已锁定</span><br><span class="line">线程=pool-1-thread-6已锁定</span><br><span class="line">线程=pool-1-thread-5已锁定</span><br><span class="line">线程=pool-1-thread-9已锁定</span><br><span class="line">线程=pool-1-thread-10已锁定</span><br></pre></td></tr></table></figure>
+
+<p>那么可以看到申请锁的顺序和获得锁的顺序是一致的</p>
+</li>
+<li><p><strong>非公平锁：多个线程获取锁的顺序并不是按照申请锁的顺序，有可能后申请的线程比先申请 先获得锁，加锁时候不考虑排队等待问题，直接尝试获取锁，获取不到的话自动到队尾等待，这样的话 有可能出现优先级反转或饥饿现象</strong></p>
+<p>RetrantLock 非公平锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">package com.convergence.support.lock;</span><br><span class="line"></span><br><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line">import java.util.concurrent.locks.ReentrantLock;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 公平锁与非公平锁 之RetrantLock</span><br><span class="line"> * </span><br><span class="line"> * @author andreby</span><br><span class="line"> *</span><br><span class="line"> */</span><br><span class="line">public class RetrantLockDemo &#123;</span><br><span class="line"></span><br><span class="line">	private ReentrantLock reentrantLock;</span><br><span class="line"></span><br><span class="line">	public RetrantLockDemo(boolean isFair) &#123;</span><br><span class="line">		super();</span><br><span class="line">		this.reentrantLock = new ReentrantLock(isFair);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void testLock() &#123;</span><br><span class="line">		try &#123;</span><br><span class="line">			reentrantLock.lock();</span><br><span class="line">			System.out.println(&quot;线程=&quot; + Thread.currentThread().getName() + &quot;已锁定&quot;);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">			System.out.println(&quot;Something is wrong with it &quot;);</span><br><span class="line">		&#125; finally &#123;</span><br><span class="line">			reentrantLock.unlock();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	/**</span><br><span class="line">	 * 进行main方法测试公平锁</span><br><span class="line">	 * @param args</span><br><span class="line">	 */</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		// 指定使用公平锁</span><br><span class="line">		RetrantLockDemo fairLock = new RetrantLockDemo(true);</span><br><span class="line">		Thread thread = new Thread(new Runnable() &#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void run() &#123;</span><br><span class="line">				System.out.println(&quot;进来申请锁了&quot; + Thread.currentThread().getName());</span><br><span class="line">				fairLock.testLock();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		ExecutorService fairexecutorService = Executors.newCachedThreadPool();</span><br><span class="line">		for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">			fairexecutorService.execute(thread);</span><br><span class="line">		&#125;</span><br><span class="line">		//使用非公平锁</span><br><span class="line">		RetrantLockDemo unFairLock = new RetrantLockDemo(false);</span><br><span class="line">		Thread unFairThread= new Thread(new Runnable() &#123;</span><br><span class="line">			@Override</span><br><span class="line">			public void run() &#123;</span><br><span class="line">				System.out.println(&quot;进来申请锁了&quot; + Thread.currentThread().getName());</span><br><span class="line">				unFairLock.testLock();				</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		System.out.println(&quot;=====================非公平锁===========================&quot;);</span><br><span class="line">		ExecutorService unfairexecutorService = Executors.newCachedThreadPool();</span><br><span class="line">		for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">			unfairexecutorService.execute(unFairThread);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">=====================非公平锁===========================</span><br><span class="line">进来申请锁了pool-1-thread-8</span><br><span class="line">线程=pool-1-thread-8已锁定</span><br><span class="line">进来申请锁了pool-1-thread-1</span><br><span class="line">线程=pool-1-thread-1已锁定</span><br><span class="line">进来申请锁了pool-2-thread-2</span><br><span class="line">线程=pool-2-thread-2已锁定</span><br><span class="line">进来申请锁了pool-1-thread-3</span><br><span class="line">线程=pool-1-thread-3已锁定</span><br><span class="line">进来申请锁了pool-1-thread-4</span><br><span class="line">线程=pool-1-thread-4已锁定</span><br><span class="line">进来申请锁了pool-2-thread-3</span><br><span class="line">进来申请锁了pool-1-thread-5</span><br><span class="line">线程=pool-2-thread-3已锁定</span><br><span class="line">线程=pool-1-thread-5已锁定</span><br><span class="line">进来申请锁了pool-2-thread-8</span><br><span class="line">进来申请锁了pool-2-thread-4</span><br><span class="line">线程=pool-2-thread-8已锁定</span><br><span class="line">线程=pool-2-thread-4已锁定</span><br><span class="line">进来申请锁了pool-1-thread-9</span><br><span class="line">进来申请锁了pool-2-thread-9</span><br><span class="line">线程=pool-1-thread-9已锁定</span><br><span class="line">线程=pool-2-thread-9已锁定</span><br><span class="line">进来申请锁了pool-1-thread-10</span><br><span class="line">线程=pool-1-thread-10已锁定</span><br><span class="line">进来申请锁了pool-2-thread-1</span><br><span class="line">线程=pool-2-thread-1已锁定</span><br><span class="line">进来申请锁了pool-2-thread-5</span><br><span class="line">线程=pool-2-thread-5已锁定</span><br><span class="line">进来申请锁了pool-2-thread-6</span><br><span class="line">线程=pool-2-thread-6已锁定</span><br><span class="line">进来申请锁了pool-2-thread-7</span><br><span class="line">线程=pool-2-thread-7已锁定</span><br><span class="line">进来申请锁了pool-2-thread-2</span><br><span class="line">线程=pool-2-thread-2已锁定</span><br></pre></td></tr></table></figure>
+
+<p>明显看到是谁申请锁就获取锁。</p>
+<p>Synchronize 非公平锁，不同于RetrantLock 它是不能变成公平锁的</p>
+<ul>
+<li><p>为方法加锁</p>
+<ul>
+<li><p>为静态方法加锁 锁对象是类。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public static synchronized void testStaticSyn() &#123;</span><br><span class="line">	System.out.println(&quot;synchronized 获取到锁了,当前线程=&quot; + Thread.currentThread().getName());</span><br><span class="line">	try &#123;</span><br><span class="line">		TimeUnit.MILLISECONDS.sleep(10);</span><br><span class="line">	&#125; catch (InterruptedException e) &#123;</span><br><span class="line">		// TODO Auto-generated catch block</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">	System.out.println(&quot;=====================非公平锁synchronized===========================&quot;);</span><br><span class="line">	Thread synThread = new Thread(new Runnable() &#123;</span><br><span class="line">		@Override</span><br><span class="line">		public void run() &#123;</span><br><span class="line">			System.out.println(&quot;进来申请锁了当前线程=&quot; + Thread.currentThread().getName());</span><br><span class="line">			RetrantLockDemo.testStaticSyn();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">	ExecutorService synexecutorService = Executors.newCachedThreadPool();</span><br><span class="line">	for (int i = 0; i &lt;5; i++) &#123;</span><br><span class="line">		synexecutorService.execute(synThread);</span><br><span class="line">	&#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：注意synchronized 获取到锁了 开头的字样为获取到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">=====================非公平锁synchronized===========================</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-1</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-2</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-3</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-1</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-4</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-5</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-2</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-5</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-4</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-3</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>为非静态方法加锁 锁对象为当前实例</p>
+<p><strong>同一个对象在两个线程中分别访问该对象的加锁方法 会互斥</strong></p>
+<p>*<em>不同对象在两个线程中调用同一个同步方法 不会互斥 *</em></p>
+<p>下面是不同对象的情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public synchronized  void testNoStaticStaticSyn() &#123;</span><br><span class="line">	System.out.println(&quot;synchronized 获取到锁了,当前线程=&quot; + Thread.currentThread().getName());</span><br><span class="line">	try &#123;</span><br><span class="line">		TimeUnit.MILLISECONDS.sleep(10);</span><br><span class="line">	&#125; catch (InterruptedException e) &#123;</span><br><span class="line">		// TODO Auto-generated catch block</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">        </span><br><span class="line">	System.out.println(&quot;=====================非公平锁实例方法synchronized===========================&quot;);</span><br><span class="line">        </span><br><span class="line">	Thread synNoStaticThread = new Thread(new Runnable() &#123;</span><br><span class="line">		@Override</span><br><span class="line">		public void run() &#123;</span><br><span class="line">			System.out.println(&quot;进来申请锁了当前线程=&quot; + Thread.currentThread().getName());</span><br><span class="line">			RetrantLockDemo demo= new RetrantLockDemo(false);</span><br><span class="line">			demo.testNoStaticStaticSyn();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">	ExecutorService synexecutorService = Executors.newCachedThreadPool();</span><br><span class="line">	for (int i = 0; i &lt;5; i++) &#123;</span><br><span class="line">		synexecutorService.execute(synNoStaticThread);</span><br><span class="line">	&#125;</span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出，不互斥</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">=====================非公平锁实例方法synchronized===========================</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-2</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-3</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-2</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-3</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-1</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-5</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-5</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-1</span><br><span class="line">进来申请锁了当前线程=pool-1-thread-4</span><br><span class="line">synchronized 获取到锁了,当前线程=pool-1-thread-4</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>* 为代码块加锁</code></pre><ul>
+<li><p>可重入锁</p>
+<p>RetrantLock就是一个可重入锁。可重入锁就是递归锁。指同一个线程在外层方法获取锁的时候，进入内层方法 时会自动获取锁，synchronized也是个可重入锁。可重入锁在一定程度上可以避免思索。</p>
+<p>synchronized也是可重入锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">synchronized void setA() throws Exception&#123;</span><br><span class="line">    Thread.sleep(1000);</span><br><span class="line">    setB();</span><br><span class="line">&#125;</span><br><span class="line">//对象当setA获取到锁的时候SetA调用的setB方法会自动获取该对象的锁</span><br><span class="line">synchronized void setB() throws Exception&#123;</span><br><span class="line">    Thread.sleep(1000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>独享锁/共享锁</p>
+<ul>
+<li><p>独享锁也是互斥锁，同时只有一个线程能获得这个锁。</p>
+<p>ReentrantLock  为独享锁，ReadWriteLock 也为独享锁。</p>
+</li>
+<li><p>共享锁 即为多个线程可以同时获得这个锁。</p>
+<p>Semaphore  、CountDownLatch  为共享锁。</p>
+<p>ReadWriteLock  中的读锁为共享锁。写锁为独享锁。</p>
+</li>
+</ul>
+</li>
+<li><p>互斥锁/读写锁</p>
+<p>互斥锁或读写锁为独享锁/共享锁的具体实现</p>
+<p>互斥锁的具体实现就是ReentrantLock  </p>
+<p>读写锁的具体实现就是ReadWriteLock  </p>
+</li>
+<li><p>乐观锁/悲观锁</p>
+<p>经典的乐观锁/悲观锁的应用场景大概是数据库中的乐观锁与悲观锁</p>
+<ul>
+<li><p>数据库中乐观锁</p>
+<p>表中有个字段为版本号 比如这个字段为version,当第一次进行数据库操作的时候，获取到这个字段，假设其他用户不会进行操作，但是在最后的事务提交阶段，需要进行版本检查，如果这个字段和第一次的时候一样那么就进行提交，否则就不提交。其实这算是应用逻辑层的方式，不是从数据库层面进行加锁。</p>
+</li>
+<li><p>数据库中的悲观锁</p>
+<p>读取的时候为后面的更新加锁，之后再来的读操作都会等待。这种是数据库锁 ，是从数据库层面进行的操作。</p>
+<p>比如ORM框架 hibernate，可以使用session.lock（）锁定对象实现悲观锁。</p>
+<p>mybatis的话一般用select xxx for update （行锁）lock xxx（表锁） 。但是一般很少有人用悲观锁吧，开销比较大</p>
+</li>
+</ul>
+<p>java中的乐观锁与悲观锁</p>
+<ul>
+<li><p>悲观锁：</p>
+<p>synchronized 是独占锁，获得该锁的线程才可以执行被锁住的代码，申请该锁的线程只能挂起等待直到该锁释放后才唤醒，拿到锁并进行执行。那么这样 的话开销很大，等待锁的线程在等待期间不能做任何事情，所以它是一种悲观锁。</p>
+</li>
+<li><p>乐观锁：</p>
+<p>获得锁后会一直持有锁以防本线程再次申请锁导致无谓的解锁加锁开销，或者假设没有冲突而去完成同步代码块如果冲突再循环重试，或者采取申请锁失败后不立刻挂起而是稍微等待再次尝试获取 等待策略，以减少线程因为挂起、阻塞、唤醒（发生 CPU 的调度切换） 而造成的开销。 也就是说失败后会充实避免过大的性能开销。</p>
+<p>偏向锁，轻量级锁(CAS轮询)、自旋锁就属于上述的乐观锁。</p>
+</li>
+</ul>
+</li>
+<li><p>分段锁</p>
+<p>一个容器中有多把锁，每一把锁用于锁容器中一部分数据，那么当多线程访问容器中不同数据段的数据的时候，线程就不存在锁竞争，从而可以有效的提高并发访问效率，这个在ConcurrentHashMap中 就有用到。</p>
+<p>比如：在 ConcurrentHashMap 中使用了一个包含 16 个锁的数组，每个锁保护所有散列桶的 1/16，其中第 N 个散列桶由第（N mod 16）个锁来保护。假设使用合理的散列算法使关键字能够均匀的分部，那么这大约能使对锁的请求减少到越来的 1/16。也正是这项技术使得 ConcurrentHashMap 支持多达 16 个并发的写入线程。</p>
+<p>缺点是因为对数据容器进行分段加锁，那么锁的维护就是个比较大的开销。</p>
+</li>
+<li><p>偏向锁/轻量级锁/重量级锁</p>
+<p>这三种锁，指的是锁的状态，针对synchronized来说的</p>
+<p>偏向锁只允许一个线程获得锁，加锁和解锁不需要额外的消耗，和执行非同步方法相比仅存在纳秒级的差距，但是如果线程间存在锁竞争，会带来额外的锁撤销的消耗，适用于只有一个线程访问同步块的场景。</p>
+<p>轻量级锁允许多个线程获得锁。竞争的线程不会阻塞，提高相应速度，但是如果始终得不到锁竞争的线程，会自旋消耗cpu,适用于追求响应速度，同步块执行速度非常快的场景。</p>
+<p>重量级锁：线程竞争不使用自旋，不会消耗cpu，但是会导致线程阻塞，响应时间缓慢，适用于追求吞吐量，同步块执行速度比较长的场景。</p>
+</li>
+<li><p>自旋锁</p>
+<p>指尝试获取锁的线程不会立即阻塞，而是采用循环的方式去尝试获取锁，当循环条件被其他线程改变时，才能进入临界区，这样可以减少线程上下文的消耗，但是会消耗cpu资源，比如Disruptor这个框架中就是用了自旋锁</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class SpinLock &#123;</span><br><span class="line"> </span><br><span class="line">  private AtomicReference&lt;Thread&gt; sign =new AtomicReference&lt;&gt;();</span><br><span class="line"> </span><br><span class="line">  public void lock()&#123;</span><br><span class="line">    Thread current = Thread.currentThread();</span><br><span class="line">    while(!sign .compareAndSet(null, current))&#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  public void unlock ()&#123;</span><br><span class="line">    Thread current = Thread.currentThread();</span><br><span class="line">    sign .compareAndSet(current, null);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用了 CAS 原子操作，lock 函数将 owner 设置为当前线程，并且预测原来的值为空。unlock 函数将 owner 设置为 null，并且预测值为当前线程。 </p>
+<p>当有第二个线程调用 lock 操作时由于 owner 值不为空，导致循环一直被执行，直至第一个线程调用 unlock 函数将 owner 设置为 null，第二个线程才能进入临界区。</p>
+<p>由于自旋锁只是将当前线程不停地执行循环体，不进行线程状态的改变，所以响应速度更快。但当线程数不停增加时，性能下降明显，因为每个线程都需要执行，占用 CPU 时间。如果线程竞争不激烈，并且保持锁的时间段。适合使用自旋锁。</p>
+<p>注：该例子为非公平锁，获得锁的先后顺序，不会按照进入 lock 的先后顺序进行。</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/锁/" rel="tag"># 锁</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/05/数据结构之复杂度分析-三/" rel="next" title="数据结构之复杂度分析(三)">
+                <i class="fa fa-chevron-left"></i> 数据结构之复杂度分析(三)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/16/Redis集群搭建/" rel="prev" title="Redis集群搭建">
+                Redis集群搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JAVA中的锁"><span class="nav-number">1.</span> <span class="nav-text">JAVA中的锁</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

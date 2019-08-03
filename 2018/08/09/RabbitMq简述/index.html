@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="RabbitMq,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="RabbitMq的一些简单介绍">
+<meta name="keywords" content="RabbitMq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMq简述">
+<meta property="og:url" content="http://yoursite.com/2018/08/09/RabbitMq简述/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="RabbitMq的一些简单介绍">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/08/09/RabbitMq简述/RabbitMq%E7%AE%80%E8%BF%B0/RabbitMq%E5%9B%BE%E8%A7%A3.png">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMq简述">
+<meta name="twitter:description" content="RabbitMq的一些简单介绍">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/09/RabbitMq简述/RabbitMq%E7%AE%80%E8%BF%B0/RabbitMq%E5%9B%BE%E8%A7%A3.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/09/RabbitMq简述/">
+
+
+
+
+
+  <title>RabbitMq简述 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/09/RabbitMq简述/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">RabbitMq简述</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-09T20:13:10+08:00">
+                2018-08-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RabbitMq/" itemprop="url" rel="index">
+                    <span itemprop="name">RabbitMq</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>RabbitMq的一些简单介绍<a id="more"></a></p>
+<h4 id="RabbitMq的几个简单概念的介绍"><a href="#RabbitMq的几个简单概念的介绍" class="headerlink" title="RabbitMq的几个简单概念的介绍"></a>RabbitMq的几个简单概念的介绍</h4><ul>
+<li><p>Broker</p>
+<p>消息队列服务器的实体。接收和分发消息的应用。</p>
+</li>
+<li><p>Exchange</p>
+<p>简单的说就是路由器。当msg到达broker的时候，根据分发规则(消息策略),匹配相应的routing key,binding消息保存再exchange中，进行用于msg的分发路由。简单的说就是接收消息，转发消息到绑定的队列上，指定消息按什么规则，路由到哪个队列。  </p>
+</li>
+<li><p>Queue</p>
+<p>消息队列，用于存储消息，相同属性的queue可以重复定义，每个msg可以重复放在一个或者多个队列中，每个队列的消息都是隔离的。</p>
+</li>
+<li><p>Binding</p>
+<p>通过路由规则讲路由器和队列进行绑定起来，比如 一个exchangA可能有队列B,C,D，另一个exchangeE可能有队列G,H,J</p>
+</li>
+<li><p>RoutingKey </p>
+<p>路由的指定key，exchange可以根据这个key进行消息投递路由</p>
+</li>
+<li><p>Producter </p>
+<p>消息生产者</p>
+</li>
+<li><p>Consumer</p>
+<p>消息消费者</p>
+</li>
+<li><p>Channel</p>
+<p>消息通道，客户端与服务端的链接中可能有多个消息通道。每个Channel代表一个通话</p>
+<p>这是Cache</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">public static class Cache &#123;</span><br><span class="line">  </span><br><span class="line">	private final Channel channel = new Channel();</span><br><span class="line">  </span><br><span class="line">	private final Connection connection = new Connection();</span><br><span class="line">  </span><br><span class="line">	public Channel getChannel() &#123;</span><br><span class="line">		return this.channel;</span><br><span class="line">	&#125;</span><br><span class="line">  </span><br><span class="line">	public Connection getConnection() &#123;</span><br><span class="line">		return this.connection;</span><br><span class="line">	&#125;</span><br><span class="line">  </span><br><span class="line">	public static class Channel &#123;</span><br><span class="line">  </span><br><span class="line">		/**</span><br><span class="line">		 * Number of channels to retain in the cache. When &quot;check-timeout&quot; &gt; 0, max</span><br><span class="line">		 * channels per connection.</span><br><span class="line">		 */</span><br><span class="line">		private Integer size;</span><br><span class="line">  </span><br><span class="line">		/**</span><br><span class="line">		 * Number of milliseconds to wait to obtain a channel if the cache size has</span><br><span class="line">		 * been reached. If 0, always create a new channel.</span><br><span class="line">		 */</span><br><span class="line">		private Long checkoutTimeout;</span><br><span class="line">  </span><br><span class="line">		public Integer getSize() &#123;</span><br><span class="line">			return this.size;</span><br><span class="line">		&#125;</span><br><span class="line">  </span><br><span class="line">		public void setSize(Integer size) &#123;</span><br><span class="line">			this.size = size;</span><br><span class="line">		&#125;</span><br><span class="line">  </span><br><span class="line">		public Long getCheckoutTimeout() &#123;</span><br><span class="line">			return this.checkoutTimeout;</span><br><span class="line">		&#125;</span><br><span class="line">  </span><br><span class="line">		public void setCheckoutTimeout(Long checkoutTimeout) &#123;</span><br><span class="line">			this.checkoutTimeout = checkoutTimeout;</span><br><span class="line">		&#125;</span><br><span class="line">  </span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是RabbitMq的connection</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public static class Connection &#123;</span><br><span class="line"></span><br><span class="line">			/**</span><br><span class="line">			 * Connection factory cache mode.</span><br><span class="line">			 */</span><br><span class="line">			private CacheMode mode = CacheMode.CHANNEL;</span><br><span class="line"></span><br><span class="line">			/**</span><br><span class="line">			 * Number of connections to cache. Only applies when mode is CONNECTION.</span><br><span class="line">			 */</span><br><span class="line">			private Integer size;</span><br><span class="line"></span><br><span class="line">			public CacheMode getMode() &#123;</span><br><span class="line">				return this.mode;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			public void setMode(CacheMode mode) &#123;</span><br><span class="line">				this.mode = mode;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			public Integer getSize() &#123;</span><br><span class="line">				return this.size;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			public void setSize(Integer size) &#123;</span><br><span class="line">				this.size = size;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure>
+
+<p>具体的都在springboot中的RabbitProperties类中。</p>
+</li>
+</ul>
+<h4 id="在Spring中的xml配置"><a href="#在Spring中的xml配置" class="headerlink" title="在Spring中的xml配置"></a>在Spring中的xml配置</h4><p>​    这里使用xml进行展示 是因为比起springboot的代码配置方式，xml配置更加直观</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">	xmlns:rabbit=&quot;http://www.springframework.org/schema/rabbit&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">	xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">       http://www.springframework.org/schema/beans/spring-beans.xsd</span><br><span class="line">       http://www.springframework.org/schema/rabbit</span><br><span class="line">       http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd&quot;&gt;</span><br><span class="line">        &lt;!--链接工厂--&gt;</span><br><span class="line">        &lt;rabbit:connection-factory id=&quot;connectionFactory&quot;</span><br><span class="line">            username=&quot;userName&quot; password=&quot;password&quot; host=&quot;host&quot;</span><br><span class="line">            port=&quot;port&quot; /&gt;</span><br><span class="line">        &lt;rabbit:template id=&quot;amqpTemplate&quot; connection-factory=&quot;connectionFactory&quot;</span><br><span class="line">            exchange=&quot;exchangeName&quot; /&gt;&lt;rabbit:admin connection-factory=&quot;connectionFactory&quot; /&gt;</span><br><span class="line">		</span><br><span class="line">&lt;!--队列定义--&gt;</span><br><span class="line">&lt;rabbit:queue name=&quot;队列名&quot; durable=&quot;true&quot; auto-delete=&quot;false&quot; exclusive=&quot;false&quot; &gt; </span><br><span class="line">&lt;!--这里可以定义一些队列参数--&gt;</span><br><span class="line">&lt;!--</span><br><span class="line">&lt;rabbit:queue-arguments&gt; &lt;entry key=&quot;x-message-ttl&quot;&gt; &lt;value type=&quot;java.lang.Long&quot;&gt;60000&lt;/value&gt;&lt;/entry&gt;&lt;entry key=&quot;x-dead-letter-exchange&quot; value=&quot;转发到哪个路由&quot;/&gt; &lt;entry key=&quot;x-dead-letter-routing-key&quot; value=&quot;消费routekey&quot;/&gt; &lt;/rabbit:queue-arguments&gt;</span><br><span class="line">--&gt;</span><br><span class="line">&lt;/rabbit:queue&gt;</span><br><span class="line"></span><br><span class="line">&lt;!--进行队列与路由分发器绑定--&gt;</span><br><span class="line">&lt;rabbit:direct-exchange name=&quot;路由名称&quot; durable=&quot;true&quot; auto-delete=&quot;false&quot;&gt;</span><br><span class="line">        &lt;rabbit:bindings&gt;</span><br><span class="line">			&lt;rabbit:binding queue=&quot;消费队列名&quot; key=&quot;消费队列名routeKey&quot;&gt;&lt;/rabbit:binding&gt;</span><br><span class="line">        &lt;/rabbit:bindings&gt;</span><br><span class="line">    &lt;/rabbit:direct-exchange&gt;</span><br><span class="line">  &lt;!--消费者配置--&gt;</span><br><span class="line">&lt;rabbit:listener-container</span><br><span class="line">		connection-factory=&quot;connectionFactory&quot; acknowledge=&quot;auto&quot; concurrency=&quot;2&quot; prefetch=&quot;2&quot;&gt;</span><br><span class="line">		&lt;rabbit:listener queues=&quot;消费队列名routeKey&quot; ref=&quot;消费者类的首字母小写&quot;/&gt;</span><br><span class="line">&lt;/rabbit:listener-container&gt;</span><br><span class="line">    &lt;bean id=&quot;jsonMessageConverter&quot; class=&quot;org.springframework.amqp.support.converter.Jackson2JsonMessageConverter&quot; /&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h4><p><img src="/2018/08/09/RabbitMq简述/RabbitMq%E7%AE%80%E8%BF%B0/RabbitMq%E5%9B%BE%E8%A7%A3.png" alt="RabbitMq图示"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RabbitMq/" rel="tag"># RabbitMq</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/07/RabbitMq在Ubuntu中的安装配置/" rel="next" title="RabbitMq在Ubuntu中的安装配置">
+                <i class="fa fa-chevron-left"></i> RabbitMq在Ubuntu中的安装配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/16/SpringBoot开启https/" rel="prev" title="SpringBoot开启https">
+                SpringBoot开启https <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#RabbitMq的几个简单概念的介绍"><span class="nav-number">1.</span> <span class="nav-text">RabbitMq的几个简单概念的介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在Spring中的xml配置"><span class="nav-number">2.</span> <span class="nav-text">在Spring中的xml配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图示"><span class="nav-number">3.</span> <span class="nav-text">图示</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

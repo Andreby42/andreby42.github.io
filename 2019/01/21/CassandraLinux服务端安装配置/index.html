@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Cassandra,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="Cassandra服务端安装配置">
+<meta name="keywords" content="Cassandra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CassandraLinux服务端安装配置">
+<meta property="og:url" content="http://yoursite.com/2019/01/21/CassandraLinux服务端安装配置/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="Cassandra服务端安装配置">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-01T15:49:10.895Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CassandraLinux服务端安装配置">
+<meta name="twitter:description" content="Cassandra服务端安装配置">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/21/CassandraLinux服务端安装配置/">
+
+
+
+
+
+  <title>CassandraLinux服务端安装配置 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/21/CassandraLinux服务端安装配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CassandraLinux服务端安装配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-21T22:40:52+08:00">
+                2019-01-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Cassandra/" itemprop="url" rel="index">
+                    <span itemprop="name">Cassandra</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Cassandra服务端安装配置<a id="more"></a></p>
+<h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><p>使用安装包的方式安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://httpd-mirror.sergal.org/apache/cassandra/3.11.3/apache-cassandra-3.11.3-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf apache-cassandra-3.11.3-bin.tar.gz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv apache-cassandra-3.11.3 cassandra3.11.3</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /data/soft/cassandra/conf</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>设置数据存储目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir /data/cassandra/data</span><br><span class="line">mkdir /data/cassandra/commitlog</span><br><span class="line">mkdir /data/cassandra/saved_caches</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改<code>cassandra.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># The name of the cluster. This is mainly used to prevent machines in</span><br><span class="line"># one logical cluster from joining another.</span><br><span class="line"># 集群的名称。 这主要用于防止一个逻辑集群中的机器加入另一个逻辑集群。</span><br><span class="line">cluster_name: &apos;LASER-CLUSTER&apos;</span><br><span class="line"># This defines the number of tokens randomly assigned to this node on the ring</span><br><span class="line"># The more tokens, relative to other nodes, the larger the proportion of data</span><br><span class="line"># that this node will store. You probably want all nodes to have the same number</span><br><span class="line"># of tokens assuming they have equal hardware capability.</span><br><span class="line">#</span><br><span class="line"># If you leave this unspecified, Cassandra will use the default of 1 token for legacy </span><br><span class="line"># compatibility,</span><br><span class="line"># and will use the initial_token as described below.</span><br><span class="line">#</span><br><span class="line"># Specifying initial_token will override this setting on the node&apos;s initial start,</span><br><span class="line"># on subsequent starts, this setting will apply even if initial token is set.</span><br><span class="line">#  </span><br><span class="line"># If you already have a cluster with 1 token per node, and wish to migrate to </span><br><span class="line"># multiple tokens per node, see http://wiki.apache.org/cassandra/Operations</span><br><span class="line"># 定义了随机分配给环上该节点的令牌数。相对于其他节点，令牌数越多，该节点将存储的数据比例越大默认256</span><br><span class="line">num_tokens: 256</span><br><span class="line"># 默认注释的触发此节点的 num_tokens 令牌的自动分配。 分配算法尝试以优化数据中心中的节点上的复制负载# 的方式选择令牌，以用于指定的键空间使用的复制策略。仅支持 Murmur3Partitioner。默认值: KEYSPACE</span><br><span class="line"># allocate_tokens_for_keyspace: KEYSPACE</span><br><span class="line"># initial_token 允许您手动指定标记。 虽然您可以使用 vnodes（num_tokens&gt; 1，上面） - 在这种情况</span><br><span class="line"># 下，您应该提供一个逗号分隔的列表 - 它主要用于将节点添加到未启用 vnode 的旧群集。</span><br><span class="line"># initial_token:</span><br><span class="line"># 默认true，启用全局</span><br><span class="line">hinted_handoff_enabled: true</span><br><span class="line">max_hint_window_in_ms: 10800000 # 3 hours</span><br><span class="line"># 每个传递线程的最大速度（KB）/ 秒。 这将与集群中的节点数成比例地减少</span><br><span class="line">hinted_handoff_throttle_in_kb：1024</span><br><span class="line"># 传递提示的线程数; 在进行多 dc（datacenter） 部署时，请考虑增加此数，cross-dc handoff tends to </span><br><span class="line"># be slower</span><br><span class="line">max_hints_delivery_threads：2</span><br><span class="line"># 默认注释项，</span><br><span class="line">hints_directory</span><br><span class="line"># 内部缓冲区刷新到磁盘的频率。不会触发 fsync</span><br><span class="line">hints_flush_period_in_ms</span><br><span class="line">#单个文件的最大大小 默认128MB</span><br><span class="line">max_hints_file_size_in_mb：128</span><br><span class="line"># 默认注释项，压缩以应用于提示文件。 如果省略，hints 文件将被解压缩。支持 LZ4，Snappy 和 Deflate压 # 缩</span><br><span class="line">hints_compression</span><br><span class="line"></span><br><span class="line"># Maximum throttle in KBs per second, total. This will be</span><br><span class="line"># reduced proportionally to the number of nodes in the cluster.</span><br><span class="line"># 最大速率（KB）/ 秒。当集群中节点数成比例减少时她也会下降</span><br><span class="line">batchlog_replay_throttle_in_kb: 1024</span><br><span class="line"></span><br><span class="line"># 认证</span><br><span class="line">#authenticator: AllowAllAuthenticator</span><br><span class="line">authenticator: PasswordAuthenticator</span><br><span class="line"># 授权</span><br><span class="line">#authorizer: AllowAllAuthorizer</span><br><span class="line">authorizer: PasswordAuthenticator</span><br><span class="line"># 角色管理器</span><br><span class="line">role_manager: CassandraRoleManager</span><br><span class="line"># 角色缓存有效期</span><br><span class="line">roles_validity_in_ms: 2000</span><br><span class="line"># 默认注释 角色缓存的刷新间隔（如果已启用）默认为与 roles_validity_in_ms相同值</span><br><span class="line"># roles_update_interval_in_ms: 2000</span><br><span class="line"># 权限缓存时间间隔 当位0时候禁用</span><br><span class="line">permissions_validity_in_ms: 2000</span><br><span class="line"># 权限刷新时间间隔 默认注释</span><br><span class="line"># permissions_update_interval_in_ms: 2000</span><br><span class="line"># 凭证有效期</span><br><span class="line">credentials_validity_in_ms: 2000</span><br><span class="line"># 凭证更新周期</span><br><span class="line"># credentials_update_interval_in_ms: 2000</span><br><span class="line"># 分区器</span><br><span class="line">partitioner: org.apache.cassandra.dht.Murmur3Partitioner</span><br><span class="line"># Directories where Cassandra should store data on disk.  Cassandra</span><br><span class="line"># will spread data evenly across them, subject to the granularity of</span><br><span class="line"># the configured compaction strategy.</span><br><span class="line"># If not set, the default directory is $CASSANDRA_HOME/data/data.</span><br><span class="line"># 配置数据文件目录</span><br><span class="line">data_file_directories: /data/cassandra/data</span><br><span class="line">...</span><br><span class="line"># commit log.  when running on magnetic HDD, this should be a</span><br><span class="line"># separate spindle than the data directories.</span><br><span class="line"># If not set, the default directory is $CASSANDRA_HOME/data/commitlog.</span><br><span class="line"># 配置日志文件目录</span><br><span class="line">commitlog_directory: /data/cassandra/commitlog</span><br><span class="line"># 每个节点上是否禁用cdc</span><br><span class="line">cdc_enabled: false</span><br><span class="line"># cdc raw 的目录</span><br><span class="line"># cdc_raw_directory: /var/lib/cassandra/cdc_raw</span><br><span class="line"># 磁盘错误策略 四种 自己看英文注释</span><br><span class="line">disk_failure_policy: stop</span><br><span class="line">#提交错误策略 四种 自己看英文注释</span><br><span class="line">commit_failure_policy: stop</span><br><span class="line"># 预编译缓存大小 默认位堆内存的1/256或者10mb，以两者中大者为准</span><br><span class="line">prepared_statements_cache_size_mb:</span><br><span class="line">#Thrift 预编译语句缓存的最大大小 默认同上</span><br><span class="line">thrift_prepared_statements_cache_size_mb:</span><br><span class="line"># 内存中密钥缓存的最大大小 默认位堆的5%或100mb以小者为准，0为禁用密钥缓存</span><br><span class="line">key_cache_size_in_mb:</span><br><span class="line"># 密钥缓存时间</span><br><span class="line">key_cache_save_period: 14400</span><br><span class="line"># 保存的秘钥数量 默认注释为保存所有</span><br><span class="line"># key_cache_keys_to_save: 100</span><br><span class="line"># 行缓存的实现类名（完全堆外行缓存实现默认）</span><br><span class="line"># row_cache_class_name: org.apache.cassandra.cache.OHCProvider</span><br><span class="line"># 行缓存大小 0为禁用</span><br><span class="line">row_cache_size_in_mb: 0</span><br><span class="line"># 行缓存周期 0位禁用</span><br><span class="line">row_cache_save_period: 0</span><br><span class="line"># 内存中计数器的缓存大小 堆的 2.5％和 50MB 中较小的值</span><br><span class="line">counter_cache_size_in_mb:</span><br><span class="line"># 内存计数器缓存时间</span><br><span class="line">counter_cache_save_period: 7200</span><br><span class="line"># 计数器缓存建的数量 注释为缓存所有</span><br><span class="line"># counter_cache_keys_to_save: 100</span><br><span class="line"># 缓存文件目录</span><br><span class="line">saved_caches_directory: /data/cassandra/saved_caches</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># periodic或batch默认batch 在批处理模式下，Cassandra 不会进行 ack 写操作，直到提交日志已经同步到</span><br><span class="line"># 磁盘。它将在同步期间等待 </span><br><span class="line"># commitlog_sync: batch</span><br><span class="line"># commitlog_sync_batch_window_in_ms: 2</span><br><span class="line"># 默认periodic 提交日志的同步刷新策略 及刷新时间间隔</span><br><span class="line">commitlog_sync: periodic</span><br><span class="line">commitlog_sync_period_in_ms: 10000</span><br><span class="line"># 各个commitlog 文件段的大小</span><br><span class="line">commitlog_segment_size_in_mb: 32</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">seed_provider:</span><br><span class="line">	    - class_name: org.apache.cassandra.locator.SimpleSeedProvider</span><br><span class="line">      parameters:</span><br><span class="line">          # seeds is actually a comma-delimited list of addresses.</span><br><span class="line">          # Ex: &quot;&lt;ip1&gt;,&lt;ip2&gt;,&lt;ip3&gt;&quot;</span><br><span class="line">          - seeds: &quot;127.0.0.1&quot;</span><br><span class="line"></span><br><span class="line"># 并行读写及计数器写的并发数</span><br><span class="line">concurrent_reads: 32</span><br><span class="line">concurrent_writes: 32</span><br><span class="line">concurrent_counter_writes: 32</span><br><span class="line"># 默认注释sstable池缓存及块缓存大小</span><br><span class="line"># file_cache_size_in_mb: 512</span><br><span class="line"># 当 sstable 缓冲池耗尽时是否使用heap</span><br><span class="line"># buffer_pool_use_heap_if_exhausted: true</span><br><span class="line"># ssd（对于固态磁盘，默认值）spin（用于机械磁盘） 默认注释 使用ssd</span><br><span class="line"># disk_optimization_strategy: ssd</span><br><span class="line"># 用于memtable的堆内存大小</span><br><span class="line"># memtable_heap_space_in_mb: 2048</span><br><span class="line"># memtable_offheap_space_in_mb: 2048</span><br><span class="line"># 不推荐使用 memtable_cleanup_threshold。默认计算是唯一合理的选择</span><br><span class="line"># memtable_cleanup_threshold: 0.11</span><br><span class="line"># 指定 Cassandra 分配和管理 memtable 内存的方式。选项包括：heap_buffers（堆nio缓冲区）</span><br><span class="line"># offheap_buffers(非堆直接缓冲区） offheap_objects（非堆对象）	</span><br><span class="line">memtable_allocation_type: heap_buffers</span><br><span class="line"># 提交日志的总分配大小 8192默认</span><br><span class="line"># commitlog_total_space_in_mb: 8192</span><br><span class="line"># memtable的写及刷新的线程数</span><br><span class="line">#memtable_flush_writers: 2</span><br><span class="line"># cdc总分配数</span><br><span class="line"># cdc_total_space_in_mb: 4096</span><br><span class="line"># 检查是否有任何新的 cdc-tracked 表空间可用的时间间隔</span><br><span class="line"># cdc_free_space_check_interval_ms: 250</span><br><span class="line"># sstable固定内存池大小 默认5%</span><br><span class="line">index_summary_capacity_in_mb:</span><br><span class="line"># 固定内存池重新分配时间间隔</span><br><span class="line">index_summary_resize_interval_in_minutes: 60</span><br><span class="line"># 顺序写入时将间隔时间设置为 fsync及刷新的kb大小阈值</span><br><span class="line">trickle_fsync: false</span><br><span class="line">trickle_fsync_interval_in_kb: 10240</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># TCP 端口，用于命令和数据, 出于安全原因不应将此端口公开到互联网如果必须公开到互联网需要打开防火墙</span><br><span class="line">storage_port: 7000</span><br><span class="line"># ssl端口 加密通信</span><br><span class="line">ssl_storage_port: 7001</span><br><span class="line"># 绑定地址或接口并告诉其他 Cassandra 节点连接到该地址或接口 设置 listen_address 或 </span><br><span class="line"># listen_interface 其中之一，不要对两者都进行设置</span><br><span class="line">listen_address: localhost</span><br><span class="line"># listen_interface: eth0</span><br><span class="line"># listen_interface_prefer_ipv6: false</span><br><span class="line"># 要广播到其他 Cassandra 节点的地址保留此空白将将其设置为与 listen_address 相同的值</span><br><span class="line"># broadcast_address: 1.2.3.4</span><br><span class="line"># listen_on_broadcast_address: false</span><br><span class="line"># Internode 后端认证</span><br><span class="line"># internode_authenticator: org.apache.cassandra.auth.AllowAllInternodeAuthenticator</span><br><span class="line"># 是否启动本地传输服务器。 请注意，本地传输绑定的地址与 rpc_address 相同。端口不同，下面指定。</span><br><span class="line">start_native_transport: true</span><br><span class="line">#  CQL本地传输监听客户端</span><br><span class="line">native_transport_port: 9042</span><br><span class="line"># 本地ssl传输端口</span><br><span class="line"># native_transport_port_ssl: 9142</span><br><span class="line"># 传输允许的帧的最大大小</span><br><span class="line"># native_transport_max_frame_size_in_mb: 256</span><br><span class="line"># 使用本地传输时处理请求的最大线程数</span><br><span class="line"># native_transport_max_threads: 128</span><br><span class="line"># 本地传输最大并发线程数 -1默认 默认不限制</span><br><span class="line"># native_transport_max_concurrent_connections: -1</span><br><span class="line"># 每个ip本地传输最大并发线程数 -1默认 默认不限制</span><br><span class="line"># native_transport_max_concurrent_connections_per_ip: -1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#是否启动 thrift rpc 服务器</span><br><span class="line">start_rpc: false</span><br><span class="line">rpc_address: localhost</span><br><span class="line"># rpc_interface_prefer_ipv6: false</span><br><span class="line">rpc_port: 9160</span><br><span class="line"># broadcast_rpc_address: 1.2.3.4</span><br><span class="line">rpc_keepalive: true</span><br><span class="line"># sync同步 hsha半同步半异步</span><br><span class="line">rpc_server_type: sync</span><br><span class="line"># rpc_min_threads: 16</span><br><span class="line"># rpc_max_threads: 2048</span><br><span class="line"># rpc_send_buff_size_in_bytes:</span><br><span class="line"># rpc_recv_buff_size_in_bytes:</span><br><span class="line"># internode_send_buff_size_in_bytes:</span><br><span class="line"># internode_recv_buff_size_in_bytes:</span><br><span class="line">thrift_framed_transport_size_in_mb: 15</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">incremental_backups: false</span><br><span class="line">snapshot_before_compaction: false</span><br><span class="line"># 删除数据前是否自动快照</span><br><span class="line">auto_snapshot: true</span><br><span class="line"># 分区中行的排序规则索引的粒度</span><br><span class="line">column_index_size_in_kb: 64</span><br><span class="line"># 每个超过此大小的索引的索引缓存条目（上述内存中的排序规则索引）不会在堆上保留</span><br><span class="line">column_index_cache_size_in_kb: 2</span><br><span class="line"># 并行允许压缩的数量</span><br><span class="line">#concurrent_compactors: 1</span><br><span class="line"># 调节压缩到整个系统的给定总吞吐量</span><br><span class="line">compaction_throughput_mb_per_sec: 16</span><br><span class="line"># </span><br><span class="line">sstable_preemptive_open_interval_in_mb: 50</span><br><span class="line"># stream_throughput_outbound_megabits_per_sec: 200</span><br><span class="line"># inter_dc_stream_throughput_outbound_megabits_per_sec: 200</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 读超时</span><br><span class="line">read_request_timeout_in_ms: 5000</span><br><span class="line"># How long the coordinator should wait for seq or index scans to complete</span><br><span class="line"># 索引排序超时</span><br><span class="line">range_request_timeout_in_ms: 10000</span><br><span class="line"># 写超时</span><br><span class="line"># How long the coordinator should wait for writes to complete</span><br><span class="line">write_request_timeout_in_ms: 2000</span><br><span class="line"># 计数器超时</span><br><span class="line"># How long the coordinator should wait for counter writes to complete</span><br><span class="line">counter_write_request_timeout_in_ms: 5000</span><br><span class="line"># cas竞争超时</span><br><span class="line"># How long a coordinator should continue to retry a CAS operation</span><br><span class="line"># that contends with other proposals for the same row</span><br><span class="line">cas_contention_timeout_in_ms: 1000</span><br><span class="line"># 删除截断超时</span><br><span class="line"># How long the coordinator should wait for truncates to complete</span><br><span class="line"># (This can be much longer, because unless auto_snapshot is disabled</span><br><span class="line"># we need to flush first so we can snapshot before removing the data.)</span><br><span class="line">truncate_request_timeout_in_ms: 60000</span><br><span class="line"># 其他操作默认超时</span><br><span class="line"># The default timeout for other, miscellaneous operations</span><br><span class="line">request_timeout_in_ms: 10000</span><br><span class="line"># 节点间信息交换超时 默认false</span><br><span class="line">cross_node_timeout: false</span><br><span class="line"># 设置流的保持活动周期</span><br><span class="line"># streaming_keep_alive_period_in_secs: 300</span><br><span class="line"># </span><br><span class="line"># phi_convict_threshold: 8</span><br><span class="line"># </span><br><span class="line">endpoint_snitch: SimpleSnitch</span><br><span class="line"># 控制执行主机分数计算的较耗费资源部分的频率</span><br><span class="line">dynamic_snitch_update_interval_in_ms: 100</span><br><span class="line"># 控制重置所有主机分数的频率，允许坏主机可恢复</span><br><span class="line">dynamic_snitch_reset_interval_in_ms: 600000</span><br><span class="line"># </span><br><span class="line">dynamic_snitch_badness_threshold: 0.1</span><br><span class="line"></span><br><span class="line"># 处理客户端请求的调度类：NoScheduler无选项，RoundRobin.throttle_limit限制请求数超过排队，RoundRobin.default_weight默认权重，RoundRobin.weights使用权重 （RoundRobinPolicy）</span><br><span class="line">request_scheduler: org.apache.cassandra.scheduler.NoScheduler</span><br><span class="line"># request_scheduler_options:</span><br><span class="line">#    throttle_limit: 80</span><br><span class="line">#    default_weight: 5</span><br><span class="line">#    weights:</span><br><span class="line">#      Keyspace1: 1</span><br><span class="line">#      Keyspace2: 5</span><br><span class="line"># 默认的keyspace</span><br><span class="line"># request_scheduler_id -- An identifier based on which to perform</span><br><span class="line"># the request scheduling. Currently the only valid option is keyspace.</span><br><span class="line"># request_scheduler_id: keyspace</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># server加密</span><br><span class="line">server_encryption_options:</span><br><span class="line">    internode_encryption: none</span><br><span class="line">    keystore: conf/.keystore</span><br><span class="line">    keystore_password: cassandra</span><br><span class="line">    truststore: conf/.truststore</span><br><span class="line">    truststore_password: cassandra</span><br><span class="line">    # More advanced defaults below:</span><br><span class="line">    # protocol: TLS</span><br><span class="line">    # algorithm: SunX509</span><br><span class="line">    # store_type: JKS</span><br><span class="line">    # cipher_suites: [TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA]</span><br><span class="line">    # require_client_auth: false</span><br><span class="line">    # require_endpoint_verification: false</span><br><span class="line"></span><br><span class="line"># enable or disable client/server encryption.</span><br><span class="line"># 客户端加密</span><br><span class="line">client_encryption_options:</span><br><span class="line">    enabled: false</span><br><span class="line">    # If enabled and optional is set to true encrypted and unencrypted connections are handled.</span><br><span class="line">    optional: false</span><br><span class="line">    keystore: conf/.keystore</span><br><span class="line">    keystore_password: cassandra</span><br><span class="line">    # require_client_auth: false</span><br><span class="line">    # Set trustore and truststore_password if require_client_auth is true</span><br><span class="line">    # truststore: conf/.truststore</span><br><span class="line">    # truststore_password: cassandra</span><br><span class="line">    # More advanced defaults below:</span><br><span class="line">    # protocol: TLS</span><br><span class="line">    # algorithm: SunX509</span><br><span class="line">    # store_type: JKS</span><br><span class="line">    # cipher_suites: [TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA]</span><br><span class="line"></span><br><span class="line">#  控制节点之间的流量是否被压缩。 可以是:all（所有），dc(dc之间压缩)，none(不压缩)</span><br><span class="line">internode_compression: dc</span><br><span class="line"># </span><br><span class="line">inter_dc_tcp_nodelay: false</span><br><span class="line"># </span><br><span class="line"># TTL for different trace types used during logging of the repair process.</span><br><span class="line">tracetype_query_ttl: 86400</span><br><span class="line">tracetype_repair_ttl: 604800</span><br><span class="line"></span><br><span class="line">#</span><br><span class="line">enable_user_defined_functions: false</span><br><span class="line">#</span><br><span class="line">enable_scripted_user_defined_functions: false</span><br><span class="line"># </span><br><span class="line">enable_materialized_views: true</span><br><span class="line"># </span><br><span class="line">windows_timer_interval: 1</span><br><span class="line"></span><br><span class="line"># 静态数据加密</span><br><span class="line">transparent_data_encryption_options:</span><br><span class="line">    enabled: false</span><br><span class="line">    chunk_length_kb: 64</span><br><span class="line">    cipher: AES/CBC/PKCS5Padding</span><br><span class="line">    key_alias: testing:1</span><br><span class="line">    # CBC IV length for AES needs to be 16 bytes (which is also the default size)</span><br><span class="line">    # iv_length: 16</span><br><span class="line">    key_provider:</span><br><span class="line">      - class_name: org.apache.cassandra.security.JKSKeyProvider</span><br><span class="line">        parameters:</span><br><span class="line">          - keystore: conf/.keystore</span><br><span class="line">            keystore_password: cassandra</span><br><span class="line">            store_type: JCEKS</span><br><span class="line">            key_password: cassandra</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"># </span><br><span class="line">tombstone_warn_threshold: 1000</span><br><span class="line">tombstone_failure_threshold: 100000</span><br><span class="line">batch_size_warn_threshold_in_kb: 5</span><br><span class="line">batch_size_fail_threshold_in_kb: 50</span><br><span class="line">unlogged_batch_across_partitions_warn_threshold: 10</span><br><span class="line">compaction_large_partition_warning_threshold_mb: 100</span><br><span class="line">gc_warn_threshold_in_ms: 1000</span><br><span class="line"># SSTables 中的任何值的最大大小</span><br><span class="line"># max_value_size_in_mb: 256</span><br><span class="line"># 背压</span><br><span class="line">back_pressure_enabled: false</span><br><span class="line">#背压策略 看英文注释</span><br><span class="line">back_pressure_strategy:</span><br><span class="line">    - class_name: org.apache.cassandra.net.RateBasedBackPressure</span><br><span class="line">      parameters:</span><br><span class="line">        - high_ratio: 0.90</span><br><span class="line">          factor: 5</span><br><span class="line">          flow: FAST</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置项</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">cluster_name: &apos;xxx&apos; #集群名</span><br><span class="line">data_file_directories: #数据目录</span><br><span class="line">    - /data/cassandra/data</span><br><span class="line">    </span><br><span class="line">commitlog_directory: /data/cassandra/commitlog #提交日志目录</span><br><span class="line"></span><br><span class="line">saved_caches_directory: /data/cassandra/saved_caches #缓存目录</span><br><span class="line"></span><br><span class="line">- seeds: &quot;127.0.0.1&quot; #集群种子节点 多个用，隔开</span><br><span class="line"></span><br><span class="line">listen_address: 127.0.0.1 #监听的ip或者主机的ip</span><br><span class="line"></span><br><span class="line">rpc_address: 127.0.0.1 #监听客户端链接地址，设置0.0.0.0的话放开broadcast_rpc_address注释</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>启动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./cassandra -R</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>报错</p>
+<p>问题1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">4691; No single argument constructor found for class [Ljava.lang.String;;  in &apos;reader&apos;, line 10, column 1:</span><br><span class="line">    cluster_name: LASER-CLUSTER</span><br></pre></td></tr></table></figure>
+
+<p>解决</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#配置数据文件目录</span><br><span class="line">data_file_directories:</span><br><span class="line">- /data/cassandra/data</span><br></pre></td></tr></table></figure>
+
+<p>问题2</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Exception (java.lang.ClassCastException) encountered during startup: org.apache.cassandra.auth.PasswordAuthenticator cannot be cast to org.apache.cassandra.auth.IAuthorizer</span><br><span class="line">java.lang.ClassCastException: org.apache.cassandra.auth.PasswordAuthenticator cannot be cast to org.apache.cassandra.auth.IAuthorizer</span><br><span class="line">	at org.apache.cassandra.utils.FBUtilities.newAuthorizer(FBUtilities.java:473)</span><br><span class="line">	at org.apache.cassandra.auth.AuthConfig.applyAuth(AuthConfig.java:75)</span><br><span class="line">	at org.apache.cassandra.config.DatabaseDescriptor.daemonInitialization(DatabaseDescriptor.java:143)</span><br><span class="line">	at org.apache.cassandra.service.CassandraDaemon.applyConfig(CassandraDaemon.java:647)</span><br><span class="line">	at org.apache.cassandra.service.CassandraDaemon.activate(CassandraDaemon.java:582)</span><br><span class="line">	at org.apache.cassandra.service.CassandraDaemon.main(CassandraDaemon.java:691)</span><br><span class="line">ERROR [main] 2019-01-21 08:46:16,115 CassandraDaemon.java:708 - Exception encountered during startup</span><br><span class="line">java.lang.ClassCastException: org.apache.cassandra.auth.PasswordAuthenticator cannot be cast to org.apache.cassandra.auth.IAuthorizer</span><br><span class="line">	at org.apache.cassandra.utils.FBUtilities.newAuthorizer(FBUtilities.java:473) ~[apache-cassandra-3.11.3.jar:3.11.3]</span><br><span class="line">	at org.apache.cassandra.auth.AuthConfig.applyAuth(AuthConfig.java:75) ~[apache-cassandra-3.11.3.jar:3.11.3]</span><br><span class="line">	at org.apache.cassandra.config.DatabaseDescriptor.daemonInitialization(DatabaseDescriptor.java:143) ~[apache-cassandra-3.11.3.jar:3.11.3]</span><br><span class="line">	at org.apache.cassandra.service.CassandraDaemon.applyConfig(CassandraDaemon.java:647) [apache-cassandra-3.11.3.jar:3.11.3]</span><br><span class="line">	at org.apache.cassandra.service.CassandraDaemon.activate(CassandraDaemon.java:582) [apache-cassandra-3.11.3.jar:3.11.3]</span><br><span class="line">	at org.apache.cassandra.service.CassandraDaemon.main(CassandraDaemon.java:691) [apache-cassandra-3.11.3.jar:3.11.3]</span><br></pre></td></tr></table></figure>
+
+<p>解决:照着注释改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># Authentication backend, implementing IAuthenticator; used to identify users</span><br><span class="line"># Out of the box, Cassandra provides org.apache.cassandra.auth.&#123;AllowAllAuthenticator,</span><br><span class="line"># PasswordAuthenticator&#125;.</span><br><span class="line">#</span><br><span class="line"># - AllowAllAuthenticator performs no checks - set it to disable authentication.</span><br><span class="line"># - PasswordAuthenticator relies on username/password pairs to authenticate</span><br><span class="line">#   users. It keeps usernames and hashed passwords in system_auth.roles table.</span><br><span class="line">#   Please increase system_auth keyspace replication factor if you use this authenticator.</span><br><span class="line">#   If using PasswordAuthenticator, CassandraRoleManager must also be used (see below)</span><br><span class="line">#authenticator: AllowAllAuthenticator</span><br><span class="line">authenticator: PasswordAuthenticator</span><br><span class="line"># Authorization backend, implementing IAuthorizer; used to limit access/provide permissions</span><br><span class="line"># Out of the box, Cassandra provides org.apache.cassandra.auth.&#123;AllowAllAuthorizer,</span><br><span class="line"># CassandraAuthorizer&#125;.</span><br><span class="line">#</span><br><span class="line"># - AllowAllAuthorizer allows any action to any user - set it to disable authorization.</span><br><span class="line"># - CassandraAuthorizer stores permissions in system_auth.role_permissions table. Please</span><br><span class="line">#   increase system_auth keyspace replication factor if you use this authorizer.</span><br><span class="line">#authorizer: AllowAllAuthorizer</span><br><span class="line">authorizer: CassandraAuthorizer</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="登录"><a href="#登录" class="headerlink" title="登录"></a>登录</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./cqlsh -ucassandra -pcassandra</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>创建超级用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER andy WITH PASSWORD &apos;123456&apos; SUPERUSER;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建普通用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE USER test1 WITH PASSWORD &apos;123456&apos; NOSUPERUSER;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>修改用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER test WITH PASSWORD &apos;654321&apos;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>删除用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP USER cassandra; //不能删除当前登录的用户</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p><strong>恭喜您！安装成功！下一篇讲java客户端与cqlsh。</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Cassandra/" rel="tag"># Cassandra</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/13/推论/" rel="next" title="推论">
+                <i class="fa fa-chevron-left"></i> 推论
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/02/rust-variablesAndType/" rel="prev" title="rust-variablesAndType">
+                rust-variablesAndType <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载"><span class="nav-number">1.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置"><span class="nav-number">2.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登录"><span class="nav-number">3.</span> <span class="nav-text">登录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
