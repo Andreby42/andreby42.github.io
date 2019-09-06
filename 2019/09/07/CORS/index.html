@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="JAVA,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="JavaWeb中的跨域">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CORS">
+<meta property="og:url" content="http://yoursite.com/2019/09/07/CORS/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="JavaWeb中的跨域">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-06T17:23:03.434Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CORS">
+<meta name="twitter:description" content="JavaWeb中的跨域">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/07/CORS/">
+
+
+
+
+
+  <title>CORS | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/07/CORS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CORS</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-07T00:17:40+08:00">
+                2019-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WEB/" itemprop="url" rel="index">
+                    <span itemprop="name">WEB</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>JavaWeb中的跨域<a id="more"></a></p>
+<p>web开发中经常遇到跨域问题 一般分两种</p>
+<p>比如现在有一个前后端分离的项目，前端域名为front.github.com</p>
+<p>后端接口服务工程域名 为  backgroud.baidu.com</p>
+<p>当前端登录时候需要调用后端服务工程的一个接口 backgroud.baidu.com/sso/login</p>
+<ul>
+<li><p>后端代码添加跨域过滤器</p>
+<ul>
+<li><p>代码跨域过滤器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class TokenFilter extends OncePerRequestFilter &#123;</span><br><span class="line">    @Override</span><br><span class="line">    protected void doFilterInternal(HttpServlet Requestrequest, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException &#123;</span><br><span class="line">        // do something</span><br><span class="line">        cors(request, response);</span><br><span class="line">        // do something</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    private void cors(HttpServletRequest request, HttpServletResponse response) &#123;</span><br><span class="line">        String allowOrigin = request.getHeader(&quot;Origin&quot;);</span><br><span class="line">        String allowMethods = &quot;GET,PUT, POST, DELETE&quot;;</span><br><span class="line">        String allowHeaders = &quot;Origin,No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified,Cache-Control, Expires, Content-Type, X-E4M-With&quot;;</span><br><span class="line">        response.addHeader(&quot;Access-Control-Allow-Credentials&quot;, &quot;true&quot;);</span><br><span class="line">        response.addHeader(&quot;Access-Control-Allow-Headers&quot;, allowHeaders);</span><br><span class="line">        response.addHeader(&quot;Access-Control-Allow-Methods&quot;, allowMethods);</span><br><span class="line">        response.addHeader(&quot;Access-Control-Allow-Origin&quot;, allowOrigin);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">// /* 表示全部拦截</span><br><span class="line">@WebFilter(filterName = &quot;loginFilter&quot;,urlPatterns = &quot;/*&quot;)</span><br><span class="line">public class LoginFilter implements Filter &#123;</span><br><span class="line">    //这里面 填写不需要 被拦截的地址</span><br><span class="line">    private static final Set&lt;String&gt; ALLOWED_PATHS = Collections.unmodifiableSet(</span><br><span class="line">            new HashSet&lt;String&gt;( Arrays.asList(&quot;/login&quot;,&quot;/isLogin&quot;,&quot;/findCategory&quot;) )</span><br><span class="line">    );</span><br><span class="line"> </span><br><span class="line">    //初始化调用的方法</span><br><span class="line">    //当服务器 被启动的时候，调用</span><br><span class="line">    public void init(FilterConfig filterConfig) throws ServletException &#123; &#125;</span><br><span class="line"> </span><br><span class="line">    //拦截的方法</span><br><span class="line">    public void doFilter(ServletRequest req, ServletResponse res, FilterChain filterChain) throws IOException, ServletException &#123;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">        HttpServletRequest request = (HttpServletRequest) req;</span><br><span class="line">        HttpServletResponse response = (HttpServletResponse) res;</span><br><span class="line"> </span><br><span class="line">        //解决跨域的问题 http://localhost:3030 为非同域名下的请求方</span><br><span class="line">        response.setHeader(&quot;Access-Control-Allow-Origin&quot;,&quot;http://localhost:3030&quot;);</span><br><span class="line">        response.setHeader(&quot;Access-Control-Allow-Credentials&quot;,&quot;true&quot;);</span><br><span class="line">        response.setHeader(&quot;Access-Control-Allow-Headers&quot;, &quot;Content-Type,Content-Length, Authorization, Accept,X-Requested-With,X-App-Id, X-Token&quot;);</span><br><span class="line">        response.setHeader(&quot;Access-Control-Allow-Methods&quot;,&quot;PUT,POST,GET,DELETE,OPTIONS&quot;);</span><br><span class="line">        response.setHeader(&quot;Access-Control-Max-Age&quot;, &quot;3600&quot;);</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">        String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll(&quot;[/]+$&quot;,&quot;&quot;);</span><br><span class="line">        boolean allowePath =  ALLOWED_PATHS.contains(path);</span><br><span class="line"> </span><br><span class="line">        if (!allowePath) &#123;  //需要拦截的方法</span><br><span class="line">            Object aa = request.getSession().getAttribute(&quot;user&quot;);</span><br><span class="line">            if (aa != null) &#123;</span><br><span class="line">                filterChain.doFilter(request,response);</span><br><span class="line">        &#125;</span><br><span class="line">            else &#123;</span><br><span class="line">                response.getWriter().write(&quot;noLogin&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;  //不需要被拦截的方法</span><br><span class="line">            //直接放行</span><br><span class="line">            filterChain.doFilter(request,response);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    //销毁时候调用的方法</span><br><span class="line">    public void destroy() &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注解跨域过滤器</p>
+<p>spring版本4.2以上 注解源码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">@Target(&#123; ElementType.METHOD, ElementType.TYPE &#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@Documented</span><br><span class="line">public @interface CrossOrigin &#123;</span><br><span class="line"></span><br><span class="line">    String[] DEFAULT_ORIGINS = &#123; &quot;*&quot; &#125;;</span><br><span class="line"></span><br><span class="line">    String[] DEFAULT_ALLOWED_HEADERS = &#123; &quot;*&quot; &#125;;</span><br><span class="line"></span><br><span class="line">    boolean DEFAULT_ALLOW_CREDENTIALS = true;</span><br><span class="line"></span><br><span class="line">    long DEFAULT_MAX_AGE = 1800;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 同origins属性一样</span><br><span class="line">     */</span><br><span class="line">    @AliasFor(&quot;origins&quot;)</span><br><span class="line">    String[] value() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 所有支持域的集合，例如&quot;http://domain1.com&quot;。</span><br><span class="line">     * &lt;p&gt;这些值都显示在请求头中的Access-Control-Allow-Origin</span><br><span class="line">     * &quot;*&quot;代表所有域的请求都支持</span><br><span class="line">     * &lt;p&gt;如果没有定义，所有请求的域都支持</span><br><span class="line">     * @see #value</span><br><span class="line">     */</span><br><span class="line">    @AliasFor(&quot;value&quot;)</span><br><span class="line">    String[] origins() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 允许请求头重的header，默认都支持</span><br><span class="line">     */</span><br><span class="line">    String[] allowedHeaders() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 响应头中允许访问的header，默认为空</span><br><span class="line">     */</span><br><span class="line">    String[] exposedHeaders() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 请求支持的方法，例如&quot;&#123;RequestMethod.GET, RequestMethod.POST&#125;&quot;&#125;。</span><br><span class="line">     * 默认支持RequestMapping中设置的方法</span><br><span class="line">     */</span><br><span class="line">    RequestMethod[] methods() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 是否允许cookie随请求发送，使用时必须指定具体的域</span><br><span class="line">     */</span><br><span class="line">    String allowCredentials() default &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 预请求的结果的有效期，默认30分钟</span><br><span class="line">     */</span><br><span class="line">    long maxAge() default -1;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>实现
+
+在controller上添加该注解 表示 该注解的方法都接收origin跨域请求方的请求
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@CrossOrigin(origins = &quot;http://domain2.com&quot;, maxAge = 3600)</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/account&quot;)</span><br><span class="line">public class AccountController &#123;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(&quot;/&#123;id&#125;&quot;)</span><br><span class="line">    public Account retrieve(@PathVariable Long id) &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(method = RequestMethod.DELETE, path = &quot;/&#123;id&#125;&quot;)</span><br><span class="line">    public void remove(@PathVariable Long id) &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+在方法上使用 表示单个方法允许跨域请求
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">@CrossOrigin(maxAge = 3600)</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;/account&quot;)</span><br><span class="line">public class AccountController &#123;</span><br><span class="line"></span><br><span class="line">    @CrossOrigin(&quot;http://domain2.com&quot;)</span><br><span class="line">    @RequestMapping(&quot;/&#123;id&#125;&quot;)</span><br><span class="line">    public Account retrieve(@PathVariable Long id) &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @RequestMapping(method = RequestMethod.DELETE, path = &quot;/&#123;id&#125;&quot;)</span><br><span class="line">    public void remove(@PathVariable Long id) &#123;</span><br><span class="line">        // ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+全局的跨域请求配置
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableWebMvc</span><br><span class="line">public class WebConfig extends WebMvcConfigurerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void addCorsMappings(CorsRegistry registry) &#123;</span><br><span class="line">        registry.addMapping(&quot;/**&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+特定路径的CORS
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">@EnableWebMvc</span><br><span class="line">public class WebConfig extends WebMvcConfigurerAdapter &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void addCorsMappings(CorsRegistry registry) &#123;</span><br><span class="line">        registry.addMapping(&quot;/api/**&quot;)</span><br><span class="line">            .allowedOrigins(&quot;http://domain2.com&quot;)</span><br><span class="line">            .allowedMethods(&quot;PUT&quot;, &quot;DELETE&quot;)</span><br><span class="line">            .allowedHeaders(&quot;header1&quot;, &quot;header2&quot;, &quot;header3&quot;)</span><br><span class="line">            .exposedHeaders(&quot;header1&quot;, &quot;header2&quot;)</span><br><span class="line">            .allowCredentials(false).maxAge(3600);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><p>springBoot配置跨域</p>
+<p>配置起来比较罗嗦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">@Configuration</span><br><span class="line">public class CorsConfig &#123;</span><br><span class="line">    @Bean</span><br><span class="line">    public CorsFilter corsFilter() &#123;</span><br><span class="line">        //1.添加CORS配置信息</span><br><span class="line">        CorsConfiguration config = new CorsConfiguration();</span><br><span class="line">        //放行哪些原始域</span><br><span class="line">        config.addAllowedOrigin(&quot;*&quot;);</span><br><span class="line">        //是否发送Cookie信息</span><br><span class="line">        config.setAllowCredentials(true);</span><br><span class="line">        //放行哪些原始域(请求方式)</span><br><span class="line">        config.addAllowedMethod(&quot;*&quot;);</span><br><span class="line">        //放行哪些原始域(头部信息)</span><br><span class="line">        config.addAllowedHeader(&quot;*&quot;);</span><br><span class="line"></span><br><span class="line">        //2.添加映射路径</span><br><span class="line">        UrlBasedCorsConfigurationSource configSource = new UrlBasedCorsConfigurationSource();</span><br><span class="line">        configSource.registerCorsConfiguration(&quot;/**&quot;, config);</span><br><span class="line"></span><br><span class="line">        //3.返回新的CorsFilter.</span><br><span class="line">        return new CorsFilter(configSource);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<ul>
+<li><p>nginx配置反向代理解决</p>
+<p>主要利用proxy_pass来解决</p>
+<p>修改前端nginx的配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen       80;</span><br><span class="line">        server_name  front.github.com;</span><br><span class="line">        access_log  logs/test.access.log;</span><br><span class="line">        # 匹配以sso开头的请求</span><br><span class="line">        location /sso &#123;</span><br><span class="line">            proxy_pass http://background.baidu.com/;  #注意域名后有一个/</span><br><span class="line">        &#125;</span><br><span class="line">        location / &#123;</span><br><span class="line">            root html/a;</span><br><span class="line">            index index.html index.htm;</span><br><span class="line">        &#125;</span><br><span class="line">        #</span><br><span class="line">        error_page   500 502 503 504  /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">            root   html;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>加上/的话 访问 backgroud.baidu.com/sso/login.html 获得预期的 backgroud.baidu.com/login.html</p>
+<p>不加/的话 访问 backgroud.baidu.com/sso/login.html 得到的是 backgroud.baidu.com/sso/login.html </p>
+<p>那么前端访问请求接口地址应该改为front.github.com/sso/login</p>
+<p><strong>需要注意的是当请求方需要携带cookie进行访问跨域方时候 Access-Control-Allow-Origin 不能为*</strong></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/27/JavaPuppeteer/" rel="next" title="JavaPuppeteer">
+                <i class="fa fa-chevron-left"></i> JavaPuppeteer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
