@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Java,">
+  <meta name="keywords" content="Linux,">
 
 
 
@@ -93,18 +93,18 @@
 
 
 
-<meta name="description" content="​    单例模式了解下">
-<meta name="keywords" content="Java">
+<meta name="description" content="Manjaro如何自动挂载机械硬盘分区">
+<meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Java单例">
-<meta property="og:url" content="http://yoursite.com/2018/03/19/Java单例/index.html">
+<meta property="og:title" content="Manjaro如何自动挂载机械硬盘分区">
+<meta property="og:url" content="http://yoursite.com/2019/11/24/Manjaro如何自动挂载机械硬盘分区/index.html">
 <meta property="og:site_name" content="Andreby的随记">
-<meta property="og:description" content="​    单例模式了解下">
+<meta property="og:description" content="Manjaro如何自动挂载机械硬盘分区">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-01T15:49:10.897Z">
+<meta property="og:updated_time" content="2019-11-24T06:30:22.070Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Java单例">
-<meta name="twitter:description" content="​    单例模式了解下">
+<meta name="twitter:title" content="Manjaro如何自动挂载机械硬盘分区">
+<meta name="twitter:description" content="Manjaro如何自动挂载机械硬盘分区">
 
 
 
@@ -132,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/03/19/Java单例/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/24/Manjaro如何自动挂载机械硬盘分区/">
 
 
 
 
 
-  <title>Java单例 | Andreby的随记</title>
+  <title>Manjaro如何自动挂载机械硬盘分区 | Andreby的随记</title>
   
 
 
@@ -267,7 +267,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/19/Java单例/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/24/Manjaro如何自动挂载机械硬盘分区/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Andreby">
@@ -284,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Java单例</h1>
+          <h1 class="post-title" itemprop="name headline">Manjaro如何自动挂载机械硬盘分区</h1>
         
 
         <div class="post-meta">
@@ -296,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-19T21:54:38+08:00">
-                2018-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-24T14:19:43+08:00">
+                2019-11-24
               </time>
             
 
@@ -306,28 +306,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java，设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">Java，设计模式</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -353,69 +331,48 @@
       
 
       
-        <p>​    单例模式了解下<a id="more"></a>记录下常用设计模式</p>
+        <p>Manjaro如何自动挂载机械硬盘分区<a id="more"></a></p>
 <ul>
-<li><p>饿汉式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;   </span><br><span class="line">    private static Singleton = new Singleton();</span><br><span class="line">    private Singleton() &#123;&#125;</span><br><span class="line">    public static getSignleton()&#123;</span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>找到要挂载的硬盘的分区</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l</span><br></pre></td></tr></table></figure>
 
-<p><strong>好处</strong>：</p>
 <ul>
-<li>编写简单</li>
+<li>安装 ntfs-3g</li>
 </ul>
-<p><strong>缺点</strong>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su root pacman -Sy ntfs-3g</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>无法懒加载，饿汉嘛 你要我就给</li>
+<li>查看机械硬盘对应的分区的UUID</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ls -l /dev/disk/by-uuid/</span><br><span class="line"></span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 488F7D9C353C6AC0 -&gt; ../../sdb1</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 4CBE55FEBE55E0CE -&gt; ../../sdc3</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 52E8632FE8631091 -&gt; ../../sdb2</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 5fb9899e-3d1c-457e-a56f-b5897afb52f0 -&gt; ../../sda5</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 6EA4AF17A4AEE0B7 -&gt; ../../sdb3</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 72F8E430F8E3EFF1 -&gt; ../../sdc1</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 8072a077-8a2a-48e3-b673-fb9e065e528c -&gt; ../../sda4</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 aa585056-a791-49ca-88b3-9be7591a845b -&gt; ../../sda3</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 ace96684-1f71-4c5d-8570-1bb7394d0de6 -&gt; ../../sda6</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 b54b7ab8-f8cf-4e21-ba81-8d7d04bbda28 -&gt; ../../sda7</span><br><span class="line">lrwxrwxrwx 1 root root 10 11月 24 14:15 C14D-581B -&gt; ../../sda1</span><br></pre></td></tr></table></figure>
+
+<p>上述的 sdb1sdb2 sdb3就是要设置自动挂载的机械硬盘分区</p>
+<ul>
+<li><p>编辑/etc/fstab文件</p>
+<p>该文件是系统启动文件 编辑的时候一定 要慎重</p>
+<ul>
+<li><p>设置好sdb1的挂载点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/andy/DISKS/Amuse/</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>懒汉式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class SingletonDemo &#123;</span><br><span class="line"> private static SingletonDemo instance;</span><br><span class="line">   private SingletonDemo()&#123;</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line">   public static SingletonDemo getInstance()&#123;</span><br><span class="line">       if(instance==null)&#123;</span><br><span class="line">           instance=new SingletonDemo();</span><br><span class="line">       &#125;</span><br><span class="line">       return instance;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<li><p>编辑<code>/etc/fstab</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br><span class="line">  1 # /etc/fstab: static file system information.                                         </span><br><span class="line">  2 #                                                                                     </span><br><span class="line">  3 # Use &apos;blkid&apos; to print the universally unique identifier for a device; this may       </span><br><span class="line">  4 # be used with UUID= as a more robust way to name devices that works even if          </span><br><span class="line">  5 # disks are added and removed. See fstab(5).                                          </span><br><span class="line">  6 #                                                                                     </span><br><span class="line">  7 # &lt;file system&gt;             &lt;mount point&gt;  &lt;type&gt;  &lt;options&gt;  &lt;dump&gt;  &lt;pass&gt;          </span><br><span class="line">  8 UUID=8072a077-8a2a-48e3-b673-fb9e065e528c /boot          ext4    defaults,noatime,discard 0 2</span><br><span class="line">  9 UUID=C14D-581B                            /boot/efi      vfat    defaults,noatime 0 2 </span><br><span class="line"> 10 UUID=aa585056-a791-49ca-88b3-9be7591a845b swap           swap    defaults,noatime,discard 0 2</span><br><span class="line"> 11 UUID=5fb9899e-3d1c-457e-a56f-b5897afb52f0 /var           ext4    defaults,noatime,discard 0 2</span><br><span class="line"> 12 UUID=ace96684-1f71-4c5d-8570-1bb7394d0de6 /              ext4    defaults,noatime,discard 0 1</span><br><span class="line"> 13 UUID=b54b7ab8-f8cf-4e21-ba81-8d7d04bbda28 /home          ext4    defaults,noatime,discard 0 2</span><br><span class="line"> 14 tmpfs                                     /tmp           tmpfs   defaults,noatime,mode=1777 0 0</span><br><span class="line"> 15 UUID=488F7D9C353C6AC0                     /home/andreby/DISKS/Amuse/ ntfs defaults 0 0</span><br></pre></td></tr></table></figure>
 
-<p><strong>优点</strong>：</p>
+<p>如上图 第15行就是新加入的挂载项</p>
 <ul>
-<li>实现懒加载</li>
+<li>UUID是刚刚查询出来的</li>
+<li>/home/mazo/data表示挂载点</li>
+<li>ntfs表示格式，小写</li>
+<li>0 0表示开机不检查磁盘。</li>
 </ul>
-<p><strong>缺点</strong>:</p>
-<ul>
-<li>未考虑线程安全，多线程环境下</li>
-</ul>
+<p>修改完成后重启，使用<code>df -h</code>  查看挂载情况</p>
 </li>
-<li><p>加锁懒汉式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    private static volatile Singleton singleton = null;</span><br><span class="line">     </span><br><span class="line">    private Singleton()&#123;&#125;</span><br><span class="line">     </span><br><span class="line">    public static Singleton getSingleton()&#123;</span><br><span class="line">        if(singleton == null)&#123;</span><br><span class="line">            synchronized (Singleton.class)&#123;</span><br><span class="line">                if(singleton == null)&#123;</span><br><span class="line">                    singleton = new Singleton();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        return singleton;</span><br><span class="line">    &#125;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>优点</strong>：</p>
-<ul>
-<li>线程安全，保证效率，避免在锁前排队</li>
-</ul>
-<p><strong>缺点</strong>：</p>
-<ul>
-<li>volatile 存在问题</li>
-</ul>
-</li>
-<li><p>枚举式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public Class A&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">public enum A_Singleton &#123;</span><br><span class="line">   	INSTANCE;</span><br><span class="line">    private A instance;</span><br><span class="line">    A_Singleton() &#123;</span><br><span class="line">        instance = new A();</span><br><span class="line">    &#125;</span><br><span class="line">    public A getInstance() &#123;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>优点</strong>：</p>
-<ul>
-<li>自由序列化</li>
-<li>保证只有一个实例</li>
-<li>线程安全 <strong>推荐这种写法</strong></li>
-</ul>
-</li>
-<li><p>静态内部类</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class Singleton &#123;</span><br><span class="line">    private static class Holder &#123;</span><br><span class="line">        private static Singleton singleton = new Singleton();</span><br><span class="line">    &#125;</span><br><span class="line">     </span><br><span class="line">    private Singleton()&#123;&#125;</span><br><span class="line">         </span><br><span class="line">    public static Singleton getSingleton()&#123;</span><br><span class="line">        return Holder.singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p> <strong>优点</strong>：</p>
-<ul>
-<li>静态内部类只加载一次 </li>
-<li>静态实例在类加载时候就加载了</li>
-</ul>
-<p><strong>缺点</strong>：</p>
-<ul>
-<li>额外的序列化工作如（Serializable、transient、readResolve()）,否则每次反序列化一个已序列化的对象实例都会创建一个新的实例</li>
 </ul>
 </li>
 </ul>
+<pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">/dev/sdb1       327G   42G  285G   13% /home/andreby/DISKS/Amuse/</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 
+**DONE**</code></pre>
       
     </div>
 
@@ -444,7 +401,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
           
         </div>
       
@@ -457,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/11/Jmeter测试记录/" rel="next" title="Jmeter测试记录">
-                <i class="fa fa-chevron-left"></i> Jmeter测试记录
+              <a href="/2019/09/14/Storm简介/" rel="next" title="Storm简介">
+                <i class="fa fa-chevron-left"></i> Storm简介
               </a>
             
           </div>
@@ -466,10 +423,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/10/Netty之ChannelOption/" rel="prev" title="Netty之ChannelOption">
-                Netty之ChannelOption <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
