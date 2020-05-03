@@ -101,7 +101,7 @@
 <meta property="og:site_name" content="Andreby的随记">
 <meta property="og:description" content="以前看scala的一些笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-01-22T11:07:38.449Z">
+<meta property="og:updated_time" content="2020-02-24T15:30:32.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scala">
 <meta name="twitter:description" content="以前看scala的一些笔记">
@@ -436,7 +436,7 @@
 </li>
 <li><p>多重循环</p>
 <p>scala的多重循环 相当于嵌套for循环</p>
-<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i&lt;<span class="number">-1</span> to3 ; j&lt;<span class="number">-3</span> to <span class="number">10</span>)&#123;</span><br><span class="line">       println(i)</span><br><span class="line"> </span><br><span class="line">       println(j)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(i&lt;<span class="number">-1</span> to <span class="number">3</span> ; j&lt;<span class="number">-3</span> to <span class="number">10</span>)&#123;</span><br><span class="line">       println(i)</span><br><span class="line"> </span><br><span class="line">       println(j)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -767,6 +767,7 @@
 <p>动态混入 mix in</p>
 <p>trait  继承</p>
 <p>在 scala中 java的接口可以作为trait</p>
+<p>当一个类继承了一个trait 那么该类的实例可以直接传递给这个trait引用</p>
 <p>特质可以看作对继承的一种补充</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">behav</span> </span>&#123;</span><br><span class="line">	<span class="class"><span class="keyword">trait</span> <span class="title">codes</span></span></span><br><span class="line"><span class="class">&#125;</span></span><br></pre></td></tr></table></figure>
 
@@ -946,7 +947,193 @@
 <p>隐式操作不能嵌套使用 循环调用</p>
 </li>
 </ul>
+<ul>
+<li><p>集合</p>
+<ul>
+<li><p>集合简介</p>
+<ul>
+<li>包括不可变集合（immuteable）或可变集合((mutable),不可变指的是集合本身不能动态变化 类似数组</li>
+<li>scala默认采取不可变集合</li>
+<li>集合包括 序列Seq 集Set 映射 Map</li>
+<li>在seq集合中 包含了list  增加 了 buffer 集合  设计到线程安全可以使用synchronizedXX</li>
+</ul>
+</li>
+<li><p>数组</p>
+<ul>
+<li><p>数组元素访问使用小括号 不使用中括号 如 arr(2) 修改也是如此</p>
+<p>以下为第一种定义数组方式</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">      </span><br><span class="line"><span class="keyword">var</span> arr = <span class="keyword">new</span> <span class="type">Array</span>[<span class="type">Int</span>](<span class="number">20</span>)</span><br><span class="line">      </span><br><span class="line">arr(<span class="number">2</span>) = <span class="number">2</span></span><br><span class="line">println(arr(<span class="number">2</span>))</span><br></pre></td></tr></table></figure>
 
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>* 第二种定义方式 使用apply定义
+
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1= <span class="type">Array</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="string">"char"</span>)</span><br><span class="line"><span class="comment">//不指定泛型那么 该数组的泛型为Any</span></span><br><span class="line"><span class="keyword">for</span>(i&lt;-arr1)&#123;</span><br><span class="line">println(i)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+* 变长数组  需要声明泛型
+
+  * 变长数组 ArrayBuffer   可以 append元素 只能将某个元素置为空  不能删除
+
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> ab = <span class="type">ArrayBuffer</span>[<span class="type">Int</span>](<span class="number">1</span>)</span><br><span class="line">ab.append(<span class="number">7</span>)</span><br></pre></td></tr></table></figure>
+
+* ArrayBuffer与Array互转
+
+  ArrayBuffer::toArray
+
+  Array::toBuffer
+
+* 多维数组
+
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr1= <span class="type">Array</span>.ofDim[<span class="type">Double</span>](<span class="number">3</span>,<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+* Sala数组转JavaList
+
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.collection.<span class="type">JavaConversions</span>.bufferAsJavaList</span><br><span class="line"><span class="keyword">val</span> arr= <span class="keyword">new</span> <span class="type">ProcessBuilder</span>(arr)</span><br><span class="line"><span class="keyword">val</span> arrList= javaArr.command()</span><br></pre></td></tr></table></figure>
+
+* javaList转scala数组
+
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.collection.<span class="type">JavaConverters</span>._</span><br><span class="line"><span class="keyword">val</span> arrList =<span class="type">List</span>(<span class="string">"hi"</span>, <span class="string">"bye"</span>).asJava;</span><br><span class="line"><span class="keyword">import</span> scala.collection.<span class="type">JavaConverters</span>.asScalaBuffer</span><br><span class="line"><span class="keyword">val</span> scalaArr: mutable.<span class="type">Buffer</span>[<span class="type">String</span>] = arrList.asScala</span><br><span class="line"><span class="comment">// java.util.List ==&gt; Buffer</span></span><br><span class="line"> println(scalaArr)</span><br></pre></td></tr></table></figure></code></pre><ul>
+<li><p>Tuple元组</p>
+<p>tuple可以将各种相同或者不同的类型的数据放在一起</p>
+<p>灵活 对数据没有约束</p>
+<p><strong>scala的tuple最多有22个元素</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val t1=(1,2,3,&quot;2&quot;,&apos;4&apos;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>tuple根据元素的个数不同 对应不同的元组类型 最大支持到Tuple22</p>
+</li>
+<li><p>元组访问</p>
+<ul>
+<li><p>使用顺序号 如_顺序号 访问  </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t1._1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过索引访问</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t1.productElement(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>元组遍历 </p>
+<p>元组遍历需要使用 元组自身的迭代器</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(item&lt;- t1.productIterator)&#123;</span><br><span class="line">	println(<span class="string">"item="</span>+item)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>List</p>
+<p> scala中的list是个Object 可以直接放数据 是不可变的 属于Seq  </p>
+<p>可变的List为ListBuffer</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> l1=<span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> l2=<span class="type">Nil</span><span class="comment">//空集合</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>元素访问</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> e2=l1(<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元素追加</p>
+<ul>
+<li><p>向列表中增加元素会返回一个新的列表/集合对象。</p>
+<ul>
+<li><p>在列表的最后增加数据</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> list=<span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="string">"abc"</span>)</span><br><span class="line"><span class="keyword">val</span> list2=list:+<span class="number">4</span></span><br><span class="line">println(list2)</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>    * 在列表的最前面增加数据
+
+      <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> list=<span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="string">"abc"</span>)</span><br><span class="line"><span class="keyword">val</span> list2=<span class="number">4</span>:+list</span><br><span class="line">println(list2)</span><br></pre></td></tr></table></figure>
+
+    * 符号：：表示向集合中添加新集合中的元素
+
+      <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list1= <span class="type">List</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="string">"s"</span>)</span><br><span class="line"><span class="comment">//从右向左 执行 append</span></span><br><span class="line"><span class="keyword">val</span> list2= <span class="number">4</span>::<span class="number">5</span>::<span class="number">6</span>::list1::<span class="type">Nil</span></span><br></pre></td></tr></table></figure>
+
+    * ：：：是指将集合中的每个元素都加到空集合中去 链接两个集合
+
+      <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list5=<span class="number">4</span>::<span class="number">5</span>::<span class="number">6</span>::list1:::<span class="type">Nil</span></span><br></pre></td></tr></table></figure>
+
+* ListBuffer
+
+  可变List
+
+  * 添加团素
+
+    * +=
+    * append
+    * a++=b 把b追加到a后
+    * a：+ element  将元素追加到列表后
+
+  * 删除
+
+    remove(下标)
+
+    remove(下标，count)
+
+* Queue队列
+
+  有序列表 底层为数组或者链表 先入先出 分可变和不可变队列
+
+  * 创建
+
+    <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> q1= <span class="keyword">new</span> mutable.<span class="type">Queue</span>[<span class="type">Int</span>]</span><br></pre></td></tr></table></figure>
+
+  * 追加
+
+    * +=元素
+
+      <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">q1+=20</span><br></pre></td></tr></table></figure>
+
+    * ++=  后面追加集合
+
+      <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">q1++=list1</span><br></pre></td></tr></table></figure>
+
+    * +=集合 需要泛型为Any
+
+      <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">q1+=list2</span><br></pre></td></tr></table></figure>
+
+  * 入队列
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">q1.dequeue()</span><br></pre></td></tr></table></figure>
+
+  * 出队列
+
+    <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">q1.enqueue(...e1)</span><br></pre></td></tr></table></figure>
+
+
+
+* Map
+
+* 和java一样也是散列表 分可变和不可变 ， 不可变Map为有序 可变Map为无序
+
+* Set
+
+  不重复元素的无序集合  scala中为哈希集实现 
+
+  * 可变和不可变 默认不可变
+
+    <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vak set1= <span class="type">Set</span>(<span class="number">1</span>,<span class="number">235</span>,<span class="number">67</span>)</span><br></pre></td></tr></table></figure>
+
+
+* 集合操作 类似java8 stream
+
+  * map
+  * flatmap
+  * filter
+  * reduceLeft {A,B,C}  A+B=c +C 化简   
+  * foldLeft  折叠 与化简运行机制一样 左折叠 有折叠
+  * scan 扫描 对集合进行折叠操作 但是 在操作中产生的数据会集中放到另一个集合</code></pre>
       
     </div>
 
@@ -997,6 +1184,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/03/PulsarTSL证书生成/" rel="prev" title="PulsarTSL证书生成">
+                PulsarTSL证书生成 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -1058,7 +1249,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
