@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="JAVA,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1">
+
+
+
+
+
+
+<meta name="description" content="分布式事务框架seata小记">
+<meta name="keywords" content="JAVA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务框架Seata使用小记">
+<meta property="og:url" content="http://yoursite.com/2020/08/16/分布式事务框架Seata使用小记/index.html">
+<meta property="og:site_name" content="Andreby的随记">
+<meta property="og:description" content="分布式事务框架seata小记">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-08-16T06:12:17.873Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式事务框架Seata使用小记">
+<meta name="twitter:description" content="分布式事务框架seata小记">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/08/16/分布式事务框架Seata使用小记/">
+
+
+
+
+
+  <title>分布式事务框架Seata使用小记 | Andreby的随记</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Andreby的随记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">如果有什么需要明天做的事 最好现在开始做</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/16/分布式事务框架Seata使用小记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Andreby">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/p829173265.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Andreby的随记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">分布式事务框架Seata使用小记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-16T11:58:55+08:00">
+                2020-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Spring-Cloud/" itemprop="url" rel="index">
+                    <span itemprop="name">Spring-Cloud</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> 分布式事务框架seata小记<a id="more"></a> </p>
+<p>​    seata服务端版本1.3.0</p>
+<p>​    SC版本HOXTON-SR7</p>
+<ul>
+<li><p>下载server端并配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://seata.io/zh-cn/blog/download.html</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf seata-server-1.3.0.tar.gz</span><br><span class="line">cd conf</span><br><span class="line">vim registry.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">registry &#123;</span><br><span class="line">  # file 、nacos 、eureka、redis、zk、consul、etcd3、sofa</span><br><span class="line">  type = &quot;nacos&quot;</span><br><span class="line"></span><br><span class="line">  nacos &#123;</span><br><span class="line">    application = &quot;seata-server&quot;</span><br><span class="line">    serverAddr = &quot;xxx:8848&quot;</span><br><span class="line">    group = &quot;SEATA_GROUP&quot;</span><br><span class="line">    namespace = &quot;e3f307f2-515e-4049-bc3d-d65a4093f60d&quot;</span><br><span class="line">    cluster = &quot;default&quot;</span><br><span class="line">    username = &quot;nacos&quot;</span><br><span class="line">    password = &quot;shabiali&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  eureka &#123;</span><br><span class="line">    serviceUrl = &quot;http://localhost:8761/eureka&quot;</span><br><span class="line">    application = &quot;default&quot;</span><br><span class="line">    weight = &quot;1&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  redis &#123;</span><br><span class="line">    serverAddr = &quot;localhost:6379&quot;</span><br><span class="line">    db = 0</span><br><span class="line">    password = &quot;&quot;</span><br><span class="line">    cluster = &quot;default&quot;</span><br><span class="line">    timeout = 0</span><br><span class="line">  &#125;</span><br><span class="line">  zk &#123;</span><br><span class="line">    cluster = &quot;default&quot;</span><br><span class="line">    serverAddr = &quot;127.0.0.1:2181&quot;</span><br><span class="line">    sessionTimeout = 6000</span><br><span class="line">    connectTimeout = 2000</span><br><span class="line">    username = &quot;&quot;</span><br><span class="line">    password = &quot;&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  consul &#123;</span><br><span class="line">    cluster = &quot;default&quot;</span><br><span class="line">    serverAddr = &quot;127.0.0.1:8500&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  etcd3 &#123;</span><br><span class="line">    cluster = &quot;default&quot;</span><br><span class="line">    serverAddr = &quot;http://localhost:2379&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  sofa &#123;</span><br><span class="line">    serverAddr = &quot;127.0.0.1:9603&quot;</span><br><span class="line">    application = &quot;default&quot;</span><br><span class="line">    region = &quot;DEFAULT_ZONE&quot;</span><br><span class="line">    datacenter = &quot;DefaultDataCenter&quot;</span><br><span class="line">    cluster = &quot;default&quot;</span><br><span class="line">    group = &quot;SEATA_GROUP&quot;</span><br><span class="line">    addressWaitTime = &quot;3000&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  file &#123;</span><br><span class="line">    name = &quot;file.conf&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">config &#123;</span><br><span class="line">  # file、nacos 、apollo、zk、consul、etcd3</span><br><span class="line">  type = &quot;nacos&quot;</span><br><span class="line"></span><br><span class="line">  nacos &#123;</span><br><span class="line">    serverAddr = &quot;xxx:8848&quot;</span><br><span class="line">    namespace = &quot;e3f307f2-515e-4049-bc3d-d65a4093f60d&quot;</span><br><span class="line">    group = &quot;SEATA_GROUP&quot;</span><br><span class="line">    username = &quot;nacos&quot;</span><br><span class="line">    password = &quot;shabiali&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  consul &#123;</span><br><span class="line">    serverAddr = &quot;127.0.0.1:8500&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  apollo &#123;</span><br><span class="line">    appId = &quot;seata-server&quot;</span><br><span class="line">    apolloMeta = &quot;http://192.168.1.204:8801&quot;</span><br><span class="line">    namespace = &quot;application&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  zk &#123;</span><br><span class="line">    serverAddr = &quot;127.0.0.1:2181&quot;</span><br><span class="line">    sessionTimeout = 6000</span><br><span class="line">    connectTimeout = 2000</span><br><span class="line">    username = &quot;&quot;</span><br><span class="line">    password = &quot;&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  etcd3 &#123;</span><br><span class="line">    serverAddr = &quot;http://localhost:2379&quot;</span><br><span class="line">  &#125;</span><br><span class="line">  file &#123;</span><br><span class="line">    name = &quot;file.conf&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建数据库表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">-- -------------------------------- The script used when storeMode is &apos;db&apos; --------------------------------</span><br><span class="line">-- the table to store GlobalSession data</span><br><span class="line">CREATE TABLE IF NOT EXISTS `global_table`</span><br><span class="line">(</span><br><span class="line">    `xid`                       VARCHAR(128) NOT NULL,</span><br><span class="line">    `transaction_id`            BIGINT,</span><br><span class="line">    `status`                    TINYINT      NOT NULL,</span><br><span class="line">    `application_id`            VARCHAR(32),</span><br><span class="line">    `transaction_service_group` VARCHAR(32),</span><br><span class="line">    `transaction_name`          VARCHAR(128),</span><br><span class="line">    `timeout`                   INT,</span><br><span class="line">    `begin_time`                BIGINT,</span><br><span class="line">    `application_data`          VARCHAR(2000),</span><br><span class="line">    `gmt_create`                DATETIME,</span><br><span class="line">    `gmt_modified`              DATETIME,</span><br><span class="line">    PRIMARY KEY (`xid`),</span><br><span class="line">    KEY `idx_gmt_modified_status` (`gmt_modified`, `status`),</span><br><span class="line">    KEY `idx_transaction_id` (`transaction_id`)</span><br><span class="line">) ENGINE = InnoDB</span><br><span class="line">  DEFAULT CHARSET = utf8;</span><br><span class="line"></span><br><span class="line">-- the table to store BranchSession data</span><br><span class="line">CREATE TABLE IF NOT EXISTS `branch_table`</span><br><span class="line">(</span><br><span class="line">    `branch_id`         BIGINT       NOT NULL,</span><br><span class="line">    `xid`               VARCHAR(128) NOT NULL,</span><br><span class="line">    `transaction_id`    BIGINT,</span><br><span class="line">    `resource_group_id` VARCHAR(32),</span><br><span class="line">    `resource_id`       VARCHAR(256),</span><br><span class="line">    `branch_type`       VARCHAR(8),</span><br><span class="line">    `status`            TINYINT,</span><br><span class="line">    `client_id`         VARCHAR(64),</span><br><span class="line">    `application_data`  VARCHAR(2000),</span><br><span class="line">    `gmt_create`        DATETIME(6),</span><br><span class="line">    `gmt_modified`      DATETIME(6),</span><br><span class="line">    PRIMARY KEY (`branch_id`),</span><br><span class="line">    KEY `idx_xid` (`xid`)</span><br><span class="line">) ENGINE = InnoDB</span><br><span class="line">  DEFAULT CHARSET = utf8;</span><br><span class="line"></span><br><span class="line">-- the table to store lock data</span><br><span class="line">CREATE TABLE IF NOT EXISTS `lock_table`</span><br><span class="line">(</span><br><span class="line">    `row_key`        VARCHAR(128) NOT NULL,</span><br><span class="line">    `xid`            VARCHAR(96),</span><br><span class="line">    `transaction_id` BIGINT,</span><br><span class="line">    `branch_id`      BIGINT       NOT NULL,</span><br><span class="line">    `resource_id`    VARCHAR(256),</span><br><span class="line">    `table_name`     VARCHAR(32),</span><br><span class="line">    `pk`             VARCHAR(36),</span><br><span class="line">    `gmt_create`     DATETIME,</span><br><span class="line">    `gmt_modified`   DATETIME,</span><br><span class="line">    PRIMARY KEY (`row_key`),</span><br><span class="line">    KEY `idx_branch_id` (`branch_id`)</span><br><span class="line">) ENGINE = InnoDB</span><br><span class="line">  DEFAULT CHARSET = utf8;</span><br><span class="line">  </span><br><span class="line">  -- SEATA AT 模式需要 UNDO_LOG 表</span><br><span class="line">  -- 注意此处0.3.0+ 增加唯一索引 ux_undo_log</span><br><span class="line">CREATE TABLE `undo_log` (</span><br><span class="line">  `id` bigint(20) NOT NULL AUTO_INCREMENT,</span><br><span class="line">  `branch_id` bigint(20) NOT NULL,</span><br><span class="line">  `xid` varchar(100) NOT NULL,</span><br><span class="line">  `context` varchar(128) NOT NULL,</span><br><span class="line">  `rollback_info` longblob NOT NULL,</span><br><span class="line">  `log_status` int(11) NOT NULL,</span><br><span class="line">  `log_created` datetime NOT NULL,</span><br><span class="line">  `log_modified` datetime NOT NULL,</span><br><span class="line">  `ext` varchar(100) DEFAULT NULL,</span><br><span class="line">  PRIMARY KEY (`id`),</span><br><span class="line">  UNIQUE KEY `ux_undo_log` (`xid`,`branch_id`)</span><br><span class="line">) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+<p>  windows端也是一样的，鉴于小鸡内存太小，就在windows上配置，</p>
+<p>  <strong>需要注意的是：需要在seata目录下创建logs文件夹</strong></p>
+<p>  启动：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./seata-server.bat -p 8091 -h 127.0.0.1</span><br></pre></td></tr></table></figure>
+
+<p>  去看nacos上对应的namespace下的服务列表 </p>
+<ul>
+<li><p>配置nacos</p>
+<p>进入e3f307f2-515e-4049-bc3d-d65a4093f60d 这个namespace </p>
+<p>将seata的配置文件导入nacos</p>
+<p><strong>在1.2版本已经不在给我们的包中提供这些文件了 ：（1）nacos-config.sh  (2)config.txt</strong></p>
+<p> <strong>可以在seata的GitHub项目中找到对应的文件：<a href="https://github.com/seata/seata/tree/1.3.0/script/config-center" target="_blank" rel="noopener">https://github.com/seata/seata/tree/1.3.0/script/config-center</a></strong></p>
+<p>config.txt 注意这个文件里的mysql驱动类</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/seata/seata/blob/1.2.0/script/config-center/config.txt</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line">transport.type=TCP</span><br><span class="line">transport.server=NIO</span><br><span class="line">transport.heartbeat=true</span><br><span class="line">transport.enableClientBatchSendRequest=false</span><br><span class="line">transport.threadFactory.bossThreadPrefix=NettyBoss</span><br><span class="line">transport.threadFactory.workerThreadPrefix=NettyServerNIOWorker</span><br><span class="line">transport.threadFactory.serverExecutorThreadPrefix=NettyServerBizHandler</span><br><span class="line">transport.threadFactory.shareBossWorker=false</span><br><span class="line">transport.threadFactory.clientSelectorThreadPrefix=NettyClientSelector</span><br><span class="line">transport.threadFactory.clientSelectorThreadSize=1</span><br><span class="line">transport.threadFactory.clientWorkerThreadPrefix=NettyClientWorkerThread</span><br><span class="line">transport.threadFactory.bossThreadSize=1</span><br><span class="line">transport.threadFactory.workerThreadSize=default</span><br><span class="line">transport.shutdown.wait=3</span><br><span class="line">service.vgroupMapping.my_test_tx_group=default</span><br><span class="line">service.default.grouplist=127.0.0.1:8091</span><br><span class="line">service.enableDegrade=false</span><br><span class="line">service.disableGlobalTransaction=false</span><br><span class="line">client.rm.asyncCommitBufferLimit=10000</span><br><span class="line">client.rm.lock.retryInterval=10</span><br><span class="line">client.rm.lock.retryTimes=30</span><br><span class="line">client.rm.lock.retryPolicyBranchRollbackOnConflict=true</span><br><span class="line">client.rm.reportRetryCount=5</span><br><span class="line">client.rm.tableMetaCheckEnable=false</span><br><span class="line">client.rm.sqlParserType=druid</span><br><span class="line">client.rm.reportSuccessEnable=false</span><br><span class="line">client.rm.sagaBranchRegisterEnable=false</span><br><span class="line">client.tm.commitRetryCount=5</span><br><span class="line">client.tm.rollbackRetryCount=5</span><br><span class="line">client.tm.degradeCheck=false</span><br><span class="line">client.tm.degradeCheckAllowTimes=10</span><br><span class="line">client.tm.degradeCheckPeriod=2000</span><br><span class="line">store.mode=file</span><br><span class="line">store.file.dir=file_store/data</span><br><span class="line">store.file.maxBranchSessionSize=16384</span><br><span class="line">store.file.maxGlobalSessionSize=512</span><br><span class="line">store.file.fileWriteBufferCacheSize=16384</span><br><span class="line">store.file.flushDiskMode=async</span><br><span class="line">store.file.sessionReloadReadSize=100</span><br><span class="line">store.db.datasource=druid</span><br><span class="line">store.db.dbType=mysql</span><br><span class="line">store.db.driverClassName=com.mysql.cj.jdbc.Driver</span><br><span class="line">store.db.url=jdbc:mysql://127.0.0.1:3306/seata?useUnicode=true</span><br><span class="line">store.db.user=username</span><br><span class="line">store.db.password=password</span><br><span class="line">store.db.minConn=5</span><br><span class="line">store.db.maxConn=30</span><br><span class="line">store.db.globalTable=global_table</span><br><span class="line">store.db.branchTable=branch_table</span><br><span class="line">store.db.queryLimit=100</span><br><span class="line">store.db.lockTable=lock_table</span><br><span class="line">store.db.maxWait=5000</span><br><span class="line">store.redis.host=127.0.0.1</span><br><span class="line">store.redis.port=6379</span><br><span class="line">store.redis.maxConn=10</span><br><span class="line">store.redis.minConn=1</span><br><span class="line">store.redis.database=0</span><br><span class="line">store.redis.password=null</span><br><span class="line">store.redis.queryLimit=100</span><br><span class="line">server.recovery.committingRetryPeriod=1000</span><br><span class="line">server.recovery.asynCommittingRetryPeriod=1000</span><br><span class="line">server.recovery.rollbackingRetryPeriod=1000</span><br><span class="line">server.recovery.timeoutRetryPeriod=1000</span><br><span class="line">server.maxCommitRetryTimeout=-1</span><br><span class="line">server.maxRollbackRetryTimeout=-1</span><br><span class="line">server.rollbackRetryTimeoutUnlockEnable=false</span><br><span class="line">client.undo.dataValidation=true</span><br><span class="line">client.undo.logSerialization=jackson</span><br><span class="line">client.undo.onlyCareUpdateColumns=true</span><br><span class="line">server.undo.logSaveDays=7</span><br><span class="line">server.undo.logDeletePeriod=86400000</span><br><span class="line">client.undo.logTable=undo_log</span><br><span class="line">client.log.exceptionRate=100</span><br><span class="line">transport.serialization=seata</span><br><span class="line">transport.compressor=none</span><br><span class="line">metrics.enabled=false</span><br><span class="line">metrics.registryType=compact</span><br><span class="line">metrics.exporterList=prometheus</span><br><span class="line">metrics.exporterPrometheusPort=9898</span><br></pre></td></tr></table></figure>
+
+<p>nacos-config.sh windows下使用nacos-config.py</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/seata/seata/blob/1.2.0/script/config-center/nacos/nacos-config.sh</span><br><span class="line"></span><br><span class="line">[root@localhost conf]# sh nacos-config.sh -h localhost -p 8848 -g SEATA_GROUP -t e3f307f2-515e-4049-bc3d-d65a4093f60d</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"># Copyright 1999-2019 Seata.io Group.</span><br><span class="line">#</span><br><span class="line"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line"># you may not use this file except in compliance with the License.</span><br><span class="line"># You may obtain a copy of the License at、</span><br><span class="line">#</span><br><span class="line">#      http://www.apache.org/licenses/LICENSE-2.0</span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing, software</span><br><span class="line"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"># See the License for the specific language governing permissions and</span><br><span class="line"># limitations under the License.</span><br><span class="line"></span><br><span class="line">while getopts &quot;:h:p:g:t:u:w:&quot; opt</span><br><span class="line">do</span><br><span class="line">  case $opt in</span><br><span class="line">  h)</span><br><span class="line">    host=$OPTARG</span><br><span class="line">    ;;</span><br><span class="line">  p)</span><br><span class="line">    port=$OPTARG</span><br><span class="line">    ;;</span><br><span class="line">  g)</span><br><span class="line">    group=$OPTARG</span><br><span class="line">    ;;</span><br><span class="line">  t)</span><br><span class="line">    tenant=$OPTARG</span><br><span class="line">    ;;</span><br><span class="line">  u)</span><br><span class="line">    username=$OPTARG</span><br><span class="line">    ;;</span><br><span class="line">  w)</span><br><span class="line">    password=$OPTARG</span><br><span class="line">    ;;</span><br><span class="line">  ?)</span><br><span class="line">    echo &quot; USAGE OPTION: $0 [-h host] [-p port] [-g group] [-t tenant] [-u username] [-w password] &quot;</span><br><span class="line">    exit 1</span><br><span class="line">    ;;</span><br><span class="line">  esac</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">if [[ -z $&#123;host&#125; ]]; then</span><br><span class="line">    host=localhost</span><br><span class="line">fi</span><br><span class="line">if [[ -z $&#123;port&#125; ]]; then</span><br><span class="line">    port=8848</span><br><span class="line">fi</span><br><span class="line">if [[ -z $&#123;group&#125; ]]; then</span><br><span class="line">    group=&quot;SEATA_GROUP&quot;</span><br><span class="line">fi</span><br><span class="line">if [[ -z $&#123;tenant&#125; ]]; then</span><br><span class="line">    tenant=&quot;&quot;</span><br><span class="line">fi</span><br><span class="line">if [[ -z $&#123;username&#125; ]]; then</span><br><span class="line">    username=&quot;&quot;</span><br><span class="line">fi</span><br><span class="line">if [[ -z $&#123;password&#125; ]]; then</span><br><span class="line">    password=&quot;&quot;</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">nacosAddr=$host:$port</span><br><span class="line">contentType=&quot;content-type:application/json;charset=UTF-8&quot;</span><br><span class="line"></span><br><span class="line">echo &quot;set nacosAddr=$nacosAddr&quot;</span><br><span class="line">echo &quot;set group=$group&quot;</span><br><span class="line"></span><br><span class="line">failCount=0</span><br><span class="line">tempLog=$(mktemp -u)</span><br><span class="line">function addConfig() &#123;</span><br><span class="line">  curl -X POST -H &quot;$&#123;contentType&#125;&quot; &quot;http://$nacosAddr/nacos/v1/cs/configs?dataId=$1&amp;group=$group&amp;content=$2&amp;tenant=$tenant&amp;username=$username&amp;password=$password&quot; &gt;&quot;$&#123;tempLog&#125;&quot; 2&gt;/dev/null</span><br><span class="line">  if [[ -z $(cat &quot;$&#123;tempLog&#125;&quot;) ]]; then</span><br><span class="line">    echo &quot; Please check the cluster status. &quot;</span><br><span class="line">    exit 1</span><br><span class="line">  fi</span><br><span class="line">  if [[ $(cat &quot;$&#123;tempLog&#125;&quot;) =~ &quot;true&quot; ]]; then</span><br><span class="line">    echo &quot;Set $1=$2 successfully &quot;</span><br><span class="line">  else</span><br><span class="line">    echo &quot;Set $1=$2 failure &quot;</span><br><span class="line">    (( failCount++ ))</span><br><span class="line">  fi</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">count=0</span><br><span class="line">for line in $(cat $(dirname &quot;$PWD&quot;)/config.txt | sed s/[[:space:]]//g); do</span><br><span class="line">  (( count++ ))</span><br><span class="line">	key=$&#123;line%%=*&#125;</span><br><span class="line">    value=$&#123;line#*=&#125;</span><br><span class="line">	addConfig &quot;$&#123;key&#125;&quot; &quot;$&#123;value&#125;&quot;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">echo &quot;=========================================================================&quot;</span><br><span class="line">echo &quot; Complete initialization parameters,  total-count:$count ,  failure-count:$failCount &quot;</span><br><span class="line">echo &quot;=========================================================================&quot;</span><br><span class="line"></span><br><span class="line">if [[ $&#123;failCount&#125; -eq 0 ]]; then</span><br><span class="line">	echo &quot; Init nacos config finished, please start seata-server. &quot;</span><br><span class="line">else</span><br><span class="line">	echo &quot; init nacos config fail. &quot;</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
+
+<p>windows下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python nacos-config.py  localhost:8848  e3f307f2-515e-4049-bc3d-d65a4093f60d</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env python3</span><br><span class="line">#  -*- coding: UTF-8 -*-</span><br><span class="line"></span><br><span class="line">import http.client</span><br><span class="line">import sys</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    &apos;content-type&apos;: &quot;application/x-www-form-urlencoded&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">hasError = False</span><br><span class="line">for line in open(&apos;./config.txt&apos;):</span><br><span class="line">    pair = line.split(&apos;=&apos;)</span><br><span class="line">    if len(pair) &lt; 2:</span><br><span class="line">        continue</span><br><span class="line">    print (line),</span><br><span class="line">    url_prefix = sys.argv[1]</span><br><span class="line">    conn = http.client.HTTPConnection(url_prefix)</span><br><span class="line">    if len(sys.argv) == 3:</span><br><span class="line">        namespace=sys.argv[2]</span><br><span class="line">        url_postfix = &apos;/nacos/v1/cs/configs?dataId=&#123;0&#125;&amp;group=SEATA_GROUP&amp;content=&#123;1&#125;&amp;tenant=&#123;2&#125;&apos;.format(str(pair[0]),str(line[line.index(&apos;=&apos;)+1:]).strip(),namespace)</span><br><span class="line">    else:</span><br><span class="line">        url_postfix = &apos;/nacos/v1/cs/configs?dataId=&#123;&#125;&amp;group=SEATA_GROUP&amp;content=&#123;&#125;&apos;.format(str(pair[0]),str(line[line.index(&apos;=&apos;)+1:])).strip()</span><br><span class="line">    conn.request(&quot;POST&quot;, url_postfix, headers=headers)</span><br><span class="line">    res = conn.getresponse()</span><br><span class="line">    data = res.read()</span><br><span class="line">    if data.decode(&quot;utf-8&quot;) != &quot;true&quot;:</span><br><span class="line">        hasError = True</span><br><span class="line">if hasError:</span><br><span class="line">    print (&quot;init nacos config fail.&quot;)</span><br><span class="line">else:</span><br><span class="line">    print (&quot;init nacos config finished, please start seata-server.&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>config.txt中加入配置</p>
+<p>下面的就是某个服务的事务组，client端的配置要和server端一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service.vgroupMapping.user-permission-service-seata-group=default</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>项目配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">seata.enabled=true</span><br><span class="line">seata.application-id=$&#123;spring.application.name&#125;</span><br><span class="line">seata.tx-service-group=$&#123;spring.application.name&#125;-seata-group</span><br><span class="line">seata.enable-auto-data-source-proxy=true</span><br><span class="line">seata.config.type=nacos</span><br><span class="line">seata.config.nacos.namespace=$&#123;spring.cloud.nacos.config.namespace&#125;</span><br><span class="line">seata.config.nacos.serverAddr=$&#123;spring.cloud.nacos.server-addr&#125;</span><br><span class="line">seata.config.nacos.group=$&#123;TENANT_SIGN:SEATA_GROUP&#125;</span><br><span class="line">seata.config.nacos.userName=nacos</span><br><span class="line">seata.config.nacos.password=shabiali123</span><br><span class="line">seata.registry.type=nacos</span><br><span class="line">seata.registry.nacos.application=seata-server</span><br><span class="line">seata.registry.nacos.server-addr=$&#123;spring.cloud.nacos.server-addr&#125;</span><br><span class="line">seata.registry.nacos.namespace=$&#123;spring.cloud.nacos.config.namespace&#125;</span><br><span class="line">seata.registry.nacos.group=$&#123;TENANT_SIGN:SEATA_GROUP&#125;</span><br><span class="line">seata.registry.nacos.password=shabiali123</span><br><span class="line">seata.registry.nacos.userName=nacos</span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/03/PulsarTSL证书生成/" rel="next" title="PulsarTSL证书生成">
+                <i class="fa fa-chevron-left"></i> PulsarTSL证书生成
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/p829173265.jpg" alt="Andreby">
+          <p class="site-author-name" itemprop="name">Andreby</p>
+           
+              <p class="site-description motion-element" itemprop="description">如果有什么需要明天做的事 最好现在开始做</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">61</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Andreby</span>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
